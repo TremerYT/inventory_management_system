@@ -1,7 +1,7 @@
 import {Button, Space, Tag} from "antd";
 import {DeleteOutlined, EditOutlined, EyeOutlined} from "@ant-design/icons";
 
-export const productColumns = [
+export const createProductColumns = ({onView, onEdit, onDelete}) => [
   {
     title: "SKU",
     dataIndex: "skuNumber",
@@ -47,18 +47,9 @@ export const productColumns = [
     key: "action",
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EyeOutlined/>} onClick={() => {
-        }}/>
-        <Button
-          icon={<EditOutlined style={{color: "blue"}}/>}
-          onClick={() => {
-          }}
-        />
-        <Button
-          icon={<DeleteOutlined style={{color: "red"}}/>}
-          onClick={() => {
-          }}
-        />
+        <Button icon={<EyeOutlined/>} onClick={() => onView(record)}/>
+        <Button icon={<EditOutlined style={{color: "blue"}}/>} onClick={() => onEdit(record)}/>
+        <Button icon={<DeleteOutlined style={{color: "red"}}/>} onClick={() => onDelete(record)}/>
       </Space>
     ),
   },

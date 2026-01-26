@@ -1,10 +1,10 @@
-import { Button, Card, Descriptions, Space, Table } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import {Button, Card, Descriptions, Space, Table} from "antd";
+import {DeleteOutlined} from "@ant-design/icons";
 import SalesForm from "../components/forms/sales_form.jsx";
-import { useProduct } from "../context/product_context.jsx";
+import {useProduct} from "../context/product_context.jsx";
 
 const AddSale = () => {
-  const { saleItems, setSaleItems, calculateSubTotal, handleQuantityChange } =
+  const {saleItems, setSaleItems, calculateSubTotal, handleQuantityChange} =
     useProduct();
 
   const handleDeleteItem = (record) => {
@@ -57,7 +57,7 @@ const AddSale = () => {
           >
             -
           </Button>
-          <span style={{ minWidth: 24, textAlign: "center" }}>
+          <span style={{minWidth: 24, textAlign: "center"}}>
             {record.quantity}
           </span>
           <Button
@@ -91,13 +91,42 @@ const AddSale = () => {
       render: (_, record) => (
         <Space size="middle">
           <Button
-            icon={<DeleteOutlined style={{ color: "red" }} />}
+            icon={<DeleteOutlined style={{color: "red"}}/>}
             onClick={() => handleDeleteItem(record)}
           />
         </Space>
       ),
     },
   ];
+
+  const summaryItems = [
+    {
+      label: "Total Items",
+      value: saleItems.length,
+    },
+    {
+      label: "Total Amount",
+      value: saleItems.reduce((sum, i) => sum + i.price, 0).toFixed(2),
+    },
+    {
+      label: "Total Discount",
+      value: saleItems
+        .reduce(
+          (sum, i) =>
+            sum +
+            (i.discountType === "percentage"
+              ? (i.discountValue * i.price) / 100
+              : i.discountValue),
+          0
+        )
+        .toFixed(2),
+    },
+    {
+      label: "Grand Total",
+      value: saleItems.reduce((sum, i) => sum + i.subTotal, 0).toFixed(2),
+    },
+  ];
+
 
   return (
     <>
@@ -108,7 +137,7 @@ const AddSale = () => {
         </div>
       </div>
       <Card>
-        <SalesForm />
+        <SalesForm/>
         <Table
           columns={customColumns}
           dataSource={saleItems}
@@ -116,31 +145,21 @@ const AddSale = () => {
         />
         {saleItems.length > 0 && (
           <div className="flex justify-end">
-            <Descriptions bordered size="small" layout="horizontal" column={1} className="w-1/2">
-            <Descriptions.Item label="Total Items">
-              {saleItems.length}
-            </Descriptions.Item>
-            <Descriptions.Item label="Total Amount">
-              {saleItems.reduce((sum, i) => sum + i.price, 0).toFixed(2)}
-            </Descriptions.Item>
-            <Descriptions.Item label="Total Discount">
-              {saleItems
-                .reduce(
-                  (sum, i) =>
-                    sum +
-                    (i.discountType === "percentage"
-                      ? (i.discountValue * i.price) / 100
-                      : i.discountValue),
-                  0,
-                )
-                .toFixed(2)}
-            </Descriptions.Item>
-            <Descriptions.Item label="Grand Total">
-              {saleItems.reduce((sum, i) => sum + i.subTotal, 0).toFixed(2)}
-            </Descriptions.Item>
-          </Descriptions>
+            <Descriptions
+              bordered
+              size="small"
+              layout="horizontal"
+              column={1}
+              className="w-1/2"
+            >
+              {summaryItems.map((item) => (
+                <Descriptions.Item key={item.label} label={item.label}>
+                  {item.value}
+                </Descriptions.Item>
+              ))}
+            </Descriptions>
           </div>
-          
+
         )}
       </Card>
     </>
