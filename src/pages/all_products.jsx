@@ -23,9 +23,12 @@ const AllProducts = () => {
   const navigate = useNavigate();
 
   const handleView = (record) => {
+    console.log(record);
     setModalOpen(true);
     setSelectedProduct(record);
   };
+
+  const handleOnOk = () => setModalOpen(false);
 
   const handleEdit = (record) => {
 
@@ -123,7 +126,12 @@ const AllProducts = () => {
           rowKey="skuNumber"
         />
       </Card>
-      <ProductView isModalOpen={isModalOpen} record={selectedProduct}/>
+      <ProductView 
+        isModalOpen={isModalOpen} 
+        record={selectedProduct}
+        handleOnOK={handleOnOk}
+        handleOnCancel={handleOnOk}
+      />
     </>
   );
 };
