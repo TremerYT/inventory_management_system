@@ -1,7 +1,7 @@
 import {Button, Card, Input, Select, Table} from "antd";
 import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined,} from "@ant-design/icons";
 import {brands} from "../utils/select_items.js";
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import {createProductColumns} from "../utils/columns.jsx";
 import {useNavigate} from "react-router";
 import {useProduct} from "../context/product_context.jsx";
@@ -13,7 +13,7 @@ const AllProducts = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const {
-    loading,
+    loadingProducts,
     setSelectedCategory,
     setSelectedBrand,
     setSearchText,
@@ -38,12 +38,15 @@ const AllProducts = () => {
 
   };
 
-  const columns = createProductColumns({
-    onView: handleView,
-    onEdit: handleEdit,
-    onDelete: handleDelete,
-  });
-
+  const columns = useMemo(
+    () =>
+      createProductColumns({
+        onView: handleView,
+        onEdit: handleEdit,
+        onDelete: handleDelete,
+      }),
+    []
+  );
   const rowSelection = {
     selectedRowKeys,
     onChange: (newSelectedKeys) => {
@@ -122,7 +125,7 @@ const AllProducts = () => {
           columns={columns}
           dataSource={filteredData}
           pagination={{pageSize: 10}}
-          loading={loading}
+          loading={loadingProducts && !filteredData.length}
           rowKey="skuNumber"
         />
       </Card>

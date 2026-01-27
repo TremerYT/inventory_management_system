@@ -12,7 +12,9 @@ import {
 const ProductContext = createContext();
 export const ProductProvider = ({ children }) => {
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
+  const [loadingProducts, setLoadingProducts] = useState(false);
+  const [loadingSearch, setLoadingSearch] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [products, setProducts] = useState([]);
   const [lowStockProducts, setLowStockProducts] = useState([]);
   const [outOfStockProducts, setOutOfStockProducts] = useState([]);
@@ -42,6 +44,10 @@ export const ProductProvider = ({ children }) => {
     setSaleItems((prev) => {
       const exists = prev.some((i) => i.skuNumber === product.skuNumber);
       if (exists) return prev;
+      if (product.quantity < 1) {
+        message.warning("Product is out of stock");
+        return;
+      }
       return [
         ...prev,
         {
@@ -77,10 +83,9 @@ export const ProductProvider = ({ children }) => {
             item.discountValue
           )
         }
-      })
+      }).filter(Boolean)
     )
   }
-
 
   const calculateSubTotal = (quantity, price, discountType, discountValue) => {
     if (!discountValue) return quantity * price;
@@ -107,7 +112,7 @@ export const ProductProvider = ({ children }) => {
 
   const handleOnFinish = async (values) => {
     try {
-      setLoading(true);
+      setSubmitting(true);
       const mainImage = values.mainImage[0]?.originFileObj;
       const mainImageUrl = await upload(mainImage, "main", "productImages");
 
@@ -127,13 +132,17 @@ export const ProductProvider = ({ children }) => {
       form.resetFields();
       await fetchProducts();
     } catch (e) {
-      setLoading(false);
+      setSubmitting(false);
       console.error("Error Uploading the product:", e);
       message.error("Something went wrong uploading the Product");
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
+
+  const handleOnDelete = () => {
+
+  }
 
   const handleOnCancel = () => {
     form.resetFields();
@@ -141,7 +150,7 @@ export const ProductProvider = ({ children }) => {
 
   const fetchProductsByQuery = async (query) => {
     try {
-      setLoading(true);
+      setLoadingProducts(true);
       const data = await getProductsByQuery(query);
       console.log(data);
       setProductOptions(
@@ -162,43 +171,41 @@ export const ProductProvider = ({ children }) => {
     } catch (e) {
       console.error(e);
     } finally {
-      setLoading(false);
+      setLoadingProducts(false);
     }
   };
 
   const fetchProducts = async () => {
     try {
-      setLoading(true);
+      setLoadingProducts(true);
       const data = await getProducts();
       setProducts(data);
     } catch (e) {
       console.error("Error fetching Products:", e);
-    } finally {
-      setLoading(false);
     }
   };
 
   const fetchLowStockProducts = async () => {
     try {
-      setLoading(true);
+      setLoadingProducts(true);
       const data = await getLowStockProducts();
       setLowStockProducts(data);
     } catch (e) {
       console.error("Error fetching Products:", e);
     } finally {
-      setLoading(false);
+      setLoadingProducts(false);
     }
   };
 
   const fetchOutOfStockProducts = async () => {
     try {
-      setLoading(true);
+      setLoadingProducts(true);
       const data = await getOutOfStockProducts();
       setOutOfStockProducts(data);
     } catch (e) {
       console.error("Error fetching Products:", e);
     } finally {
-      setLoading(false);
+      setLoadingProducts(false);
     }
   };
 
@@ -212,7 +219,7 @@ export const ProductProvider = ({ children }) => {
     <ProductContext.Provider
       value={{
         form,
-        loading,
+        loadingProducts,
         products,
         lowStockProducts,
         outOfStockProducts,
