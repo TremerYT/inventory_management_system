@@ -6,7 +6,7 @@ import {useProduct} from "../context/product_context.jsx";
 
 
 const Product = () => {
-  const {form, handleOnFinish, handleOnCancel, loading} = useProduct();
+  const {form, handleOnFinish, handleOnCancel, submitting} = useProduct();
   return (
     <Form
       layout="vertical"
@@ -19,7 +19,7 @@ const Product = () => {
         <ProductImages/>
       </div>
       <div className="flex gap-4 justify-end mt-10">
-        <Button type="primary" htmlType="submit" size="large" loading={loading}>
+        <Button type="primary" htmlType="submit" size="large" loading={submitting}>
           Add Product
         </Button>
         <Button type="primary" danger onClick={handleOnCancel} size="large">

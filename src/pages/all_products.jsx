@@ -1,4 +1,4 @@
-import {Button, Card, Input, Select, Table} from "antd";
+import {Button, Card, Input, Modal, Select, Table} from "antd";
 import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined,} from "@ant-design/icons";
 import {brands} from "../utils/select_items.js";
 import {useMemo, useState} from "react";
@@ -12,18 +12,22 @@ const AllProducts = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isConfirmationOpen, setConfirmationOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
+
   const {
     loadingProducts,
     setSelectedCategory,
     setSelectedBrand,
     setSearchText,
-    filteredData,
+    products,
+    handleOnDelete
   } = useProduct();
+
   const {categoryFilter} = useCategory();
   const navigate = useNavigate();
 
   const handleView = (record) => {
-    console.log(record);
     setModalOpen(true);
     setSelectedProduct(record);
   };
@@ -35,7 +39,20 @@ const AllProducts = () => {
   };
 
   const handleDelete = (record) => {
+    setProductToDelete(record);
+    setConfirmationOpen(true);
+  };
 
+  const confirmDelete = async () => {
+    if (!productToDelete) return;
+    await handleOnDelete(productToDelete.id);
+    setConfirmationOpen(false);
+    setProductToDelete(null);
+  }
+
+  const cancelDelete = () => {
+    setConfirmationOpen(false);
+    setProductToDelete(null);
   };
 
   const columns = useMemo(
@@ -45,8 +62,9 @@ const AllProducts = () => {
         onEdit: handleEdit,
         onDelete: handleDelete,
       }),
-    []
+    [handleView, handleEdit, handleDelete]
   );
+
   const rowSelection = {
     selectedRowKeys,
     onChange: (newSelectedKeys) => {
@@ -123,9 +141,9 @@ const AllProducts = () => {
         <Table
           rowSelection={rowSelection}
           columns={columns}
-          dataSource={filteredData}
+          dataSource={products}
           pagination={{pageSize: 10}}
-          loading={loadingProducts && !filteredData.length}
+          loading={loadingProducts}
           rowKey="skuNumber"
         />
       </Card>
@@ -135,6 +153,19 @@ const AllProducts = () => {
         handleOnOK={handleOnOk}
         handleOnCancel={handleOnOk}
       />
+      <Modal
+        open={isConfirmationOpen}
+        onOk={confirmDelete}
+        onCancel={cancelDelete}
+        okText="Delete"
+        okButtonProps={{ danger: true }}
+      >
+        <p>
+          Are you sure you want to delete{" "}
+          <strong>{productToDelete?.productName}</strong>?
+        </p>
+      </Modal>
+
     </>
   );
 };
