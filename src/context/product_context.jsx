@@ -5,8 +5,8 @@ import {
   createProduct,
   deleteProduct,
   getLowStockProducts,
-  getOutOfStockProducts,
-  getProducts,
+  getOutOfStockProducts, getProductById,
+  getProducts, updateProduct,
 } from "../services/product.service.js";
 
 const ProductContext = createContext();
@@ -17,6 +17,8 @@ export const ProductProvider = ({children}) => {
   const [products, setProducts] = useState([]);
   const [lowStockProducts, setLowStockProducts] = useState([]);
   const [outOfStockProducts, setOutOfStockProducts] = useState([]);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editingProductId, setEditingProductId] = useState(null)
 
   const handleOnFinish = async (values) => {
     try {
@@ -57,6 +59,68 @@ export const ProductProvider = ({children}) => {
       console.error("Error fetching Products:", e);
     }
   };
+
+  const fetchProductsById = async (id) => {
+    try {
+      const data = await getProductById(id);
+      form.setFieldsValue({
+        ...data,
+        mainImage: data.mainImage ? [{ url: data.mainImage }] : [],
+        galleryImages: data.galleryImages?.map(url => ({ url })) || []
+      });
+      setIsEditMode(true);
+      setEditingProductId(id);
+    }
+    catch (e) {
+      message.error("failed to load product");
+    }
+  }
+
+  const handleOnUpdate = async (values) => {
+    try {
+      console.log("called")
+      setSubmitting(true);
+      let mainImageUrl = values.mainImage;
+      let galleryImagesUrl = values.galleryImages;
+
+      if (values.mainImage?.[0]?.originFileObj) {
+        const mainImage = values.mainImage[0].originFileObj;
+        mainImageUrl = await upload(mainImage, "main", "productImages");
+      }
+      else if (values.mainImage?.[0]?.url)
+      {
+        mainImageUrl = values.mainImage[0].url;
+      }
+
+      if (values.galleryImages?.some(img => img.originFileObj)) {
+        galleryImagesUrl = await Promise.all(
+          values.galleryImages.map((image) => {
+            if (image.originFileObj) {
+              return upload(image.originFileObj, "gallery", "productImages");
+            }
+            return image.url || image;
+          })
+        );
+      }
+
+      const data = {
+        ...values,
+        mainImage: mainImageUrl,
+        galleryImages: galleryImagesUrl,
+      };
+
+      const response = await updateProduct(editingProductId, data);
+      message.success("Updated Product sucessfully");
+      setIsEditMode(false);
+      setEditingProductId(null);
+    }
+    catch (e) {
+      message.error("Failed to update product");
+    }
+    finally {
+      setSubmitting(false);
+    }
+  }
 
   const handleOnDelete = async (id) => {
     try {
@@ -116,6 +180,9 @@ export const ProductProvider = ({children}) => {
         products,
         lowStockProducts,
         outOfStockProducts,
+        isEditMode,
+        fetchProductsById,
+        handleOnUpdate,
         handleOnCancel,
         handleOnFinish,
         handleOnDelete,

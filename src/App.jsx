@@ -66,6 +66,18 @@ function App() {
                 </ProductProvider>
               }
             />
+            <Route
+              path="/products/edit/:id"
+              element={
+                <ProductProvider>
+                  <CategoryProvider>
+                    <ProductDetailsProvider>
+                      <Product />
+                    </ProductDetailsProvider>
+                  </CategoryProvider>
+                </ProductProvider>
+              }
+            />
 
             <Route
               path="/categories/list"

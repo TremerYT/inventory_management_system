@@ -35,7 +35,7 @@ const AllProducts = () => {
   const handleOnOk = () => setModalOpen(false);
 
   const handleEdit = (record) => {
-
+    navigate(`/products/edit/${record.id}`);
   };
 
   const handleDelete = (record) => {
