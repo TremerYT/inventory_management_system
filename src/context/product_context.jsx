@@ -40,7 +40,6 @@ export const ProductProvider = ({children}) => {
       const response = await createProduct(data);
       message.success("Added Product successfully");
       form.resetFields();
-      // await fetchProducts();
     } catch (e) {
       setSubmitting(false);
       console.error("Error Uploading the product:", e);
@@ -63,25 +62,37 @@ export const ProductProvider = ({children}) => {
   const fetchProductsById = async (id) => {
     try {
       const data = await getProductById(id);
+
       form.setFieldsValue({
         ...data,
-        mainImage: data.mainImage ? [{ url: data.mainImage }] : [],
-        galleryImages: data.galleryImages?.map(url => ({ url })) || []
+        mainImage: data.mainImage
+          ? [{
+            uid: "-1",
+            name: "main-image",
+            status: "done",
+            url: data.mainImage,
+          }]
+          : [],
+        galleryImages: data.galleryImages?.map((url, index) => ({
+          uid: `-${index + 2}`,
+          name: `gallery-${index + 1}`,
+          status: "done",
+          url,
+        })) || [],
       });
+
       setIsEditMode(true);
       setEditingProductId(id);
-    }
-    catch (e) {
+    } catch (e) {
       message.error("failed to load product");
     }
-  }
+  };
+
 
   const handleOnUpdate = async (values) => {
     try {
-      console.log("called")
       setSubmitting(true);
       let mainImageUrl = values.mainImage;
-      let galleryImagesUrl = values.galleryImages;
 
       if (values.mainImage?.[0]?.originFileObj) {
         const mainImage = values.mainImage[0].originFileObj;
@@ -90,18 +101,18 @@ export const ProductProvider = ({children}) => {
       else if (values.mainImage?.[0]?.url)
       {
         mainImageUrl = values.mainImage[0].url;
+        console.log(mainImageUrl)
       }
 
-      if (values.galleryImages?.some(img => img.originFileObj)) {
-        galleryImagesUrl = await Promise.all(
-          values.galleryImages.map((image) => {
-            if (image.originFileObj) {
-              return upload(image.originFileObj, "gallery", "productImages");
-            }
-            return image.url || image;
-          })
-        );
-      }
+      const galleryImagesUrl = await Promise.all(
+        values.galleryImages.map((image) => {
+          if (image.originFileObj) {
+            return upload(image.originFileObj, "gallery", "productImages");
+          }
+          return image.url;
+        })
+      );
+
 
       const data = {
         ...values,
