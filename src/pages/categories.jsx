@@ -10,7 +10,9 @@ const Categories = () => {
   const [isConfirmationOpen, setConfirmationOpen] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
   const {
+    form,
     isModalOpen,
+    setIsEditMode,
     categories,
     setSearchText,
     isLoading,
@@ -21,7 +23,9 @@ const Categories = () => {
     handleOnDelete,
     handleOnOk,
     handleCancel,
-    setIsModalOpen
+    setIsModalOpen,
+    editingCategoryId,
+    setEditingCategoryId
   } = useCategory();
 
   const rowSelection = {
@@ -38,7 +42,24 @@ const Categories = () => {
     setCategoryToDelete(null);
   }
 
-  const handleEdit = () => {}
+  const handleEdit = (record) => {
+    console.log(record)
+    setIsEditMode(true);
+    setIsModalOpen(true);
+    setEditingCategoryId(record.id);
+    form.setFieldsValue ({
+      categoryName: record.categoryName,
+      isActive: record.isActive,
+      categoryImage : [
+        {
+          uid: "-1",
+          name: "image.png",
+          status: "done",
+          url: record.categoryImage,
+        }
+      ]
+    })
+  }
 
   const handleDelete = (record) => {
     setCategoryToDelete(record);
@@ -137,7 +158,7 @@ const Categories = () => {
       >
         <p>
           Are you sure you want to delete{" "}
-          <strong>{categoryToDelete?.productName}</strong>?
+          <strong>{categoryToDelete?.categoryName}</strong>?
         </p>
       </Modal>
     </>

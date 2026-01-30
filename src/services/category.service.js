@@ -24,7 +24,7 @@ export const getCategory = async () => {
 }
 
 
-export const updateCategory = async (id, data) => {
+export const updateCategoryById = async (id, data) => {
   try {
     const response = await api.put(`/category/${id}`, data);
     return response.data;

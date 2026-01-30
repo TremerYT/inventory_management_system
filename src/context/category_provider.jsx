@@ -1,5 +1,11 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {createCategory, getCategory, getCategoryById} from "../services/category.service.js";
+import {
+  createCategory,
+  getCategory,
+  getCategoryById,
+  updateCategory,
+  updateCategoryById
+} from "../services/category.service.js";
 import {Form, message} from "antd";
 import {upload} from "../services/supabase_storage.js";
 
@@ -11,8 +17,10 @@ export const CategoryProvider = ({children}) => {
   const [categoryFilter, setCategoryFilter] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [categoryStatus, setCategoryStatus] = useState([]);
+  const [editingCategoryId, setEditingCategoryId] = useState(null);
   const [isLoading, setIsloading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [form] = Form.useForm();
 
   const filteredCategory = categories.filter((category) => {
@@ -26,9 +34,14 @@ export const CategoryProvider = ({children}) => {
   });
 
   const handleOnOk = async (values) => {
-    const success = await addCategory(values);
+    const success = isEditMode
+      ? await updateCategory(values, editingCategoryId)
+      : await addCategory(values);
     if (success) {
       setIsModalOpen(false);
+      setIsEditMode(false);
+      setEditingCategoryId(null);
+      form.resetFields();
     }
   }
 
@@ -80,14 +93,34 @@ export const CategoryProvider = ({children}) => {
       setIsloading(false);
     }
   }
-
-  const fetchProductsById = async (id) => {
+  const updateCategory = async (values, id) => {
     try {
-      const data = await getCategoryById();
+      setIsloading(true);
+      let categoryImageUrl = values.categoryImage[0]?.url;
 
+      if (values.categoryImage[0]?.originFileObj){
+        categoryImageUrl = await upload(
+          values.categoryImage[0].originFileObj,
+          "categories",
+          "categoryImages"
+        );
+      }
+
+      const data = {
+        ...values,
+        categoryImage: categoryImageUrl
+      }
+
+      await updateCategoryById(id, data);
+      await fetchCategories();
     }
     catch (e) {
-
+      message.error("Failed to update category");
+      console.error(e);
+      return false;
+    }
+    finally {
+      setIsloading(false);
     }
   }
 
@@ -97,8 +130,13 @@ export const CategoryProvider = ({children}) => {
 
   return (
     <CategoryContext.Provider value={{
+      editingCategoryId,
+      setEditingCategoryId,
       form,
       isModalOpen,
+      setIsModalOpen,
+      isEditMode,
+      setIsEditMode,
       categories,
       isLoading,
       categoryFilter,
@@ -106,9 +144,10 @@ export const CategoryProvider = ({children}) => {
       filteredCategory,
       fetchCategories,
       addCategory,
+      handleOnOk,
+      handleCancel,
       setSearchText,
       selectedStatus,
-      setIsModalOpen,
       setSelectedStatus,
     }}
     >

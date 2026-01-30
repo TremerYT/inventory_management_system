@@ -1,12 +1,18 @@
-import {Form, Modal, Switch, Input, Upload} from "antd";
-import {useState} from "react";
+import {Form, Input, Modal, Switch, Upload} from "antd";
+import {useEffect, useState} from "react";
 import {PlusOutlined} from "@ant-design/icons";
 import {useCategory} from "../../context/category_provider.jsx";
 
-const AddCategory = ({ isOpen, handleCancel, handleOk}) => {
-  const {form} = useCategory();
-  const [categoryImage, setCategoryImage] = useState([]);
+const AddCategory = ({isOpen, handleCancel, handleOk}) => {
+  const {form, isEditMode} = useCategory();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) {
+      form.resetFields();
+    }
+  }, [isOpen]);
+
 
   const onFinish = async (values) => {
     try {
@@ -19,15 +25,12 @@ const AddCategory = ({ isOpen, handleCancel, handleOk}) => {
     }
   };
 
-  const handleCategoryImageChange = ({ fileList }) => {
-    setCategoryImage(fileList);
-  };
-
   return (
     <Modal
-      title="Add Category"
+      title={isEditMode ? "Update Category" : "Add Category"}
       open={isOpen}
       onOk={() => form.submit()}
+      okText={isEditMode ? "Update Category" : "Add Category"}
       onCancel={handleCancel}
       okButtonProps={{loading: loading}}
     >
@@ -35,36 +38,34 @@ const AddCategory = ({ isOpen, handleCancel, handleOk}) => {
         <Form.Item
           name="categoryName"
           label="Category Name"
-          rules={[{ required: true, message: "Category is Required" }]}
+          rules={[{required: true, message: "Category is Required"}]}
         >
-          <Input />
+          <Input/>
         </Form.Item>
 
         <Form.Item
           name="categoryImage"
+          label="Category Image"
           valuePropName="fileList"
           getValueFromEvent={(e) => e.fileList}
           rules={[
-            { required: true, message: "Please upload at least one image" },
+            {required: true, message: "Please upload at least one image"},
           ]}
         >
           <Upload
             listType="picture-card"
-            fileList={categoryImage}
-            onChange={handleCategoryImageChange}
             beforeUpload={() => false}
             maxCount={1}
           >
-            {categoryImage.length >= 1 ? null : (
-              <div>
-                <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Upload</div>
-              </div>
-            )}
+            <div>
+              <PlusOutlined/>
+              <div style={{marginTop: 8}}>Upload</div>
+            </div>
+
           </Upload>
         </Form.Item>
         <Form.Item name="isActive" valuePropName="checked">
-          <Switch />
+          <Switch/>
         </Form.Item>
       </Form>
     </Modal>
