@@ -1,15 +1,16 @@
 import { AutoComplete, Col, DatePicker, Form, Input, Row, Select } from "antd";
 import dayjs from "dayjs";
 import { useEffect } from "react";
-import { useProduct } from "../../context/product_context.jsx";
+import { useSale } from "../../context/sales_context.jsx";
+import { paymentStatus, saleStatus } from "../../utils/select_items.js";
 
 const generateRef = () => {
   return `SALE-${Date.now().toString().slice(-6)}`;
 };
 
 const SalesForm = () => {
-  const [form] = Form.useForm();
-  const { productOptions, handleOnSearch, handleOnSelect} = useProduct();
+  
+  const { productOptions, handleOnSearch, handleOnSelect, form } = useSale();
 
   useEffect(() => {
     const number = generateRef();
@@ -65,6 +66,46 @@ const SalesForm = () => {
             >
               <Input.Search size="large" className="w-full" />
             </AutoComplete>
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row gutter={[16, 16]}>
+        <Col span={8}>
+          <Form.Item
+            label="Shipping"
+            name="shipping"
+            rules={[{ required: true, message: "Shipping Amount is required" }]}
+          >
+            <Input prefix={<p>Ksh</p>} />
+          </Form.Item>
+        </Col>
+        <Col span={8}>
+          <Form.Item
+            label="Sale Status"
+            name="saleStatus"
+            rules={[{ required: true, message: "Sale status is required" }]}
+          >
+            <Select options={saleStatus} />
+          </Form.Item>
+        </Col>
+        <Col span={8}>
+          <Form.Item
+            label="Payment Status"
+            name="paymentStatus"
+            rules={[{ required: true, message: "Payment status is required" }]}
+          >
+            <Select options={paymentStatus} />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          <Form.Item
+            label="Remarks"
+            name="remarks"
+            rules={[{ required: true, message: "Remarks are required" }]}
+          >
+            <Input.TextArea rows={4} />
           </Form.Item>
         </Col>
       </Row>

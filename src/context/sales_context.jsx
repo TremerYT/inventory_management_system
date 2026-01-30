@@ -1,5 +1,5 @@
 import {createContext, useContext, useRef, useState} from "react";
-import {message} from "antd";
+import {Form, message} from "antd";
 import {getProductsByQuery} from "../services/product.service.js";
 
 const SalesContext = createContext();
@@ -8,6 +8,7 @@ export const SalesProvider = ({children}) => {
   const [saleItems, setSaleItems] = useState([]);
   const [productOptions, setProductOptions] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(false);
+  const [form] = Form.useForm();
   const debounce = useRef(null);
 
   const handleOnSelect = (_, option) => {
@@ -110,6 +111,7 @@ export const SalesProvider = ({children}) => {
 
   return (
     <SalesContext.Provider value={{
+      form,
       saleItems,
       setSaleItems,
       calculateSubTotal,

@@ -4,7 +4,7 @@ import SalesForm from "../components/forms/sales_form.jsx";
 import {useSale} from "../context/sales_context.jsx";
 
 const AddSale = () => {
-  const {saleItems, setSaleItems, calculateSubTotal, handleQuantityChange} = useSale();
+  const {saleItems, setSaleItems, calculateSubTotal, handleQuantityChange, form} = useSale();
 
   const handleDeleteItem = (record) => {
     setSaleItems((prev) =>
@@ -106,6 +106,10 @@ const AddSale = () => {
     {
       label: "Total Amount",
       value: saleItems.reduce((sum, i) => sum + i.price, 0).toFixed(2),
+    },
+    {
+      label: "Shipping",
+      value: form.getFieldValue("shipping")
     },
     {
       label: "Total Discount",

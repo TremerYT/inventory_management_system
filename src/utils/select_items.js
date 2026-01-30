@@ -116,27 +116,23 @@ export const status = [
 
 export const saleStatus = [
   {
-    value: "pending",
-    label: "Pending",
-  },
-  {
     value: "completed",
     label: "Completed",
+  },
+  {
+    value: "inComplete",
+    label: "Incomplete",
   },
 ];
 
 export const paymentStatus = [
   {
-    value: "paid",
-    label: "Paid",
+    value: "completed",
+    label: "Completed",
   },
   {
-    value: "unPaid",
-    label: "unpaid",
-  },
-  {
-    value: "overDue",
-    label: "overdue",
+    value: "inComplete",
+    label: "Incomplete",
   },
 ];
 

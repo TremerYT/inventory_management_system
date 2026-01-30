@@ -1,25 +1,37 @@
-import {Button, Card, Col, Form, Input, Row, Select, Space, Typography,} from "antd";
-import {units,} from "../../utils/select_items.js";
-import {useEffect, useState} from "react";
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  Input,
+  Row,
+  Select,
+  Space,
+  Typography,
+} from "antd";
+import { units } from "../../utils/select_items.js";
+import { useEffect, useState } from "react";
 import JsBarcode from "jsbarcode";
 import AddCategory from "../modal/add_category.jsx";
-import {useCategory} from "../../context/category_provider.jsx";
-import {useProductDetails} from "../../context/product_details_context.jsx";
+import { useCategory } from "../../context/category_provider.jsx";
+import { useProductDetails } from "../../context/product_details_context.jsx";
 
-const {Title} = Typography;
-const {TextArea} = Input;
+const { Title } = Typography;
+const { TextArea } = Input;
 
 const ProductDetails = () => {
   const [isModaLOpen, setIsModalOpen] = useState(false);
-  const {categoryOptions, isLoading, fetchCategories, addCategory,} = useCategory();
-  const {barcodeValue, barcodeRef, generateBarcode, generateSKU} = useProductDetails();
+  const { categoryOptions, isLoading, fetchCategories, addCategory } =
+    useCategory();
+  const { barcodeValue, barcodeRef, generateBarcode, generateSKU } =
+    useProductDetails();
 
   const handleOnOk = async (values) => {
     const success = await addCategory(values);
     if (success) {
       setIsModalOpen(false);
     }
-  }
+  };
 
   return (
     <Card title={<Title level={5}>Product Information</Title>}>
@@ -28,9 +40,9 @@ const ProductDetails = () => {
           <Form.Item
             name="skuNumber"
             label="SKU"
-            rules={[{required: true, message: "SKU is Required"}]}
+            rules={[{ required: true, message: "SKU is Required" }]}
           >
-            <Input disabled placeholder={generateSKU()}/>
+            <Input disabled placeholder={generateSKU()} />
           </Form.Item>
         </Col>
 
@@ -38,10 +50,10 @@ const ProductDetails = () => {
           <Form.Item
             name="barcodeNumber"
             label="Barcode"
-            rules={[{required: true, message: "Barcode is required"}]}
+            rules={[{ required: true, message: "Barcode is required" }]}
           >
-            <Space.Compact style={{width: "100%"}}>
-              <Input disabled placeholder={barcodeValue}/>
+            <Space.Compact style={{ width: "100%" }}>
+              <Input disabled placeholder={barcodeValue} />
               <Button type="primary" onClick={generateBarcode}>
                 Generate
               </Button>
@@ -55,22 +67,19 @@ const ProductDetails = () => {
           <Form.Item
             name="productName"
             label="Product Name"
-            rules={[{required: true, message: "Product is Required"}]}
+            rules={[{ required: true, message: "Product is Required" }]}
           >
-            <Input onChange={(e) => generateSKU(e.target.value)}/>
+            <Input onChange={(e) => generateSKU(e.target.value)} />
           </Form.Item>
         </Col>
 
         <Col span={12}>
-          <Form.Item
-            label="Category"
-            required
-          >
-            <Space.Compact style={{width: "100%"}}>
+          <Form.Item label="Category" required>
+            <Space.Compact style={{ width: "100%" }}>
               <Form.Item
                 name="categoryId"
                 noStyle
-                rules={[{required: true, message: "Category is Required"}]}
+                rules={[{ required: true, message: "Category is Required" }]}
               >
                 <Select
                   options={categoryOptions}
@@ -79,16 +88,12 @@ const ProductDetails = () => {
                 />
               </Form.Item>
 
-              <Button
-                type="primary"
-                onClick={() => setIsModalOpen(true)}
-              >
+              <Button type="primary" onClick={() => setIsModalOpen(true)}>
                 +
               </Button>
             </Space.Compact>
           </Form.Item>
         </Col>
-
       </Row>
 
       <Row gutter={[16, 16]}>
@@ -96,9 +101,9 @@ const ProductDetails = () => {
           <Form.Item
             name="brand"
             label="Brand"
-            rules={[{required: true, message: "Brand is Required"}]}
+            rules={[{ required: true, message: "Brand is Required" }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
         </Col>
 
@@ -106,9 +111,9 @@ const ProductDetails = () => {
           <Form.Item
             name="unit"
             label="Product Unit"
-            rules={[{required: true, message: "Product unit is Required"}]}
+            rules={[{ required: true, message: "Product unit is Required" }]}
           >
-            <Select options={units}/>
+            <Select options={units} />
           </Form.Item>
         </Col>
       </Row>
@@ -118,17 +123,17 @@ const ProductDetails = () => {
           <Form.Item
             name="description"
             label="Description"
-            rules={[{required: true, message: "Description is Required"}]}
+            rules={[{ required: true, message: "Description is Required" }]}
           >
-            <TextArea rows={7}/>
+            <TextArea rows={7} />
           </Form.Item>
         </Col>
       </Row>
 
       {barcodeValue && (
         <Row>
-          <Col span={24} style={{textAlign: "center", marginBottom: 16}}>
-            <svg ref={barcodeRef}/>
+          <Col span={24} style={{ textAlign: "center", marginBottom: 16 }}>
+            <svg ref={barcodeRef} />
           </Col>
         </Row>
       )}
@@ -136,7 +141,8 @@ const ProductDetails = () => {
       <AddCategory
         isOpen={isModaLOpen}
         handleCancel={() => setIsModalOpen(false)}
-        handleOk={handleOnOk} loading={isLoading}
+        handleOk={handleOnOk}
+        loading={isLoading}
       />
     </Card>
   );
