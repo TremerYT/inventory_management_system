@@ -35,6 +35,17 @@ export const updateCategory = async (id, data) => {
   }
 }
 
+export const getCategoryById = async (id) => {
+  try {
+    const response = await api.get(`/category/${id}`);
+    return response.data;
+  }
+  catch (e) {
+    console.error("Failed to fetch products");
+    throw e;
+  }
+}
+
 export const deleteCategory = async (id) => {
   try {
     const response = await api.delete(`/category/${id}`);

@@ -1,6 +1,6 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {createCategory, getCategory} from "../services/category.service.js";
-import {message} from "antd";
+import {createCategory, getCategory, getCategoryById} from "../services/category.service.js";
+import {Form, message} from "antd";
 import {upload} from "../services/supabase_storage.js";
 
 const CategoryContext = createContext(null);
@@ -12,6 +12,8 @@ export const CategoryProvider = ({children}) => {
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [categoryStatus, setCategoryStatus] = useState([]);
   const [isLoading, setIsloading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form] = Form.useForm();
 
   const filteredCategory = categories.filter((category) => {
     const matchesSearch =
@@ -22,6 +24,18 @@ export const CategoryProvider = ({children}) => {
 
     return matchesSearch && matchesActive;
   });
+
+  const handleOnOk = async (values) => {
+    const success = await addCategory(values);
+    if (success) {
+      setIsModalOpen(false);
+    }
+  }
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  }
+
 
   const fetchCategories = async () => {
     try {
@@ -67,12 +81,24 @@ export const CategoryProvider = ({children}) => {
     }
   }
 
+  const fetchProductsById = async (id) => {
+    try {
+      const data = await getCategoryById();
+
+    }
+    catch (e) {
+
+    }
+  }
+
   useEffect(() => {
     fetchCategories();
   }, []);
 
   return (
     <CategoryContext.Provider value={{
+      form,
+      isModalOpen,
       categories,
       isLoading,
       categoryFilter,
@@ -82,6 +108,7 @@ export const CategoryProvider = ({children}) => {
       addCategory,
       setSearchText,
       selectedStatus,
+      setIsModalOpen,
       setSelectedStatus,
     }}
     >

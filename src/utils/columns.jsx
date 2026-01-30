@@ -55,7 +55,7 @@ export const createProductColumns = ({onView, onEdit, onDelete}) => [
   },
 ];
 
-export const categoryColumns = [
+export const categoryColumns = ({onEdit, onDelete}) => [
   {
     title: "Category Code",
     dataIndex: "categoryCode",
@@ -87,13 +87,11 @@ export const categoryColumns = [
       <Space size="middle">
         <Button
           icon={<EditOutlined style={{color: "blue"}}/>}
-          onClick={() => {
-          }}
+          onClick={() => onEdit(record)}
         />
         <Button
           icon={<DeleteOutlined style={{color: "red"}}/>}
-          onClick={() => {
-          }}
+          onClick={() => onDelete(record)}
         />
       </Space>
     ),

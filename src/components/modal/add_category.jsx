@@ -1,9 +1,10 @@
 import {Form, Modal, Switch, Input, Upload} from "antd";
 import {useState} from "react";
 import {PlusOutlined} from "@ant-design/icons";
+import {useCategory} from "../../context/category_provider.jsx";
 
 const AddCategory = ({ isOpen, handleCancel, handleOk}) => {
-  const [addCategoryForm] = Form.useForm();
+  const {form} = useCategory();
   const [categoryImage, setCategoryImage] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -26,11 +27,11 @@ const AddCategory = ({ isOpen, handleCancel, handleOk}) => {
     <Modal
       title="Add Category"
       open={isOpen}
-      onOk={() => addCategoryForm.submit()}
+      onOk={() => form.submit()}
       onCancel={handleCancel}
       okButtonProps={{loading: loading}}
     >
-      <Form form={addCategoryForm} layout="vertical" onFinish={onFinish}>
+      <Form form={form} layout="vertical" onFinish={onFinish}>
         <Form.Item
           name="categoryName"
           label="Category Name"

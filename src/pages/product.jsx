@@ -16,6 +16,7 @@ const Product = () => {
       fetchProductsById(id);
     }
   }, [id]);
+
   return (
     <Form
       layout="vertical"

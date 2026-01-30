@@ -57,6 +57,9 @@ export const ProductProvider = ({children}) => {
     } catch (e) {
       console.error("Error fetching Products:", e);
     }
+    finally {
+      setLoadingProducts(false);
+    }
   };
 
   const fetchProductsById = async (id) => {
@@ -178,6 +181,9 @@ export const ProductProvider = ({children}) => {
 
   useEffect(() => {
     fetchProducts();
+  }, []);
+
+  useEffect(() => {
     fetchLowStockProducts();
     fetchOutOfStockProducts();
   }, []);

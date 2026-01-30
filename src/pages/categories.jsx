@@ -1,5 +1,5 @@
-import {useState} from "react";
-import {Button, Card, Input, Select, Table} from "antd";
+import {useMemo, useState} from "react";
+import {Button, Card, Input, Modal, Select, Table} from "antd";
 import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined,} from "@ant-design/icons";
 import {categoryColumns} from "../utils/columns";
 import AddCategory from "../components/modal/add_category.jsx";
@@ -7,8 +7,10 @@ import {useCategory} from "../context/category_provider.jsx";
 
 const Categories = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [isModaLOpen, setIsModalOpen] = useState(false);
+  const [isConfirmationOpen, setConfirmationOpen] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState(null);
   const {
+    isModalOpen,
     categories,
     setSearchText,
     isLoading,
@@ -16,6 +18,10 @@ const Categories = () => {
     setSelectedStatus,
     categoryFilter,
     addCategory,
+    handleOnDelete,
+    handleOnOk,
+    handleCancel,
+    setIsModalOpen
   } = useCategory();
 
   const rowSelection = {
@@ -25,16 +31,33 @@ const Categories = () => {
     },
   };
 
-  const handleOnOk = async (values) => {
-    const success = await addCategory(values);
-    if (success) {
-      setIsModalOpen(false);
-    }
+  const confirmDelete = async () => {
+    if (!categoryToDelete) return;
+    await handleOnDelete(categoryToDelete.id);
+    setConfirmationOpen(false);
+    setCategoryToDelete(null);
   }
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
+  const handleEdit = () => {}
+
+  const handleDelete = (record) => {
+    setCategoryToDelete(record);
+    setConfirmationOpen(true);
   }
+
+  const cancelDelete = () => {
+    setConfirmationOpen(false);
+    setCategoryToDelete(null);
+  };
+
+  const columns = useMemo(
+    () =>
+      categoryColumns({
+        onEdit: handleEdit,
+        onDelete: handleDelete,
+      }),
+    [handleEdit, handleDelete]
+  )
 
   return (
     <>
@@ -92,18 +115,31 @@ const Categories = () => {
       >
         <Table
           rowSelection={rowSelection}
-          columns={categoryColumns}
+          columns={columns}
           dataSource={filteredCategory}
           pagination={{pageSize: 10}}
           loading={isLoading}
         />
         <AddCategory
-          isOpen={isModaLOpen}
+          isOpen={isModalOpen}
           handleOk={handleOnOk}
           handleCancel={() => setIsModalOpen(false)}
           loading={isLoading}
         />
       </Card>
+
+      <Modal
+        open={isConfirmationOpen}
+        onOk={confirmDelete}
+        onCancel={cancelDelete}
+        okText="Delete"
+        okButtonProps={{ danger: true }}
+      >
+        <p>
+          Are you sure you want to delete{" "}
+          <strong>{categoryToDelete?.productName}</strong>?
+        </p>
+      </Modal>
     </>
   );
 };
