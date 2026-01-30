@@ -2,8 +2,6 @@ import {createContext, useContext, useEffect, useState} from "react";
 import {
   createCategory,
   getCategory,
-  getCategoryById,
-  updateCategory,
   updateCategoryById
 } from "../services/category.service.js";
 import {Form, message} from "antd";
@@ -121,6 +119,7 @@ export const CategoryProvider = ({children}) => {
     }
     finally {
       setIsloading(false);
+      setIsModalOpen(false)
     }
   }
 

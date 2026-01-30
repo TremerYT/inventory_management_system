@@ -22,6 +22,7 @@ import { AuthProvider } from "./context/auth_provider.jsx";
 import { CategoryProvider } from "./context/category_provider.jsx";
 import { ProductProvider } from "./context/product_context.jsx";
 import { ProductDetailsProvider } from "./context/product_details_context.jsx";
+import {SalesProvider} from "./context/sales_context.jsx";
 
 const ProductsRoute = () => (
   <ProductProvider>
@@ -92,11 +93,12 @@ function App() {
               path="/sales/add"
               element={
                 <ProductProvider>
-                  <AddSale />
+                  <SalesProvider>
+                    <AddSale />
+                  </SalesProvider>
                 </ProductProvider>
               }
             />
-
             <Route path="/purchases/list" element={<Purchases />} />
             <Route path="/purchases/add" element={<AddPurchase />} />
             <Route path="/returns/add" element={<AddReturn />} />

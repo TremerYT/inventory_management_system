@@ -25,7 +25,8 @@ const Categories = () => {
     handleCancel,
     setIsModalOpen,
     editingCategoryId,
-    setEditingCategoryId
+    setEditingCategoryId,
+    fetchCategories
   } = useCategory();
 
   const rowSelection = {
@@ -43,7 +44,6 @@ const Categories = () => {
   }
 
   const handleEdit = (record) => {
-    console.log(record)
     setIsEditMode(true);
     setIsModalOpen(true);
     setEditingCategoryId(record.id);
@@ -103,8 +103,7 @@ const Categories = () => {
           <Button
             type="text"
             icon={<ReloadOutlined style={{fontSize: 20}}/>}
-            onClick={() => {
-            }}
+            onClick={() => {fetchCategories()}}
           />
           <Button type="primary" icon={<PlusOutlined/>} onClick={() => setIsModalOpen(true)}>
             Add Category

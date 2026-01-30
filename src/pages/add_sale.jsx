@@ -1,11 +1,10 @@
 import {Button, Card, Descriptions, Space, Table} from "antd";
 import {DeleteOutlined} from "@ant-design/icons";
 import SalesForm from "../components/forms/sales_form.jsx";
-import {useProduct} from "../context/product_context.jsx";
+import {useSale} from "../context/sales_context.jsx";
 
 const AddSale = () => {
-  const {saleItems, setSaleItems, calculateSubTotal, handleQuantityChange} =
-    useProduct();
+  const {saleItems, setSaleItems, calculateSubTotal, handleQuantityChange} = useSale();
 
   const handleDeleteItem = (record) => {
     setSaleItems((prev) =>

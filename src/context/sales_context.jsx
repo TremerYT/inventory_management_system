@@ -1,6 +1,6 @@
-import {createContext, useRef, useState} from "react";
+import {createContext, useContext, useRef, useState} from "react";
 import {message} from "antd";
-import {getLowStockProducts, getProductsByQuery} from "../services/product.service.js";
+import {getProductsByQuery} from "../services/product.service.js";
 
 const SalesContext = createContext();
 
@@ -108,10 +108,26 @@ export const SalesProvider = ({children}) => {
     }
   };
 
-
   return (
-    <SalesContext.Provider value={{}}>
+    <SalesContext.Provider value={{
+      saleItems,
+      setSaleItems,
+      calculateSubTotal,
+      handleQuantityChange,
+      handleOnSelect,
+      handleOnSearch,
+      productOptions,
+      loadingProducts
+    }}>
       {children}
     </SalesContext.Provider>
   )
 }
+
+export const useSale = () => {
+  const context = useContext(SalesContext);
+  if (!context) {
+    throw new Error("useProduct must be used within a Product context");
+  }
+  return context;
+};
