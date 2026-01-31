@@ -1,14 +1,14 @@
 import "./index.css";
-import { BrowserRouter, Route, Routes, Navigate, Outlet } from "react-router-dom";
+import {BrowserRouter, Navigate, Outlet, Route, Routes} from "react-router-dom";
 import PageLayout from "./components/layout/layout.jsx";
 
 import Dashboard from "./pages/dashboard/dashboard.jsx";
 
 
-import { AuthProvider } from "./context/auth_provider.jsx";
-import { CategoryProvider } from "./context/category_provider.jsx";
-import { ProductProvider } from "./context/product_context.jsx";
-import { ProductDetailsProvider } from "./context/product_details_context.jsx";
+import {AuthProvider} from "./context/auth_provider.jsx";
+import {CategoryProvider} from "./context/category_provider.jsx";
+import {ProductProvider} from "./context/product_context.jsx";
+import {ProductDetailsProvider} from "./context/product_details_context.jsx";
 import {SalesProvider} from "./context/sales_context.jsx";
 import Login from "./pages/authentication/login.jsx";
 import Register from "./pages/authentication/register.jsx";
@@ -24,11 +24,12 @@ import AddReturn from "./pages/returns/add_return.jsx";
 import Returns from "./pages/products/returns.jsx";
 import Customers from "./pages/people/customers.jsx";
 import Suppliers from "./pages/people/suppliers.jsx";
+import AllSales from "./pages/sales/list_sales.jsx";
 
 const ProductsRoute = () => (
   <ProductProvider>
     <CategoryProvider>
-      <Outlet />
+      <Outlet/>
     </CategoryProvider>
   </ProductProvider>
 );
@@ -38,22 +39,22 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Navigate to="/login"/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/register" element={<Register/>}/>
 
           <Route
             element={
               <PrivateRoute>
-                <PageLayout />
+                <PageLayout/>
               </PrivateRoute>
             }
           >
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard/>}/>
 
-            <Route element={<ProductsRoute />}>
-              <Route path="/products/list" element={<AllProducts />} />
-              <Route path="/products/low-stocks" element={<LowStocks />} />
+            <Route element={<ProductsRoute/>}>
+              <Route path="/products/list" element={<AllProducts/>}/>
+              <Route path="/products/low-stocks" element={<LowStocks/>}/>
             </Route>
 
             <Route
@@ -62,7 +63,7 @@ function App() {
                 <ProductProvider>
                   <CategoryProvider>
                     <ProductDetailsProvider>
-                      <Product />
+                      <Product/>
                     </ProductDetailsProvider>
                   </CategoryProvider>
                 </ProductProvider>
@@ -74,7 +75,7 @@ function App() {
                 <ProductProvider>
                   <CategoryProvider>
                     <ProductDetailsProvider>
-                      <Product />
+                      <Product/>
                     </ProductDetailsProvider>
                   </CategoryProvider>
                 </ProductProvider>
@@ -85,7 +86,7 @@ function App() {
               path="/categories/list"
               element={
                 <CategoryProvider>
-                  <Categories />
+                  <Categories/>
                 </CategoryProvider>
               }
             />
@@ -93,19 +94,27 @@ function App() {
             <Route
               path="/sales/add"
               element={
-                <ProductProvider>
-                  <SalesProvider>
-                    <AddSale />
-                  </SalesProvider>
-                </ProductProvider>
+                <SalesProvider>
+                  <AddSale/>
+                </SalesProvider>
               }
             />
-            <Route path="/purchases/list" element={<Purchases />} />
-            <Route path="/purchases/add" element={<AddPurchase />} />
-            <Route path="/returns/add" element={<AddReturn />} />
-            <Route path="/returns/list" element={<Returns />} />
-            <Route path="/customers" element={<Customers />} />
-            <Route path="/suppliers" element={<Suppliers />} />
+
+            <Route
+              path="/sales/list"
+              element={
+                <SalesProvider>
+                  <AllSales/>
+                </SalesProvider>
+              }
+            />
+
+            {/*<Route path="/purchases/list" element={<Purchases/>}/>*/}
+            {/*<Route path="/purchases/add" element={<AddPurchase/>}/>*/}
+            {/*<Route path="/returns/add" element={<AddReturn/>}/>*/}
+            {/*<Route path="/returns/list" element={<Returns/>}/>*/}
+            {/*<Route path="/customers" element={<Customers/>}/>*/}
+            {/*<Route path="/suppliers" element={<Suppliers/>}/>*/}
           </Route>
         </Routes>
       </AuthProvider>

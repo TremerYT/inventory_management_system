@@ -5,7 +5,7 @@ import {Card, Input, Select, Table} from "antd";
 import {outOfStockColumns} from "../../utils/columns.jsx";
 
 const OutOfStockTable = () => {
-  const {loading, setSelectedCategory, setSearchText, outOfStockProducts} = useProduct();
+  const {loadingOutOfStock, setSelectedCategory, setSearchText, outOfStockProducts} = useProduct();
   const {categoryFilter} = useCategory();
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const rowSelection = {
@@ -41,7 +41,7 @@ const OutOfStockTable = () => {
         columns={outOfStockColumns}
         dataSource={outOfStockProducts}
         pagination={{pageSize: 10}}
-        loading={loading}
+        loading={loadingOutOfStock}
       />
     </Card>
   );

@@ -1,6 +1,5 @@
 import {useState} from "react";
 import {useNavigate} from "react-router";
-import {mockProducts, mockReturns} from "../../mock/mock_data.jsx";
 import {Button, Card, Input, Select, Table} from "antd";
 import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined} from "@ant-design/icons";
 import {brands, categories} from "../../utils/select_items.js";

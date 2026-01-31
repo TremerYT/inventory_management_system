@@ -3,7 +3,6 @@ import {useNavigate} from "react-router";
 import {Button, Card, Input, Select, Table} from "antd";
 import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined} from "@ant-design/icons";
 import {purchasesColumns} from "../../utils/columns.jsx";
-import {mockPurchases} from "../../mock/mock_data.jsx";
 
 const Purchases = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);

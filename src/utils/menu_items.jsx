@@ -41,7 +41,6 @@ export const items = [
     getItems("/sales/add", null, "Create Sale"),
     getItems("/sales/list", null, "List Sales"),
     getItems("/sales/returns", null, "Sales Returns"),
-    getItems("/sales/invoices", null, "Invoices"),
   ]),
   getItems("/purchases", <FaTruck />, "Purchases", [
     getItems("/purchases/list", null, "List Purchases"),

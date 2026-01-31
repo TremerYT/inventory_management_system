@@ -70,16 +70,28 @@ const SalesForm = () => {
         </Col>
       </Row>
       <Row gutter={[16, 16]}>
-        <Col span={8}>
+        <Col span={12}>
           <Form.Item
             label="Shipping"
             name="shipping"
             rules={[{ required: true, message: "Shipping Amount is required" }]}
           >
-            <Input prefix={<p>Ksh</p>} />
+            <Input />
           </Form.Item>
         </Col>
-        <Col span={8}>
+        <Col span={12}>
+          <Form.Item
+            label="Paid"
+            name="paid"
+            rules={[{ required: true, message: "Paid Amount is required" }]}
+          >
+            <Input/>
+          </Form.Item>
+        </Col>
+
+      </Row>
+      <Row gutter={[16]}>
+        <Col span={12}>
           <Form.Item
             label="Sale Status"
             name="saleStatus"
@@ -88,7 +100,7 @@ const SalesForm = () => {
             <Select options={saleStatus} />
           </Form.Item>
         </Col>
-        <Col span={8}>
+        <Col span={12}>
           <Form.Item
             label="Payment Status"
             name="paymentStatus"

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import {createContext, useContext, useRef, useState} from "react";
 import {Form, message} from "antd";
 import {getProductsByQuery} from "../services/product.service.js";
@@ -8,7 +9,6 @@ export const SalesProvider = ({children}) => {
   const [saleItems, setSaleItems] = useState([]);
   const [productOptions, setProductOptions] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
   const [form] = Form.useForm();
   const debounce = useRef(null);
 
@@ -114,7 +114,6 @@ export const SalesProvider = ({children}) => {
     <SalesContext.Provider value={{
       form,
       saleItems,
-      submitting,
       setSaleItems,
       calculateSubTotal,
       handleQuantityChange,

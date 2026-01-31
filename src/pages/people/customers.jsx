@@ -9,8 +9,6 @@ import { status } from "../../utils/select_items.js";
 import { useState } from "react";
 import { customersColumns} from "../../utils/columns.jsx";
 
-import { mockCustomers} from "../../mock/mock_data.jsx";
-
 const Customers = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const { searchText, filteredData, handleSearch, handleSelect } = useFilter(

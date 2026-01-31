@@ -1,5 +1,5 @@
 import {Button, Space, Tag} from "antd";
-import {DeleteOutlined, EditOutlined, EyeOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined} from "@ant-design/icons";
 
 export const createProductColumns = ({onView, onEdit, onDelete}) => [
   {
@@ -100,9 +100,10 @@ export const categoryColumns = ({onEdit, onDelete}) => [
 
 export const salesColumns = [
   {
-    title: "Customer",
-    dataIndex: "customerName",
-    key: "customerName",
+    title: "Date",
+    dataIndex: "date",
+    key: "date",
+    render: (value) => new Date(value).toLocaleDateString(),
   },
   {
     title: "Reference Number",
@@ -110,63 +111,45 @@ export const salesColumns = [
     key: "referenceNumber",
   },
   {
-    title: "Date",
-    dataIndex: "date",
-    key: "date",
-    render: (value) => new Date(value).toLocaleDateString(),
+    title: "Customer",
+    dataIndex: "customerName",
+    key: "customerName",
   },
   {
-    title: "Status",
-    dataIndex: "status",
-    key: "status",
+    title: "Sale Status",
+    dataIndex: "saleStatus",
+    key: "saleStatus",
     render: (status) => (
       <Tag color={status === "Completed" ? "green" : "volcano"}>{status}</Tag>
     ),
   },
   {
-    title: "Grand Total",
-    dataIndex: "grandTotal",
-    key: "grandTotal",
+    title: "Payment Status",
+    dataIndex: "paymentStatus",
+    key: "paymmentStatus",
+    render: (status) => (
+      <Tag color={status === "Completed" ? "green" : "volcano"}>{status}</Tag>
+    ),
+  },
+  {
+    title: "Total",
+    dataIndex: "total",
+    key: "total",
     render: (value) => `ksh${(value || 0).toFixed(2)}`,
   },
   {
     title: "Paid",
     dataIndex: "paid",
-    key: "Paid",
+    key: "paid",
     render: (value) => `ksh${(value || 0).toFixed(2)}`,
   },
   {
-    title: "Amount Due",
+    title: "Due",
     dataIndex: "due",
     key: "due",
     render: (_, record) => {
       const due = record.grandTotal - record.paid;
       return `ksh${(due || 0).toFixed(2)}`;
-    },
-  },
-  {
-    title: "Payment Status",
-    dataIndex: "paymentStatus",
-    key: "paymentStatus",
-    render: (status) => {
-      let color;
-
-      switch (status.toLowerCase()) {
-        case "paid":
-          color = "green";
-          break;
-        case "overdue":
-          color = "gold";
-          break;
-        case "unpaid":
-          color = "volcano";
-          break;
-        default:
-          color = "default";
-      }
-      const displayStatus = status.charAt(0).toUpperCase() + status.slice(1);
-
-      return <Tag color={color}>{displayStatus}</Tag>;
     },
   },
   {
@@ -176,6 +159,17 @@ export const salesColumns = [
       <Space size="middle">
         <Button
           icon={<EyeOutlined style={{color: "blue"}}/>}
+          onClick={() => {
+          }}
+        />
+        <Button
+          icon={<EditOutlined style={{color: "blue"}}/>}
+          disabled={record.grandTotal - record.paid === 0}
+          onClick={() => {
+          }}
+        />
+        <Button
+          icon={<PlusOutlined style={{color: "blue"}}/>}
           onClick={() => {
           }}
         />

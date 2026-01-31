@@ -13,6 +13,8 @@ const ProductContext = createContext();
 export const ProductProvider = ({children}) => {
   const [form] = Form.useForm();
   const [loadingProducts, setLoadingProducts] = useState(false);
+  const [loadingLowStock, setLoadingLowStock] = useState(false);
+  const [loadingOutOfStock, setLoadingOutOfStock] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [products, setProducts] = useState([]);
   const [lowStockProducts, setLowStockProducts] = useState([]);
@@ -157,25 +159,25 @@ export const ProductProvider = ({children}) => {
 
   const fetchLowStockProducts = async () => {
     try {
-      setLoadingProducts(true);
+      setLoadingLowStock(true);
       const data = await getLowStockProducts();
       setLowStockProducts(data);
     } catch (e) {
       console.error("Error fetching Products:", e);
     } finally {
-      setLoadingProducts(false);
+      setLoadingLowStock(false);
     }
   };
 
   const fetchOutOfStockProducts = async () => {
     try {
-      setLoadingProducts(true);
+      setLoadingOutOfStock(true);
       const data = await getOutOfStockProducts();
       setOutOfStockProducts(data);
     } catch (e) {
       console.error("Error fetching Products:", e);
     } finally {
-      setLoadingProducts(false);
+      setLoadingOutOfStock(false);
     }
   };
 
@@ -194,6 +196,8 @@ export const ProductProvider = ({children}) => {
         form,
         submitting,
         loadingProducts,
+        loadingLowStock,
+        loadingOutOfStock,
         products,
         lowStockProducts,
         outOfStockProducts,

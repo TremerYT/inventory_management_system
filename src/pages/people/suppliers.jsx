@@ -8,7 +8,6 @@ import {
 import { status } from "../../utils/select_items.js";
 import { useState } from "react";
 import { suppliersColumn } from "../../utils/columns.jsx";
-import { mockSuppliers } from "../../mock/mock_data.jsx";
 
 const Suppliers = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);

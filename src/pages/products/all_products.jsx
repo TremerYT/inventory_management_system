@@ -1,11 +1,16 @@
-import {Button, Card, Input, Modal, Select, Table} from "antd";
-import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined,} from "@ant-design/icons";
-import {brands} from "../../utils/select_items.js";
-import {useMemo, useState} from "react";
-import {createProductColumns} from "../../utils/columns.jsx";
-import {useNavigate} from "react-router";
-import {useProduct} from "../../context/product_context.jsx";
-import {useCategory} from "../../context/category_provider.jsx";
+import { Button, Card, Input, Modal, Select, Table } from "antd";
+import {
+  FileExcelFilled,
+  FilePdfFilled,
+  PlusOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
+import { brands } from "../../utils/select_items.js";
+import { useState } from "react";
+import { createProductColumns } from "../../utils/columns.jsx";
+import { useNavigate } from "react-router";
+import { useProduct } from "../../context/product_context.jsx";
+import { useCategory } from "../../context/category_provider.jsx";
 import ProductView from "../../components/modal/product_view.jsx";
 
 const AllProducts = () => {
@@ -21,10 +26,10 @@ const AllProducts = () => {
     setSelectedBrand,
     setSearchText,
     products,
-    handleOnDelete
+    handleOnDelete,
   } = useProduct();
 
-  const {categoryFilter} = useCategory();
+  const { categoryFilter } = useCategory();
   const navigate = useNavigate();
 
   const handleView = (record) => {
@@ -48,22 +53,18 @@ const AllProducts = () => {
     await handleOnDelete(productToDelete.id);
     setConfirmationOpen(false);
     setProductToDelete(null);
-  }
+  };
 
   const cancelDelete = () => {
     setConfirmationOpen(false);
     setProductToDelete(null);
   };
 
-  const columns = useMemo(
-    () =>
-      createProductColumns({
-        onView: handleView,
-        onEdit: handleEdit,
-        onDelete: handleDelete,
-      }),
-    [handleView, handleEdit, handleDelete]
-  );
+  const columns = createProductColumns({
+    onView: handleView,
+    onEdit: handleEdit,
+    onDelete: handleDelete,
+  });
 
   const rowSelection = {
     selectedRowKeys,
@@ -82,25 +83,22 @@ const AllProducts = () => {
         <div className="flex gap-3">
           <Button
             type="text"
-            icon={<FilePdfFilled style={{fontSize: 20, color: "red"}}/>}
-            onClick={() => {
-            }}
+            icon={<FilePdfFilled style={{ fontSize: 20, color: "red" }} />}
+            onClick={() => {}}
           />
           <Button
             type="text"
-            icon={<FileExcelFilled style={{fontSize: 20, color: "green"}}/>}
-            onClick={() => {
-            }}
+            icon={<FileExcelFilled style={{ fontSize: 20, color: "green" }} />}
+            onClick={() => {}}
           />
           <Button
             type="text"
-            icon={<ReloadOutlined style={{fontSize: 20}}/>}
-            onClick={() => {
-            }}
+            icon={<ReloadOutlined style={{ fontSize: 20 }} />}
+            onClick={() => {}}
           />
           <Button
             type="primary"
-            icon={<PlusOutlined/>}
+            icon={<PlusOutlined />}
             onClick={() => {
               navigate("/products/add");
             }}
@@ -142,13 +140,13 @@ const AllProducts = () => {
           rowSelection={rowSelection}
           columns={columns}
           dataSource={products}
-          pagination={{pageSize: 10}}
+          pagination={{ pageSize: 10 }}
           loading={loadingProducts}
           rowKey="skuNumber"
         />
       </Card>
-      <ProductView 
-        isModalOpen={isModalOpen} 
+      <ProductView
+        isModalOpen={isModalOpen}
         record={selectedProduct}
         handleOnOK={handleOnOk}
         handleOnCancel={handleOnOk}
@@ -165,7 +163,6 @@ const AllProducts = () => {
           <strong>{productToDelete?.productName}</strong>?
         </p>
       </Modal>
-
     </>
   );
 };

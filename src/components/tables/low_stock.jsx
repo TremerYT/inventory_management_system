@@ -5,7 +5,7 @@ import {useCategory} from "../../context/category_provider.jsx";
 import {useState} from "react";
 
 const LowStockTable = () => {
-  const {loading, setSelectedCategory, setSearchText, lowStockProducts} = useProduct();
+  const {loadingLowStock, setSelectedCategory, setSearchText, lowStockProducts} = useProduct();
   const {categoryFilter} = useCategory();
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const rowSelection = {
@@ -41,7 +41,7 @@ const LowStockTable = () => {
         columns={lowStockColumns}
         dataSource={lowStockProducts}
         pagination={{pageSize: 10}}
-        loading={loading}
+        loading={loadingLowStock}
       />
     </Card>
   );
