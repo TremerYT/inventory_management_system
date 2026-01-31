@@ -1,19 +1,22 @@
-import {useState} from "react";
-import {useNavigate} from "react-router";
-import {mockProducts, mockReturns} from "../mock/mock_data.jsx";
-import {Button, Card, Input, Select, Table} from "antd";
-import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined} from "@ant-design/icons";
-import {brands, categories} from "../utils/select_items.js";
-import {returnsColumns} from "../utils/columns.jsx";
+import { Button, Card, Input, Select, Table } from "antd";
+import {
+  FileExcelFilled,
+  FilePdfFilled,
+  PlusOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
+import { status } from "../../utils/select_items.js";
+import { useState } from "react";
+import { suppliersColumn } from "../../utils/columns.jsx";
+import { mockSuppliers } from "../../mock/mock_data.jsx";
 
-const Returns = () => {
+const Suppliers = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const navigate = useNavigate();
   const { searchText, filteredData, handleSearch, handleSelect } = useFilter(
-    mockProducts,
+    mockSuppliers,
     {
-      searchFields: ["p", "skuNumber"],
-      selectFields: ["category", "brand"],
+      searchFields: ["customerName", "email"],
+      selectFields: ["status"],
     }
   );
 
@@ -23,12 +26,13 @@ const Returns = () => {
       setSelectedRowKeys(newSelectedKeys);
     },
   };
+
   return (
     <>
       <div className="flex justify-between items-center mb-4">
         <div className="flex flex-col items-start">
-          <h2 className="text-2xl">Returns</h2>
-          <p>Manage Your Returns</p>
+          <h2 className="text-2xl">Suppliers</h2>
+          <p>Manage Your Suppliers</p>
         </div>
         <div className="flex gap-3">
           <Button
@@ -46,11 +50,12 @@ const Returns = () => {
             icon={<ReloadOutlined style={{ fontSize: 20 }} />}
             onClick={() => {}}
           />
-          <Button type="primary" icon={<PlusOutlined />} onClick={() => {navigate('/returns/add')}}>
-            Add Return
+          <Button type="primary" icon={<PlusOutlined />} onClick={() => {}}>
+            Add Supplers
           </Button>
         </div>
       </div>
+
       <Card
         title={
           <Input.Search
@@ -60,31 +65,26 @@ const Returns = () => {
           />
         }
         extra={
-          <div className="flex gap-2 w-80">
+          <div className="w-30">
             <Select
-              defaultValue="Category"
-              options={categories}
+              placeholder="status"
               className="w-full!"
-              onSelect={(value) => handleSelect("category", value)}
-            />
-            <Select
-              defaultValue="Brand"
-              options={brands}
-              className="w-full!"
-              onSelect={(value) => handleSelect("brand", value)}
+              options={status}
+              allowClear
+              onChange={(value) => handleSelect("status", value)}
             />
           </div>
         }
       >
         <Table
           rowSelection={rowSelection}
-          columns={returnsColumns}
-          dataSource={mockReturns}
-          pagination={{ pageSize: 5 }}
+          columns={suppliersColumn}
+          dataSource={filteredData}
+          pagination={{ pageSize: 10 }}
         />
       </Card>
     </>
   );
-}
+};
 
-export default Returns;
+export default Suppliers;

@@ -5,15 +5,16 @@ import {
   PlusOutlined,
   ReloadOutlined,
 } from "@ant-design/icons";
-import { status } from "../utils/select_items.js";
+import { status } from "../../utils/select_items.js";
 import { useState } from "react";
-import { suppliersColumn } from "../utils/columns.jsx";
-import { mockSuppliers } from "../mock/mock_data.jsx";
+import { customersColumns} from "../../utils/columns.jsx";
 
-const Suppliers = () => {
+import { mockCustomers} from "../../mock/mock_data.jsx";
+
+const Customers = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const { searchText, filteredData, handleSearch, handleSelect } = useFilter(
-    mockSuppliers,
+    mockCustomers,
     {
       searchFields: ["customerName", "email"],
       selectFields: ["status"],
@@ -31,8 +32,8 @@ const Suppliers = () => {
     <>
       <div className="flex justify-between items-center mb-4">
         <div className="flex flex-col items-start">
-          <h2 className="text-2xl">Suppliers</h2>
-          <p>Manage Your Suppliers</p>
+          <h2 className="text-2xl">Customers</h2>
+          <p>Manage Your Customers</p>
         </div>
         <div className="flex gap-3">
           <Button
@@ -51,7 +52,7 @@ const Suppliers = () => {
             onClick={() => {}}
           />
           <Button type="primary" icon={<PlusOutlined />} onClick={() => {}}>
-            Add Supplers
+            Add Customer
           </Button>
         </div>
       </div>
@@ -78,7 +79,7 @@ const Suppliers = () => {
       >
         <Table
           rowSelection={rowSelection}
-          columns={suppliersColumn}
+          columns={customersColumns}
           dataSource={filteredData}
           pagination={{ pageSize: 10 }}
         />
@@ -87,4 +88,4 @@ const Suppliers = () => {
   );
 };
 
-export default Suppliers;
+export default Customers;

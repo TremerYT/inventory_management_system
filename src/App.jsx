@@ -2,27 +2,28 @@ import "./index.css";
 import { BrowserRouter, Route, Routes, Navigate, Outlet } from "react-router-dom";
 import PageLayout from "./components/layout/layout.jsx";
 
-import Dashboard from "./pages/dashboard.jsx";
-import Product from "./pages/product.jsx";
-import AllProducts from "./pages/all_products.jsx";
-import Categories from "./pages/categories.jsx";
-import Customers from "./pages/customers.jsx";
-import Suppliers from "./pages/suppliers.jsx";
-import AddReturn from "./pages/add_return.jsx";
-import Purchases from "./pages/purchases.jsx";
-import AddPurchase from "./pages/add-purchase.jsx";
-import Returns from "./pages/returns.jsx";
-import Login from "./pages/login.jsx";
-import Register from "./pages/register.jsx";
-import LowStocks from "./pages/low_stocks.jsx";
-import AddSale from "./pages/add_sale.jsx";
+import Dashboard from "./pages/dashboard/dashboard.jsx";
 
-import PrivateRoute from "./pages/private_route.jsx";
+
 import { AuthProvider } from "./context/auth_provider.jsx";
 import { CategoryProvider } from "./context/category_provider.jsx";
 import { ProductProvider } from "./context/product_context.jsx";
 import { ProductDetailsProvider } from "./context/product_details_context.jsx";
 import {SalesProvider} from "./context/sales_context.jsx";
+import Login from "./pages/authentication/login.jsx";
+import Register from "./pages/authentication/register.jsx";
+import PrivateRoute from "./pages/authentication/private_route.jsx";
+import AllProducts from "./pages/products/all_products.jsx";
+import LowStocks from "./pages/products/low_stocks.jsx";
+import Product from "./pages/products/product.jsx";
+import Categories from "./pages/categories/categories.jsx";
+import AddSale from "./pages/sales/add_sale.jsx";
+import Purchases from "./pages/purchases/purchases.jsx";
+import AddPurchase from "./pages/purchases/add-purchase.jsx";
+import AddReturn from "./pages/returns/add_return.jsx";
+import Returns from "./pages/products/returns.jsx";
+import Customers from "./pages/people/customers.jsx";
+import Suppliers from "./pages/people/suppliers.jsx";
 
 const ProductsRoute = () => (
   <ProductProvider>

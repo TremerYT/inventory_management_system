@@ -1,9 +1,9 @@
 import {useMemo, useState} from "react";
 import {Button, Card, Input, Modal, Select, Table} from "antd";
 import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined,} from "@ant-design/icons";
-import {categoryColumns} from "../utils/columns";
-import AddCategory from "../components/modal/add_category.jsx";
-import {useCategory} from "../context/category_provider.jsx";
+import {categoryColumns} from "../../utils/columns.jsx";
+import AddCategory from "../../components/modal/add_category.jsx";
+import {useCategory} from "../../context/category_provider.jsx";
 
 const Categories = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);

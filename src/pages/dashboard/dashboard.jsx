@@ -1,16 +1,16 @@
-import DashboardCards from "../components/ui/dashboard_cards.jsx";
-import useAuth from "../hooks/useAuth.js";
+import DashboardCards from "../../components/ui/dashboard_cards.jsx";
+import useAuth from "../../hooks/useAuth.js";
 import {Col, Row, Typography, Table, Card} from "antd";
-import { cardInfo, statsCards } from "../utils/card_info.jsx";
-import StatsCards from "../components/ui/stats_cards.jsx";
-import SalesVsPurchases from "../components/charts/sales_purchase.jsx";
-import RevenueVsCost from "../components/charts/revenue_cost.jsx";
-import ExpensesChart from "../components/charts/expenses_chart.jsx";
-import IncomeChart from "../components/charts/income_chart.jsx";
-import {lowStockData, outOfStockData} from "../mock/mock_data.jsx";
-import {lowStockColumns, outOfStockColumns} from "../utils/columns.jsx";
-import Overall from "../components/charts/overall.jsx";
-import ProfitVsLoss from "../components/charts/profit_loss.jsx";
+import { cardInfo, statsCards } from "../../utils/card_info.jsx";
+import StatsCards from "../../components/ui/stats_cards.jsx";
+import SalesVsPurchases from "../../components/charts/sales_purchase.jsx";
+import RevenueVsCost from "../../components/charts/revenue_cost.jsx";
+import ExpensesChart from "../../components/charts/expenses_chart.jsx";
+import IncomeChart from "../../components/charts/income_chart.jsx";
+import {lowStockData, outOfStockData} from "../../mock/mock_data.jsx";
+import {lowStockColumns, outOfStockColumns} from "../../utils/columns.jsx";
+import Overall from "../../components/charts/overall.jsx";
+import ProfitVsLoss from "../../components/charts/profit_loss.jsx";
 const { Title, Text } = Typography;
 const Dashboard = () => {
   const { user } = useAuth();

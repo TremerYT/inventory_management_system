@@ -1,18 +1,23 @@
-import {useState} from "react";
-import {useNavigate} from "react-router";
-import {Button, Card, Input, Select, Table} from "antd";
-import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined} from "@ant-design/icons";
-import {purchasesColumns} from "../utils/columns.jsx";
-import {mockPurchases} from "../mock/mock_data.jsx";
+import { Button, Card, Input, Select, Table } from "antd";
+import {
+  FileExcelFilled,
+  FilePdfFilled,
+  ReloadOutlined,
+} from "@ant-design/icons";
+import { dates, paymentStatus, saleStatus, status } from "../../utils/select_items.js";
+import { useState } from "react";
+import { salesColumns } from "../../utils/columns.jsx";
+import { mockSales } from "../../mock/mock_data.jsx";
+import { useNavigate } from "react-router";
 
-const Purchases = () => {
+const Sales = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const navigate = useNavigate();
   const { searchText, filteredData, handleSearch, handleSelect } = useFilter(
-    mockPurchases,
+    mockSales,
     {
-      searchFields: ["productName", "skuNumber"],
-      selectFields: ["category", "brand"],
+      searchFields: ["customerName", "referenceNumber"],
+      selectFields: ["status", "paymentStatus", "date"],
     }
   );
 
@@ -27,8 +32,8 @@ const Purchases = () => {
     <>
       <div className="flex justify-between items-center mb-4">
         <div className="flex flex-col items-start">
-          <h2 className="text-2xl">Purchases</h2>
-          <p>Manage Your Purchases</p>
+          <h2 className="text-2xl">Sales</h2>
+          <p>Manage Your Sales</p>
         </div>
         <div className="flex gap-3">
           <Button
@@ -46,9 +51,6 @@ const Purchases = () => {
             icon={<ReloadOutlined style={{ fontSize: 20 }} />}
             onClick={() => {}}
           />
-          <Button type="primary" icon={<PlusOutlined />} onClick={() => {navigate('/purchases/add')}}>
-            Add Purchase
-          </Button>
         </div>
       </div>
 
@@ -61,30 +63,37 @@ const Purchases = () => {
           />
         }
         extra={
-          <div className="flex gap-2 w-80">
+          <div className="flex gap-2 w-100">
             <Select
-              defaultValue="Category"
-              // options={categories}
+              placeholder="Status"
+              options={saleStatus}
               className="w-full!"
-              onSelect={(value) => handleSelect("category", value)}
+              onSelect={(value) => handleSelect("status", value)}
             />
             <Select
-              defaultValue="Brand"
-              // options={brands}
+              placeholder="Payment Status"
+              options={paymentStatus}
               className="w-full!"
-              onSelect={(value) => handleSelect("brand", value)}
+              onSelect={(value) => handleSelect("paymentStatus", value)}
+            />
+            <Select
+              placeholder="Sort by Date"
+              options={dates}
+              className="w-full!"
+              onSelect={(value) => handleSelect("date", value)}
             />
           </div>
         }
       >
         <Table
           rowSelection={rowSelection}
-          columns={purchasesColumns}
+          columns={salesColumns}
           dataSource={filteredData}
           pagination={{ pageSize: 10 }}
         />
       </Card>
     </>
   );
-}
-export default Purchases
+};
+
+export default Sales;

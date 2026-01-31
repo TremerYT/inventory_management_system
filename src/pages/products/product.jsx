@@ -1,8 +1,8 @@
 import {Button, Form} from "antd";
-import ProductDetails from "../components/forms/product_details.jsx";
-import ProductMetrics from "../components/forms/product_metrics.jsx";
-import ProductImages from "../components/forms/product-images.jsx";
-import {useProduct} from "../context/product_context.jsx";
+import ProductDetails from "../../components/forms/product_details.jsx";
+import ProductMetrics from "../../components/forms/product_metrics.jsx";
+import ProductImages from "../../components/forms/product-images.jsx";
+import {useProduct} from "../../context/product_context.jsx";
 import {useParams} from "react-router";
 import {useEffect} from "react";
 

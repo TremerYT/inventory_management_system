@@ -1,12 +1,12 @@
 import {Button, Card, Input, Modal, Select, Table} from "antd";
 import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined,} from "@ant-design/icons";
-import {brands} from "../utils/select_items.js";
+import {brands} from "../../utils/select_items.js";
 import {useMemo, useState} from "react";
-import {createProductColumns} from "../utils/columns.jsx";
+import {createProductColumns} from "../../utils/columns.jsx";
 import {useNavigate} from "react-router";
-import {useProduct} from "../context/product_context.jsx";
-import {useCategory} from "../context/category_provider.jsx";
-import ProductView from "../components/modal/product_view.jsx";
+import {useProduct} from "../../context/product_context.jsx";
+import {useCategory} from "../../context/category_provider.jsx";
+import ProductView from "../../components/modal/product_view.jsx";
 
 const AllProducts = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);

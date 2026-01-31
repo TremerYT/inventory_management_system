@@ -1,23 +1,19 @@
-import { Button, Card, Input, Select, Table } from "antd";
-import {
-  FileExcelFilled,
-  FilePdfFilled,
-  ReloadOutlined,
-} from "@ant-design/icons";
-import { dates, paymentStatus, saleStatus, status } from "../utils/select_items.js";
-import { useState } from "react";
-import { salesColumns } from "../utils/columns.jsx";
-import { mockSales } from "../mock/mock_data.jsx";
-import { useNavigate } from "react-router";
+import {useState} from "react";
+import {useNavigate} from "react-router";
+import {mockProducts, mockReturns} from "../../mock/mock_data.jsx";
+import {Button, Card, Input, Select, Table} from "antd";
+import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined} from "@ant-design/icons";
+import {brands, categories} from "../../utils/select_items.js";
+import {returnsColumns} from "../../utils/columns.jsx";
 
-const Sales = () => {
+const Returns = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const navigate = useNavigate();
   const { searchText, filteredData, handleSearch, handleSelect } = useFilter(
-    mockSales,
+    mockProducts,
     {
-      searchFields: ["customerName", "referenceNumber"],
-      selectFields: ["status", "paymentStatus", "date"],
+      searchFields: ["p", "skuNumber"],
+      selectFields: ["category", "brand"],
     }
   );
 
@@ -27,13 +23,12 @@ const Sales = () => {
       setSelectedRowKeys(newSelectedKeys);
     },
   };
-
   return (
     <>
       <div className="flex justify-between items-center mb-4">
         <div className="flex flex-col items-start">
-          <h2 className="text-2xl">Sales</h2>
-          <p>Manage Your Sales</p>
+          <h2 className="text-2xl">Returns</h2>
+          <p>Manage Your Returns</p>
         </div>
         <div className="flex gap-3">
           <Button
@@ -51,9 +46,11 @@ const Sales = () => {
             icon={<ReloadOutlined style={{ fontSize: 20 }} />}
             onClick={() => {}}
           />
+          <Button type="primary" icon={<PlusOutlined />} onClick={() => {navigate('/returns/add')}}>
+            Add Return
+          </Button>
         </div>
       </div>
-
       <Card
         title={
           <Input.Search
@@ -63,37 +60,31 @@ const Sales = () => {
           />
         }
         extra={
-          <div className="flex gap-2 w-100">
+          <div className="flex gap-2 w-80">
             <Select
-              placeholder="Status"
-              options={saleStatus}
+              defaultValue="Category"
+              options={categories}
               className="w-full!"
-              onSelect={(value) => handleSelect("status", value)}
+              onSelect={(value) => handleSelect("category", value)}
             />
             <Select
-              placeholder="Payment Status"
-              options={paymentStatus}
+              defaultValue="Brand"
+              options={brands}
               className="w-full!"
-              onSelect={(value) => handleSelect("paymentStatus", value)}
-            />
-            <Select
-              placeholder="Sort by Date"
-              options={dates}
-              className="w-full!"
-              onSelect={(value) => handleSelect("date", value)}
+              onSelect={(value) => handleSelect("brand", value)}
             />
           </div>
         }
       >
         <Table
           rowSelection={rowSelection}
-          columns={salesColumns}
-          dataSource={filteredData}
-          pagination={{ pageSize: 10 }}
+          columns={returnsColumns}
+          dataSource={mockReturns}
+          pagination={{ pageSize: 5 }}
         />
       </Card>
     </>
   );
-};
+}
 
-export default Sales;
+export default Returns;

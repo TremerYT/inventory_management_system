@@ -1,7 +1,7 @@
 import {Button, Table, Tabs} from "antd";
 import {FileExcelFilled, FilePdfFilled, ReloadOutlined} from "@ant-design/icons";
-import LowStockTable from "../components/tables/low_stock.jsx";
-import OutOfStockTable from "../components/tables/out_of_stock.jsx";
+import LowStockTable from "../../components/tables/low_stock.jsx";
+import OutOfStockTable from "../../components/tables/out_of_stock.jsx";
 
 const LowStocks = () => {
   const tables = [

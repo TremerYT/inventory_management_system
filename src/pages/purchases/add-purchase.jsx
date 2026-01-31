@@ -1,5 +1,5 @@
 import {Card} from "antd";
-import PurchaseForm from "../components/forms/purchase_form.jsx";
+import PurchaseForm from "../../components/forms/purchase_form.jsx";
 
 const AddPurchase = () => {
   return (
