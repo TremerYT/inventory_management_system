@@ -10,8 +10,7 @@ import {
   Typography,
 } from "antd";
 import { units } from "../../utils/select_items.js";
-import { useEffect, useState } from "react";
-import JsBarcode from "jsbarcode";
+import { useState } from "react";
 import AddCategory from "../modal/add_category.jsx";
 import { useCategory } from "../../context/category_provider.jsx";
 import { useProductDetails } from "../../context/product_details_context.jsx";

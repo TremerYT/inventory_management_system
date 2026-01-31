@@ -8,6 +8,7 @@ export const SalesProvider = ({children}) => {
   const [saleItems, setSaleItems] = useState([]);
   const [productOptions, setProductOptions] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [form] = Form.useForm();
   const debounce = useRef(null);
 
@@ -113,6 +114,7 @@ export const SalesProvider = ({children}) => {
     <SalesContext.Provider value={{
       form,
       saleItems,
+      submitting,
       setSaleItems,
       calculateSubTotal,
       handleQuantityChange,

@@ -39,7 +39,7 @@ export const items = [
   ]),
   getItems("/sales", <FaShoppingCart />, "Sales", [
     getItems("/sales/add", null, "Create Sale"),
-    getItems("/sales/list", null, "Sales Orders"),
+    getItems("/sales/list", null, "List Sales"),
     getItems("/sales/returns", null, "Sales Returns"),
     getItems("/sales/invoices", null, "Invoices"),
   ]),

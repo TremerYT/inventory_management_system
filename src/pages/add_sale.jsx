@@ -1,16 +1,26 @@
-import {Button, Card, Descriptions, Space, Table} from "antd";
-import {DeleteOutlined} from "@ant-design/icons";
+import { Button, Card, Descriptions, Space, Table } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import SalesForm from "../components/forms/sales_form.jsx";
-import {useSale} from "../context/sales_context.jsx";
+import { useSale } from "../context/sales_context.jsx";
 
 const AddSale = () => {
-  const {saleItems, setSaleItems, calculateSubTotal, handleQuantityChange, form} = useSale();
+  const {
+    saleItems,
+    setSaleItems,
+    submitting,
+    handleQuantityChange,
+    form,
+  } = useSale();
 
   const handleDeleteItem = (record) => {
     setSaleItems((prev) =>
       prev.filter((item) => item.skuNumber !== record.skuNumber),
     );
   };
+
+  const handleOnCancel = () => {
+    form.resetFields();
+  }
 
   const customColumns = [
     {
@@ -56,7 +66,7 @@ const AddSale = () => {
           >
             -
           </Button>
-          <span style={{minWidth: 24, textAlign: "center"}}>
+          <span style={{ minWidth: 24, textAlign: "center" }}>
             {record.quantity}
           </span>
           <Button
@@ -90,7 +100,7 @@ const AddSale = () => {
       render: (_, record) => (
         <Space size="middle">
           <Button
-            icon={<DeleteOutlined style={{color: "red"}}/>}
+            icon={<DeleteOutlined style={{ color: "red" }} />}
             onClick={() => handleDeleteItem(record)}
           />
         </Space>
@@ -109,7 +119,7 @@ const AddSale = () => {
     },
     {
       label: "Shipping",
-      value: form.getFieldValue("shipping")
+      value: form.getFieldValue("shipping"),
     },
     {
       label: "Total Discount",
@@ -120,7 +130,7 @@ const AddSale = () => {
             (i.discountType === "percentage"
               ? (i.discountValue * i.price) / 100
               : i.discountValue),
-          0
+          0,
         )
         .toFixed(2),
     },
@@ -129,7 +139,6 @@ const AddSale = () => {
       value: saleItems.reduce((sum, i) => sum + i.subTotal, 0).toFixed(2),
     },
   ];
-
 
   return (
     <>
@@ -140,7 +149,7 @@ const AddSale = () => {
         </div>
       </div>
       <Card>
-        <SalesForm/>
+        <SalesForm />
         <Table
           columns={customColumns}
           dataSource={saleItems}
@@ -162,8 +171,20 @@ const AddSale = () => {
               ))}
             </Descriptions>
           </div>
-
         )}
+        <div className="flex gap-4 justify-end mt-10">
+          <Button
+            type="primary"
+            htmlType="submit"
+            size="large"
+            loading={submitting}
+          >
+            Add Sale
+          </Button>
+          <Button type="primary" danger onClick={handleOnCancel} size="large">
+            Cancel
+          </Button>
+        </div>
       </Card>
     </>
   );
