@@ -61,12 +61,12 @@ const Dashboard = () => {
         </Col>
       </Row>
       <Row gutter={[16,16]} style={{ marginBottom: '16px' }}>
-        <Col span={14} >
+        <Col span={12} >
           <SalesVsPurchases/>
         </Col>
-        <Col span={10}>
+        <Col span={12}>
           <Card title="Low Stock" className="h-full">
-            <Table columns={lowStockColumns} dataSource={lowStockData}/>
+            <Table columns={lowStockColumns}/>
           </Card>
         </Col>
       </Row>

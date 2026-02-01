@@ -12,7 +12,7 @@ import {
   FaStore,
   FaWarehouse,
   FaUser,
-  FaSignOutAlt
+  FaSignOutAlt, FaMoneyBillWave
 } from "react-icons/fa";
 import useAuth  from "../hooks/useAuth.js";
 import { useNavigate } from "react-router";
@@ -45,15 +45,18 @@ export const items = [
   getItems("/purchases", <FaTruck />, "Purchases", [
     getItems("/purchases/list", null, "List Purchases"),
     getItems("/purchases/add", null, "Add Purchases"),
+    getItems("/purchases/returns", null, "Purchase Returns"),
     getItems("/purchases/invoices", null, "Supplier Invoices"),
   ]),
-  getItems("/returns", <FaUndoAlt />, "Returns", [
-    getItems("/returns/list", null, "All Returns"),
-    getItems("/returns/add", null, "Add Return"),
+  getItems("/Expenses", <FaMoneyBillWave />, "Expenses", [
+    getItems("/returns/list", null, "Add Expense"),
+    getItems("/returns/add", null, "List Expenses"),
   ]),
   getItems("/people", <FaUsers />, "People", [
-    getItems("/customers", null, "Customers"),
-    getItems("/suppliers", null, "Suppliers"),
+    getItems("/customers/add", null, "Add Customers"),
+    getItems("/customers/list", null, "List Customers"),
+    getItems("/suppliers/add", null, "Add Suppliers"),
+    getItems("/suppliers/list", null, "List Suppliers"),
   ]),
   getItems("/analytics", <FaChartBar />, "Analytics"),
   getItems("/settings", <FaCog />, "Settings"),

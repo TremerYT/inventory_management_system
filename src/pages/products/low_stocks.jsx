@@ -2,6 +2,7 @@ import {Button, Table, Tabs} from "antd";
 import {FileExcelFilled, FilePdfFilled, ReloadOutlined} from "@ant-design/icons";
 import LowStockTable from "../../components/tables/low_stock.jsx";
 import OutOfStockTable from "../../components/tables/out_of_stock.jsx";
+import CustomHeader from "../../components/ui/custom_header.jsx";
 
 const LowStocks = () => {
   const tables = [
@@ -18,36 +19,12 @@ const LowStocks = () => {
   ]
   return (
     <>
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex flex-col items-start">
-          <h2 className="text-2xl">Low Stocks</h2>
-          <p>Manage Your Low and Out of Stock Products</p>
-        </div>
-        <div className="flex gap-3">
-          <Button
-            type="text"
-            icon={<FilePdfFilled style={{fontSize: 20, color: "red"}}/>}
-            onClick={() => {
-            }}
-          />
-          <Button
-            type="text"
-            icon={<FileExcelFilled style={{fontSize: 20, color: "green"}}/>}
-            onClick={() => {
-            }}
-          />
-          <Button
-            type="text"
-            icon={<ReloadOutlined style={{fontSize: 20}}/>}
-            onClick={() => {
-            }}
-          />
-          <Button type="primary" onClick={()=>{}}>
-            Send Email
-          </Button>
-        </div>
-      </div>
-
+      <CustomHeader
+        title={"Low Stocks"}
+        subTitle={"Manage Your Low and Out of stocks Products"}
+        buttonText={"Send Email"}
+        handleOnClick={() => {}}
+      />
       <div>
         <Tabs defaultActiveKey="1" items={tables}/>
       </div>

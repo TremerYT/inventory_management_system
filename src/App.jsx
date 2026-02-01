@@ -21,10 +21,11 @@ import AddSale from "./pages/sales/add_sale.jsx";
 import Purchases from "./pages/purchases/purchases.jsx";
 import AddPurchase from "./pages/purchases/add-purchase.jsx";
 import AddReturn from "./pages/returns/add_return.jsx";
-import Returns from "./pages/products/returns.jsx";
+
 import Customers from "./pages/people/customers.jsx";
 import Suppliers from "./pages/people/suppliers.jsx";
 import AllSales from "./pages/sales/list_sales.jsx";
+import SaleReturns from "./pages/sales/sale_returns.jsx";
 
 const ProductsRoute = () => (
   <ProductProvider>
@@ -105,6 +106,15 @@ function App() {
               element={
                 <SalesProvider>
                   <AllSales/>
+                </SalesProvider>
+              }
+            />
+
+            <Route
+              path="/sales/returns"
+              element={
+                <SalesProvider>
+                  <SaleReturns/>
                 </SalesProvider>
               }
             />

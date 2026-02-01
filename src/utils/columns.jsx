@@ -1,5 +1,6 @@
 import {Button, Space, Tag} from "antd";
 import {DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined} from "@ant-design/icons";
+import {FaFileInvoice} from "react-icons/fa";
 
 export const createProductColumns = ({onView, onEdit, onDelete}) => [
   {
@@ -158,18 +159,23 @@ export const salesColumns = [
     render: (_, record) => (
       <Space size="middle">
         <Button
-          icon={<EyeOutlined style={{color: "blue"}}/>}
+          icon={<EyeOutlined style={{color: "blue"}} label="view"/>}
+          onClick={() => {
+          }}
+        />
+        <Button
+          icon={<FaFileInvoice style={{color: "blue"}}/>}
           onClick={() => {
           }}
         />
         <Button
           icon={<EditOutlined style={{color: "blue"}}/>}
-          disabled={record.grandTotal - record.paid === 0}
           onClick={() => {
           }}
         />
         <Button
           icon={<PlusOutlined style={{color: "blue"}}/>}
+          disabled={record.grandTotal - record.paid === 0}
           onClick={() => {
           }}
         />
@@ -360,7 +366,7 @@ export const purchasesColumns = [
   },
 ];
 
-export const returnsColumns = [
+export const saleReturnsColumns = [
   {
     title: "Return Date",
     dataIndex: "date",
@@ -373,14 +379,14 @@ export const returnsColumns = [
     key: "returnNo",
   },
   {
-    title: "Product",
-    dataIndex: "productName",
-    key: "productName",
+    title: "Customer",
+    dataIndex: "customer",
+    key: "customer",
   },
   {
-    title: "Supplier",
-    dataIndex: "supplier",
-    key: "supplier",
+    title: "Total",
+    dataIndex: "total",
+    key: "total",
   },
   {
     title: "Status",

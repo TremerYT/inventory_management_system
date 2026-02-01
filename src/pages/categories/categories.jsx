@@ -1,9 +1,9 @@
 import {useMemo, useState} from "react";
-import {Button, Card, Input, Modal, Select, Table} from "antd";
-import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined,} from "@ant-design/icons";
+import {Card, Input, Modal, Select, Table} from "antd";
 import {categoryColumns} from "../../utils/columns.jsx";
 import AddCategory from "../../components/modal/add_category.jsx";
 import {useCategory} from "../../context/category_provider.jsx";
+import CustomHeader from "../../components/ui/custom_header.jsx";
 
 const Categories = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -47,10 +47,10 @@ const Categories = () => {
     setIsEditMode(true);
     setIsModalOpen(true);
     setEditingCategoryId(record.id);
-    form.setFieldsValue ({
+    form.setFieldsValue({
       categoryName: record.categoryName,
       isActive: record.isActive,
-      categoryImage : [
+      categoryImage: [
         {
           uid: "-1",
           name: "image.png",
@@ -82,34 +82,12 @@ const Categories = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex flex-col items-start">
-          <h2 className="text-2xl">Category List</h2>
-          <p>Manage your categories</p>
-        </div>
-        <div className="flex gap-3">
-          <Button
-            type="text"
-            icon={<FilePdfFilled style={{fontSize: 20, color: "red"}}/>}
-            onClick={() => {
-            }}
-          />
-          <Button
-            type="text"
-            icon={<FileExcelFilled style={{fontSize: 20, color: "green"}}/>}
-            onClick={() => {
-            }}
-          />
-          <Button
-            type="text"
-            icon={<ReloadOutlined style={{fontSize: 20}}/>}
-            onClick={() => {fetchCategories()}}
-          />
-          <Button type="primary" icon={<PlusOutlined/>} onClick={() => setIsModalOpen(true)}>
-            Add Category
-          </Button>
-        </div>
-      </div>
+      <CustomHeader
+        title={"Categories"}
+        subTitle={"Manage Your Categories"}
+        buttonText={"Add Category"}
+        handleOnClick={() => setIsModalOpen(true)}
+      />
 
       <Card
         title={
@@ -153,7 +131,7 @@ const Categories = () => {
         onOk={confirmDelete}
         onCancel={cancelDelete}
         okText="Delete"
-        okButtonProps={{ danger: true }}
+        okButtonProps={{danger: true}}
       >
         <p>
           Are you sure you want to delete{" "}

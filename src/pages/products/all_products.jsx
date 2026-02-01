@@ -12,6 +12,7 @@ import { useNavigate } from "react-router";
 import { useProduct } from "../../context/product_context.jsx";
 import { useCategory } from "../../context/category_provider.jsx";
 import ProductView from "../../components/modal/product_view.jsx";
+import CustomHeader from "../../components/ui/custom_header.jsx";
 
 const AllProducts = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -75,38 +76,12 @@ const AllProducts = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex flex-col items-start">
-          <h2 className="text-2xl">Product List</h2>
-          <p>Manage Your Products</p>
-        </div>
-        <div className="flex gap-3">
-          <Button
-            type="text"
-            icon={<FilePdfFilled style={{ fontSize: 20, color: "red" }} />}
-            onClick={() => {}}
-          />
-          <Button
-            type="text"
-            icon={<FileExcelFilled style={{ fontSize: 20, color: "green" }} />}
-            onClick={() => {}}
-          />
-          <Button
-            type="text"
-            icon={<ReloadOutlined style={{ fontSize: 20 }} />}
-            onClick={() => {}}
-          />
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => {
-              navigate("/products/add");
-            }}
-          >
-            Add Product
-          </Button>
-        </div>
-      </div>
+      <CustomHeader
+        title={"Products"}
+        subTitle={"Manage Your products"}
+        buttonText={"Add product"}
+        handleOnClick={() => navigate("/products/add")}
+      />
 
       <Card
         title={
