@@ -13,6 +13,7 @@ import { useProduct } from "../../context/product_context.jsx";
 import { useCategory } from "../../context/category_provider.jsx";
 import ProductView from "../../components/modal/product_view.jsx";
 import CustomHeader from "../../components/ui/custom_header.jsx";
+import {exportToExcel, exportToPdf} from "../../utils/file_convert.js";
 
 const AllProducts = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -28,6 +29,8 @@ const AllProducts = () => {
     setSearchText,
     products,
     handleOnDelete,
+    filteredData,
+    fetchProducts,
   } = useProduct();
 
   const { categoryFilter } = useCategory();
@@ -74,13 +77,17 @@ const AllProducts = () => {
     },
   };
 
+
   return (
     <>
       <CustomHeader
         title={"Products"}
         subTitle={"Manage Your products"}
         buttonText={"Add product"}
+        handlePdfExport={() => exportToPdf(filteredData, columns)}
+        handleExcelExport={() => exportToExcel(filteredData, columns)}
         handleOnClick={() => navigate("/products/add")}
+        handleReload={() => fetchProducts()}
       />
 
       <Card
@@ -101,20 +108,13 @@ const AllProducts = () => {
               className="w-full!"
               onChange={(value) => setSelectedCategory(value)}
             />
-            <Select
-              placeholder="Brand"
-              allowClear
-              options={brands}
-              className="w-full!"
-              onChange={(value) => setSelectedBrand(value)}
-            />
           </div>
         }
       >
         <Table
           rowSelection={rowSelection}
           columns={columns}
-          dataSource={products}
+          dataSource={filteredData}
           pagination={{ pageSize: 10 }}
           loading={loadingProducts}
           rowKey="skuNumber"

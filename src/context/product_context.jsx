@@ -12,6 +12,8 @@ import {
 const ProductContext = createContext();
 export const ProductProvider = ({children}) => {
   const [form] = Form.useForm();
+  const [searchText, setSearchText] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [loadingLowStock, setLoadingLowStock] = useState(false);
   const [loadingOutOfStock, setLoadingOutOfStock] = useState(false);
@@ -20,7 +22,19 @@ export const ProductProvider = ({children}) => {
   const [lowStockProducts, setLowStockProducts] = useState([]);
   const [outOfStockProducts, setOutOfStockProducts] = useState([]);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [editingProductId, setEditingProductId] = useState(null)
+  const [editingProductId, setEditingProductId] = useState(null);
+
+  const filteredData = products.filter((product) => {
+    const matchesSearch =
+      !searchText ||
+      product.productName?.toLowerCase().includes(searchText.toLowerCase()) ||
+      product.skuNumber?.toLowerCase().includes(searchText.toLowerCase()) ||
+      product.barcodeNumber?.includes(searchText);
+    const matchesCategory =
+      !selectedCategory || product.categoryName === selectedCategory;
+
+    return matchesSearch && matchesCategory;
+  });
 
   const handleOnFinish = async (values) => {
     try {
@@ -202,6 +216,10 @@ export const ProductProvider = ({children}) => {
         lowStockProducts,
         outOfStockProducts,
         isEditMode,
+        filteredData,
+        fetchProducts,
+        setSearchText,
+        setSelectedCategory,
         fetchProductsById,
         handleOnUpdate,
         handleOnCancel,

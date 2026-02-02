@@ -51,7 +51,11 @@ function App() {
               </PrivateRoute>
             }
           >
-            <Route path="/dashboard" element={<Dashboard/>}/>
+            <Route path="/dashboard" element={
+              <ProductProvider>
+                <Dashboard/>
+              </ProductProvider>
+            }/>
 
             <Route element={<ProductsRoute/>}>
               <Route path="/products/list" element={<AllProducts/>}/>

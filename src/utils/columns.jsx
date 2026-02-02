@@ -374,7 +374,7 @@ export const saleReturnsColumns = [
     render: (value) => new Date(value).toLocaleDateString(),
   },
   {
-    title: "Return No",
+    title: "Reference Number",
     dataIndex: "returnNo",
     key: "returnNo",
   },

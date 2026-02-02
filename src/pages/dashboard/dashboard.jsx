@@ -10,9 +10,11 @@ import IncomeChart from "../../components/charts/income_chart.jsx";
 import {lowStockColumns} from "../../utils/columns.jsx";
 import Overall from "../../components/charts/overall.jsx";
 import ProfitVsLoss from "../../components/charts/profit_loss.jsx";
+import {useProduct} from "../../context/product_context.jsx";
 const { Title, Text } = Typography;
 const Dashboard = () => {
   const { user } = useAuth();
+  const { lowStockProducts, loadingLowStock } = useProduct()
   return (
     <div>
       <div className="mb-4">
@@ -66,7 +68,11 @@ const Dashboard = () => {
         </Col>
         <Col span={12}>
           <Card title="Low Stock" className="h-full">
-            <Table columns={lowStockColumns}/>
+            <Table
+              columns={lowStockColumns}
+              dataSource={lowStockProducts}
+              loading={loadingLowStock}
+            />
           </Card>
         </Col>
       </Row>

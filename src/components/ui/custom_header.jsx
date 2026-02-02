@@ -1,7 +1,7 @@
 import {Button} from "antd";
 import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined} from "@ant-design/icons";
 
-const CustomHeader = ({title, subTitle, buttonPath, buttonText, handleOnClick}) => {
+const CustomHeader = ({title, subTitle, buttonPath, buttonText, handleOnClick, handleReload, handlePdfExport, handleExcelExport}) => {
   return (
     <div className="flex justify-between items-center mb-4">
       <div className="flex flex-col items-start">
@@ -12,17 +12,17 @@ const CustomHeader = ({title, subTitle, buttonPath, buttonText, handleOnClick}) 
         <Button
           type="text"
           icon={<FilePdfFilled style={{ fontSize: 20, color: "red" }} />}
-          onClick={() => {}}
+          onClick={handlePdfExport}
         />
         <Button
           type="text"
           icon={<FileExcelFilled style={{ fontSize: 20, color: "green" }} />}
-          onClick={() => {}}
+          onClick={handleExcelExport}
         />
         <Button
           type="text"
           icon={<ReloadOutlined style={{ fontSize: 20 }} />}
-          onClick={() => {}}
+          onClick={handleReload}
         />
         <Button
           type="primary"

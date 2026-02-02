@@ -16,7 +16,7 @@ const ReturnsForm = () => {
 
   useEffect(() => {
     const number = generateRET();
-    returnsForm.setFieldsValue({ returnNo: number });
+    returnsForm.setFieldsValue({ referenceNumber: number });
   }, [returnsForm]);
 
   const handleOnCancel = () => {
