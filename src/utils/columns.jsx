@@ -99,7 +99,7 @@ export const categoryColumns = ({onEdit, onDelete}) => [
   },
 ];
 
-export const createSalesColumns = () =>  [
+export const createSalesColumns = () => [
   {
     title: "Date",
     dataIndex: "date",
@@ -160,38 +160,43 @@ export const createSalesColumns = () =>  [
       <Space size="middle">
         <Tooltip title="View">
           <Button
-            icon={<EyeOutlined style={{ color: "blue" }} />}
-            onClick={() => {}}
+            icon={<EyeOutlined style={{color: "blue"}}/>}
+            onClick={() => {
+            }}
           />
         </Tooltip>
 
         <Tooltip title="Invoice">
           <Button
-            icon={<FaFileInvoice style={{ color: "blue" }} />}
-            onClick={() => {}}
+            icon={<FaFileInvoice style={{color: "blue"}}/>}
+            onClick={() => {
+            }}
           />
         </Tooltip>
 
         <Tooltip title="Edit">
           <Button
-            icon={<EditOutlined style={{ color: "blue" }} />}
-            onClick={() => {}}
+            icon={<EditOutlined style={{color: "blue"}}/>}
+            onClick={() => {
+            }}
           />
         </Tooltip>
 
         <Tooltip title="Add Payment">
           <Button
-            icon={<PlusOutlined style={{ color: "blue" }} />}
+            icon={<PlusOutlined style={{color: "blue"}}/>}
             disabled={record.grandTotal - record.paid === 0}
-            onClick={() => {}}
+            onClick={() => {
+            }}
           />
         </Tooltip>
 
         <Tooltip title="Delete">
           <Button
             danger
-            icon={<DeleteOutlined />}
-            onClick={() => {}}
+            icon={<DeleteOutlined/>}
+            onClick={() => {
+            }}
           />
         </Tooltip>
       </Space>
@@ -533,4 +538,80 @@ export const outOfStockColumns = [
       </Space>
     ),
   },
-]
+];
+
+export const addPurchaseColumns = (handleQuantityChange, handleDeleteItem) => [
+  {
+    title: "SKU",
+    dataIndex: "skuNumber",
+    key: "skuNumber",
+  },
+  {
+    title: "Product Name",
+    dataIndex: "productName",
+    key: "productName",
+  },
+  {
+    title: "Unit",
+    dataIndex: "unit",
+    key: "unit",
+  },
+  {
+    title: "Price",
+    dataIndex: "price",
+    key: "price",
+  },
+  {
+    title: "Quantity",
+    key: "quantity",
+    render: (_, record) => (
+      <Space>
+        <Button
+          size="small"
+          type="primary"
+          onClick={() => handleQuantityChange(record, -1)}
+          disabled={record.quantity <= 1}
+        >
+          -
+        </Button>
+        <span style={{minWidth: 24, textAlign: "center"}}>
+            {record.quantity}
+          </span>
+        <Button
+          size="small"
+          type="primary"
+          onClick={() => handleQuantityChange(record, 1)}
+        >
+          +
+        </Button>
+      </Space>
+    ),
+  },
+  {
+    title: "Discount Type",
+    dataIndex: "discountType",
+    key: "discountType",
+  },
+  {
+    title: "Discount",
+    dataIndex: "discountValue",
+    key: "discountValue",
+  },
+  {
+    title: "Sub Total",
+    dataIndex: "subTotal",
+    key: "subTotal",
+  },
+  {
+    title: "Action",
+    key: "action",
+    render: (_, record) => (
+      <Space size="middle">
+        <Button
+          icon={<DeleteOutlined style={{color: "red"}}/>}
+          onClick={() => handleDeleteItem(record)}
+        />
+      </Space>
+    ),
+  },
+];

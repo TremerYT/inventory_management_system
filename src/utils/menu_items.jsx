@@ -1,21 +1,22 @@
 import {
+  FaBox,
   FaBoxOpen,
   FaChartBar,
+  FaCog,
+  FaMoneyBillWave,
   FaShoppingCart,
+  FaSignOutAlt,
+  FaStore,
   FaTachometerAlt,
   FaTags,
   FaTruck,
   FaUndoAlt,
-  FaUsers,
-  FaCog,
-  FaBox,
-  FaStore,
-  FaWarehouse,
   FaUser,
-  FaSignOutAlt, FaMoneyBillWave
+  FaUsers,
+  FaWarehouse
 } from "react-icons/fa";
-import useAuth  from "../hooks/useAuth.js";
-import { useNavigate } from "react-router";
+import useAuth from "../hooks/useAuth.js";
+import {useNavigate} from "react-router";
 
 const getItems = (key, icon, label, children) => {
   return {
@@ -28,68 +29,68 @@ const getItems = (key, icon, label, children) => {
 
 
 export const items = [
-  getItems("/dashboard", <FaTachometerAlt />, "Dashboard"),
-  getItems("/products", <FaBoxOpen />, "Products", [
+  getItems("/dashboard", <FaTachometerAlt/>, "Dashboard"),
+  getItems("/products", <FaBoxOpen/>, "Products", [
     getItems("/products/add", null, "Add Product"),
     getItems("/products/list", null, "List Products"),
     getItems("/products/low-stocks", null, "Low Stocks"),
   ]),
-  getItems("/categories", <FaTags />, "Categories", [
+  getItems("/categories", <FaTags/>, "Categories", [
     getItems("/categories/list", null, "List Categories"),
   ]),
-  getItems("/sales", <FaShoppingCart />, "Sales", [
+  getItems("/sales", <FaShoppingCart/>, "Sales", [
     getItems("/sales/add", null, "Create Sale"),
     getItems("/sales/list", null, "List Sales"),
     getItems("/sales/returns", null, "Sales Returns"),
   ]),
-  getItems("/purchases", <FaTruck />, "Purchases", [
-    getItems("/purchases/list", null, "List Purchases"),
+  getItems("/purchases", <FaTruck/>, "Purchases", [
     getItems("/purchases/add", null, "Add Purchases"),
+    getItems("/purchases/list", null, "List Purchases"),
     getItems("/purchases/returns", null, "Purchase Returns"),
     getItems("/purchases/invoices", null, "Supplier Invoices"),
   ]),
-  getItems("/Expenses", <FaMoneyBillWave />, "Expenses", [
+  getItems("/Expenses", <FaMoneyBillWave/>, "Expenses", [
     getItems("/returns/list", null, "Add Expense"),
     getItems("/returns/add", null, "List Expenses"),
   ]),
-  getItems("/people", <FaUsers />, "People", [
+  getItems("/people", <FaUsers/>, "People", [
     getItems("/customers/add", null, "Add Customers"),
     getItems("/customers/list", null, "List Customers"),
     getItems("/suppliers/add", null, "Add Suppliers"),
     getItems("/suppliers/list", null, "List Suppliers"),
   ]),
-  getItems("/analytics", <FaChartBar />, "Analytics"),
-  getItems("/settings", <FaCog />, "Settings"),
+  getItems("/analytics", <FaChartBar/>, "Analytics"),
+  getItems("/settings", <FaCog/>, "Settings"),
 ];
 
 export const itemDropdown = [
   {
-    icon: <FaBox />,
+    icon: <FaBox/>,
     label: "Product",
     path: "/products/add",
   },
   {
-    icon: <FaTruck />,
+    icon: <FaTruck/>,
     label: "Purchase",
     path: "/purchases/add",
   },
   {
-    icon: <FaShoppingCart />,
+    icon: <FaShoppingCart/>,
     label: "Sale",
     path: "/sales/list",
   },
   {
-    icon: <FaStore />,
+    icon: <FaStore/>,
     label: "Store",
     path: null,
   },
   {
-    icon: <FaWarehouse />,
+    icon: <FaWarehouse/>,
     label: "Warehouse",
     path: null,
   },
   {
-    icon: <FaUndoAlt />,
+    icon: <FaUndoAlt/>,
     label: "Returns",
     path: "/returns/add",
   },
@@ -97,28 +98,30 @@ export const itemDropdown = [
 
 export const useProfileDropdown = () => {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const {logout} = useAuth();
 
   return [
     {
-      icon: <FaUser />,
+      icon: <FaUser/>,
       label: "My Profile",
       onClick: () => navigate("/profile"),
     },
     {
-      icon: <FaChartBar />,
+      icon: <FaChartBar/>,
       label: "Analytics",
       onClick: () => navigate("/analytics"),
     },
     {
-      icon: <FaCog />,
+      icon: <FaCog/>,
       label: "Settings",
       onClick: () => navigate("/settings"),
     },
     {
-      icon: <FaSignOutAlt />,
+      icon: <FaSignOutAlt/>,
       label: "Logout",
       onClick: logout,
     },
   ];
 };
+
+
