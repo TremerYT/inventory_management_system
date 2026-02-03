@@ -1,19 +1,23 @@
 import { useNavigate } from "react-router";
 import {Card, Input, Select, Table} from "antd";
-import {salesColumns} from "../../utils/columns.jsx";
+import {createSalesColumns} from "../../utils/columns.jsx";
 import {paymentStatus, saleStatus} from "../../utils/select_items.js";
 import {salesMockData} from "../../mock/mock_data.jsx";
 import {useState} from "react";
 import CustomHeader from "../../components/ui/custom_header.jsx";
+import {useSale} from "../../context/sales_context.jsx";
 
 const AllSales = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const {} = useSale()
   const rowSelection = {
     selectedRowKeys,
     onChange: (newSelectedKeys) => {
       setSelectedRowKeys(newSelectedKeys);
     },
   };
+
+  const columns = createSalesColumns()
 
   const navigate = useNavigate();
   return (
@@ -53,7 +57,7 @@ const AllSales = () => {
           pagination={{ pageSize: 10 }}
           rowSelection={rowSelection}
           rowKey="referenceNumber"
-          columns={salesColumns}
+          columns={columns}
           dataSource={salesMockData}
         />
       </Card>

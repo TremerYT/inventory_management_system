@@ -1,4 +1,4 @@
-import {Button, Space, Tag} from "antd";
+import {Button, Space, Tag, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined} from "@ant-design/icons";
 import {FaFileInvoice} from "react-icons/fa";
 
@@ -99,7 +99,7 @@ export const categoryColumns = ({onEdit, onDelete}) => [
   },
 ];
 
-export const salesColumns = [
+export const createSalesColumns = () =>  [
   {
     title: "Date",
     dataIndex: "date",
@@ -158,35 +158,45 @@ export const salesColumns = [
     key: "action",
     render: (_, record) => (
       <Space size="middle">
-        <Button
-          icon={<EyeOutlined style={{color: "blue"}} label="view"/>}
-          onClick={() => {
-          }}
-        />
-        <Button
-          icon={<FaFileInvoice style={{color: "blue"}}/>}
-          onClick={() => {
-          }}
-        />
-        <Button
-          icon={<EditOutlined style={{color: "blue"}}/>}
-          onClick={() => {
-          }}
-        />
-        <Button
-          icon={<PlusOutlined style={{color: "blue"}}/>}
-          disabled={record.grandTotal - record.paid === 0}
-          onClick={() => {
-          }}
-        />
-        <Button
-          icon={<DeleteOutlined style={{color: "red"}}/>}
-          onClick={() => {
-          }}
-        />
+        <Tooltip title="View">
+          <Button
+            icon={<EyeOutlined style={{ color: "blue" }} />}
+            onClick={() => {}}
+          />
+        </Tooltip>
+
+        <Tooltip title="Invoice">
+          <Button
+            icon={<FaFileInvoice style={{ color: "blue" }} />}
+            onClick={() => {}}
+          />
+        </Tooltip>
+
+        <Tooltip title="Edit">
+          <Button
+            icon={<EditOutlined style={{ color: "blue" }} />}
+            onClick={() => {}}
+          />
+        </Tooltip>
+
+        <Tooltip title="Add Payment">
+          <Button
+            icon={<PlusOutlined style={{ color: "blue" }} />}
+            disabled={record.grandTotal - record.paid === 0}
+            onClick={() => {}}
+          />
+        </Tooltip>
+
+        <Tooltip title="Delete">
+          <Button
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => {}}
+          />
+        </Tooltip>
       </Space>
     ),
-  },
+  }
 ];
 
 export const customersColumns = [

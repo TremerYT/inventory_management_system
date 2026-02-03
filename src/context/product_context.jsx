@@ -5,9 +5,12 @@ import {
   createProduct,
   deleteProduct,
   getLowStockProducts,
-  getOutOfStockProducts, getProductById,
-  getProducts, updateProduct,
+  getOutOfStockProducts,
+  getProductById,
+  getProducts,
+  updateProduct,
 } from "../services/product.service.js";
+import {useNavigate} from "react-router";
 
 const ProductContext = createContext();
 export const ProductProvider = ({children}) => {
@@ -23,6 +26,11 @@ export const ProductProvider = ({children}) => {
   const [outOfStockProducts, setOutOfStockProducts] = useState([]);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingProductId, setEditingProductId] = useState(null);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isConfirmationOpen, setConfirmationOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
+  const navigate = useNavigate();
 
   const filteredData = products.filter((product) => {
     const matchesSearch =
@@ -72,8 +80,7 @@ export const ProductProvider = ({children}) => {
       setProducts(data);
     } catch (e) {
       console.error("Error fetching Products:", e);
-    }
-    finally {
+    } finally {
       setLoadingProducts(false);
     }
   };
@@ -116,9 +123,7 @@ export const ProductProvider = ({children}) => {
       if (values.mainImage?.[0]?.originFileObj) {
         const mainImage = values.mainImage[0].originFileObj;
         mainImageUrl = await upload(mainImage, "main", "productImages");
-      }
-      else if (values.mainImage?.[0]?.url)
-      {
+      } else if (values.mainImage?.[0]?.url) {
         mainImageUrl = values.mainImage[0].url;
         console.log(mainImageUrl)
       }
@@ -143,11 +148,9 @@ export const ProductProvider = ({children}) => {
       message.success("Updated Product sucessfully");
       setIsEditMode(false);
       setEditingProductId(null);
-    }
-    catch (e) {
+    } catch (e) {
       message.error("Failed to update product");
-    }
-    finally {
+    } finally {
       setSubmitting(false);
     }
   }
@@ -157,12 +160,10 @@ export const ProductProvider = ({children}) => {
       setLoadingProducts(true);
       await deleteProduct(id);
       await fetchProducts();
-    }
-    catch (e) {
+    } catch (e) {
       console.error("Error deleting Product");
       message.error("Something went wrong deleting the Product");
-    }
-    finally {
+    } finally {
       setLoadingProducts(false);
     }
   }
@@ -195,6 +196,39 @@ export const ProductProvider = ({children}) => {
     }
   };
 
+  const handleView = (record) => {
+    setModalOpen(true);
+    setSelectedProduct(record);
+    console.log(selectedProduct);
+  };
+
+  const handleOnOk = () => setModalOpen(false);
+
+  const handleEdit = (record) => {
+    navigate(`/products/edit/${record.id}`);
+  };
+
+  const handleDelete = (record) => {
+    setProductToDelete(record);
+    setConfirmationOpen(true);
+  };
+
+  const handleModalCancel = () => {
+    setModalOpen(false);
+  }
+
+  const confirmDelete = async () => {
+    if (!productToDelete) return;
+    await handleOnDelete(productToDelete.id);
+    setConfirmationOpen(false);
+    setProductToDelete(null);
+  };
+
+  const cancelDelete = () => {
+    setConfirmationOpen(false);
+    setProductToDelete(null);
+  };
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -217,6 +251,17 @@ export const ProductProvider = ({children}) => {
         outOfStockProducts,
         isEditMode,
         filteredData,
+        isConfirmationOpen,
+        isModalOpen,
+        selectedProduct,
+        productToDelete,
+        handleModalCancel,
+        handleView,
+        handleOnOk,
+        handleEdit,
+        handleDelete,
+        confirmDelete,
+        cancelDelete,
         fetchProducts,
         setSearchText,
         setSelectedCategory,

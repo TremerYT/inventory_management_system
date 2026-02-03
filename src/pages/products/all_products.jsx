@@ -1,68 +1,37 @@
-import { Button, Card, Input, Modal, Select, Table } from "antd";
-import {
-  FileExcelFilled,
-  FilePdfFilled,
-  PlusOutlined,
-  ReloadOutlined,
-} from "@ant-design/icons";
-import { brands } from "../../utils/select_items.js";
+import { Card, Input, Modal, Select, Table } from "antd";
 import { useState } from "react";
 import { createProductColumns } from "../../utils/columns.jsx";
-import { useNavigate } from "react-router";
 import { useProduct } from "../../context/product_context.jsx";
 import { useCategory } from "../../context/category_provider.jsx";
 import ProductView from "../../components/modal/product_view.jsx";
 import CustomHeader from "../../components/ui/custom_header.jsx";
 import {exportToExcel, exportToPdf} from "../../utils/file_convert.js";
+import {useNavigate} from "react-router";
 
 const AllProducts = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [isConfirmationOpen, setConfirmationOpen] = useState(false);
-  const [productToDelete, setProductToDelete] = useState(null);
-
   const {
     loadingProducts,
     setSelectedCategory,
-    setSelectedBrand,
     setSearchText,
     products,
     handleOnDelete,
     filteredData,
     fetchProducts,
+    handleView,
+    handleOnOk,
+    handleEdit,
+    handleDelete,
+    confirmDelete,
+    cancelDelete,
+    selectedProduct,
+    isConfirmationOpen,
+    isModalOpen,
+    productToDelete
   } = useProduct();
 
   const { categoryFilter } = useCategory();
   const navigate = useNavigate();
-
-  const handleView = (record) => {
-    setModalOpen(true);
-    setSelectedProduct(record);
-  };
-
-  const handleOnOk = () => setModalOpen(false);
-
-  const handleEdit = (record) => {
-    navigate(`/products/edit/${record.id}`);
-  };
-
-  const handleDelete = (record) => {
-    setProductToDelete(record);
-    setConfirmationOpen(true);
-  };
-
-  const confirmDelete = async () => {
-    if (!productToDelete) return;
-    await handleOnDelete(productToDelete.id);
-    setConfirmationOpen(false);
-    setProductToDelete(null);
-  };
-
-  const cancelDelete = () => {
-    setConfirmationOpen(false);
-    setProductToDelete(null);
-  };
 
   const columns = createProductColumns({
     onView: handleView,
@@ -76,7 +45,6 @@ const AllProducts = () => {
       setSelectedRowKeys(newSelectedKeys);
     },
   };
-
 
   return (
     <>
@@ -120,12 +88,7 @@ const AllProducts = () => {
           rowKey="skuNumber"
         />
       </Card>
-      <ProductView
-        isModalOpen={isModalOpen}
-        record={selectedProduct}
-        handleOnOK={handleOnOk}
-        handleOnCancel={handleOnOk}
-      />
+      <ProductView/>
       <Modal
         open={isConfirmationOpen}
         onOk={confirmDelete}

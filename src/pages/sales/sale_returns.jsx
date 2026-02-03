@@ -1,8 +1,7 @@
-import {Button, Card, Input, Select, Table} from "antd";
-import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined} from "@ant-design/icons";
+import {Card, Input, Select, Table} from "antd";
 import {paymentStatus, saleStatus} from "../../utils/select_items.js";
-import {saleReturnsColumns, salesColumns} from "../../utils/columns.jsx";
-import {saleReturnsMockData, salesMockData} from "../../mock/mock_data.jsx";
+import {saleReturnsColumns} from "../../utils/columns.jsx";
+import {saleReturnsMockData} from "../../mock/mock_data.jsx";
 import CustomHeader from "../../components/ui/custom_header.jsx";
 import {useState} from "react";
 

@@ -1,22 +1,24 @@
 import {Carousel, Col, Descriptions, Image, Modal, Row} from "antd";
+import {useProduct} from "../../context/product_context.jsx";
 
-const ProductView = ({isModalOpen, record, handleOnOK, handleOnCancel}) => {
+const ProductView = () => {
+  const {isModalOpen, selectedProduct, handleOnOk, handleModalCancel} = useProduct()
   const productDescription = [
-    {label: "Barcode Number", value: record?.barcodeNumber},
-    {label: "SKU Number", value: record?.skuNumber},
-    {label: "Product Name", value: record?.productName},
-    {label: "Category", value: record?.categoryName},
-    {label: "Brand", value: record?.brand},
-    {label: "Description", value: record?.description},
-    {label: "Quantity", value: record?.quantity},
-    {label: "Cost Price", value: record?.costPrice},
-    {label: "Unit Price", value: record?.unitPrice},
-    {label: "Discount Value", value: record?.discountValue},
-    {label: "Stock Alert", value: record?.minStock}
+    {label: "Barcode Number", value: selectedProduct?.barcodeNumber},
+    {label: "SKU Number", value: selectedProduct?.skuNumber},
+    {label: "Product Name", value: selectedProduct?.productName},
+    {label: "Category", value: selectedProduct?.categoryName},
+    {label: "Brand", value: selectedProduct?.brand},
+    {label: "Description", value: selectedProduct?.description},
+    {label: "Quantity", value: selectedProduct?.quantity},
+    {label: "Cost Price", value: selectedProduct?.costPrice},
+    {label: "Unit Price", value: selectedProduct?.unitPrice},
+    {label: "Discount Value", value: selectedProduct?.discountValue},
+    {label: "Stock Alert", value: selectedProduct?.minStock}
   ];
 
   return (
-    <Modal open={isModalOpen} width={900} onOk={handleOnOK} onCancel={handleOnCancel}>
+    <Modal open={isModalOpen} width={900} onOk={handleOnOk} onCancel={handleModalCancel}>
       <Row gutter={24}>
         <Col span={14}>
           <Descriptions layout="horizontal" column={1} bordered size="small">
@@ -30,7 +32,7 @@ const ProductView = ({isModalOpen, record, handleOnOK, handleOnCancel}) => {
 
         <Col span={10}>
           <Carousel arrows={true} infinite={false} dotPlacement="bottom">
-            {record?.galleryImages?.map((image, index) => (
+            {selectedProduct?.galleryImages?.map((image, index) => (
               <div
                 key={index}
               >
@@ -38,7 +40,7 @@ const ProductView = ({isModalOpen, record, handleOnOK, handleOnCancel}) => {
                   width="100%"
                   height={200}
                   src={image}
-                  style={{ objectFit: "contain" }}
+                  style={{objectFit: "contain"}}
                   alt="product"
                 />
               </div>
