@@ -1,11 +1,5 @@
-import {createContext, useContext, useEffect, useState} from "react";
-import {
-  createCategory,
-  getCategory,
-  updateCategoryById
-} from "../services/category.service.js";
-import {Form, message} from "antd";
-import {upload} from "../services/supabase_storage.js";
+import {createContext, useContext, useState} from "react";
+import {Form} from "antd";
 
 const CategoryContext = createContext(null);
 export const CategoryProvider = ({children}) => {
@@ -48,85 +42,6 @@ export const CategoryProvider = ({children}) => {
   }
 
 
-  const fetchCategories = async () => {
-    try {
-      setIsloading(true)
-      const res = await getCategory();
-      setCategories(res);
-      setCategoryOptions(
-        res.map(cat => ({label: cat.categoryName, value: cat.id}))
-      );
-      setCategoryFilter(
-        res.map(cat => ({label: cat.categoryName, value: cat.categoryName}))
-      );
-
-    } catch (e) {
-      console.error("Failed to fetch categories", e);
-    } finally {
-      setIsloading(false);
-    }
-  };
-
-  const addCategory = async (values) => {
-    try {
-      setIsloading(true);
-      const categoryImage = values.categoryImage[0]?.originFileObj;
-      const categoryImageUrl = await upload(categoryImage, "categories", "categoryImages");
-
-      const data = {
-        ...values,
-        categoryImage: categoryImageUrl
-      }
-      const response = await createCategory(data);
-      await fetchCategories();
-      
-      message.success("Category added successfully");
-      return true;
-    } catch (e) {
-      setIsloading(false);
-      message.error("Failed to add category");
-      console.error("Failed to add category: ", e);
-      return false;
-    } finally {
-      setIsloading(false);
-    }
-  }
-  const updateCategory = async (values, id) => {
-    try {
-      setIsloading(true);
-      let categoryImageUrl = values.categoryImage[0]?.url;
-
-      if (values.categoryImage[0]?.originFileObj){
-        categoryImageUrl = await upload(
-          values.categoryImage[0].originFileObj,
-          "categories",
-          "categoryImages"
-        );
-      }
-
-      const data = {
-        ...values,
-        categoryImage: categoryImageUrl
-      }
-
-      await updateCategoryById(id, data);
-      await fetchCategories();
-    }
-    catch (e) {
-      message.error("Failed to update category");
-      console.error(e);
-      return false;
-    }
-    finally {
-      setIsloading(false);
-      setIsModalOpen(false)
-    }
-  }
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
   return (
     <CategoryContext.Provider value={{
       editingCategoryId,
@@ -141,8 +56,6 @@ export const CategoryProvider = ({children}) => {
       categoryFilter,
       categoryOptions,
       filteredCategory,
-      fetchCategories,
-      addCategory,
       handleOnOk,
       handleCancel,
       setSearchText,
