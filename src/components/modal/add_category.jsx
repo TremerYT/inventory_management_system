@@ -1,11 +1,10 @@
 import {Form, Input, Modal, Switch, Upload} from "antd";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {PlusOutlined} from "@ant-design/icons";
 import {useCategory} from "../../context/category_provider.jsx";
 
-const AddCategory = ({isOpen, handleCancel, handleOk}) => {
+const AddCategory = ({isOpen, handleCancel, handleOk, loading}) => {
   const {form, isEditMode} = useCategory();
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!isOpen) {
@@ -16,12 +15,9 @@ const AddCategory = ({isOpen, handleCancel, handleOk}) => {
 
   const onFinish = async (values) => {
     try {
-      setLoading(true);
       await handleOk(values);
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 

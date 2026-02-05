@@ -1,10 +1,16 @@
-import {getCategory, updateCategoryById} from "../../services/category.service.js";
+import {
+  createCategory as createCategoryApi,
+  deleteCategoryById,
+  getCategory,
+  updateCategoryById
+} from "../../services/category.service.js";
 import {useEffect, useState} from "react";
 import {upload} from "../../services/supabase_storage.js";
 import {message} from "antd";
 
-const UseCategoryApi = () => {
+export const useCategoryApi = ({onSuccess, onUpdateSuccess} = {}) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [categories, setCategories] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState([]);
@@ -37,8 +43,10 @@ const UseCategoryApi = () => {
         ...values,
         categoryImage: categoryImageUrl
       }
-      const response = await createCategory(data);
+      const response = await createCategoryApi(data);
       message.success("Category added successfully");
+      await fetchCategories();
+      if (onSuccess) onSuccess();
       return true;
     } catch (e) {
       setIsLoading(false);
@@ -69,10 +77,29 @@ const UseCategoryApi = () => {
       }
 
       await updateCategoryById(id, data);
+      message.success("Category updated successfully");
+      await fetchCategories();
+      if (onUpdateSuccess) onUpdateSuccess();
+      return true;
     } catch (e) {
       message.error("Failed to update category");
       console.error(e);
       return false;
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  const deleteCategory = async (id) => {
+    try {
+      setIsLoading(true);
+      await deleteCategoryById(id);
+      await fetchCategories();
+      message.success("Deleted category Successfully");
+      if (onSuccess) onSuccess();
+    } catch (e) {
+      message.error("Failed to delete category");
+      console.error(e);
     } finally {
       setIsLoading(false);
     }
@@ -84,9 +111,11 @@ const UseCategoryApi = () => {
 
   return {
     isLoading,
+    isEditMode,
     categories,
     categoryOptions,
     categoryFilter,
+    deleteCategory,
     fetchCategories,
     createCategory,
     updateCategory

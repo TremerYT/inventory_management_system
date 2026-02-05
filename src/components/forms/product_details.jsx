@@ -1,23 +1,26 @@
 import {Button, Card, Col, Form, Input, Row, Select, Space, Typography,} from "antd";
 import {units} from "../../utils/select_items.js";
 import AddCategory from "../modal/add_category.jsx";
-import {useCategory} from "../../context/category_provider.jsx";
 import {useProductDetails} from "../../context/product_details_context.jsx";
+import {useCategory} from "../../context/category_provider.jsx";
 
 const {Title} = Typography;
 const {TextArea} = Input;
 
 const ProductDetails = () => {
-  const {categoryOptions, isLoading, fetchCategories, addCategory} =
-    useCategory();
+  const {
+    categoryOptions,
+    isLoading,
+    isCategoryModalOpen,
+    setIsCategoryModalOpen,
+    handleonCancel,
+    createCategory,
+  } = useCategory();
   const {barcodeValue, barcodeRef, generateBarcode, generateSKU} =
     useProductDetails();
 
   const handleOnOk = async (values) => {
-    const success = await addCategory(values);
-    if (success) {
-      setIsModalOpen(false);
-    }
+    await createCategory(values);
   };
 
   return (
@@ -75,7 +78,7 @@ const ProductDetails = () => {
                 />
               </Form.Item>
 
-              <Button type="primary" onClick={() => setIsModalOpen(true)}>
+              <Button type="primary" onClick={() => setIsCategoryModalOpen(true)}>
                 +
               </Button>
             </Space.Compact>
@@ -126,8 +129,8 @@ const ProductDetails = () => {
       )}
 
       <AddCategory
-        isOpen={isModaLOpen}
-        handleCancel={() => setIsModalOpen(false)}
+        isOpen={isCategoryModalOpen}
+        handleCancel={handleonCancel}
         handleOk={handleOnOk}
         loading={isLoading}
       />

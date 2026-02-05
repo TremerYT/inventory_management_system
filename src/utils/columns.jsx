@@ -56,7 +56,7 @@ export const createProductColumns = ({onView, onEdit, onDelete}) => [
   },
 ];
 
-export const categoryColumns = ({onEdit, onDelete}) => [
+export const createCategoryColumns = ({onEdit, onDelete}) => [
   {
     title: "Category Code",
     dataIndex: "categoryCode",
@@ -99,7 +99,7 @@ export const categoryColumns = ({onEdit, onDelete}) => [
   },
 ];
 
-export const createSalesColumns = () =>  [
+export const createSalesColumns = () => [
   {
     title: "Date",
     dataIndex: "date",
@@ -160,38 +160,43 @@ export const createSalesColumns = () =>  [
       <Space size="middle">
         <Tooltip title="View">
           <Button
-            icon={<EyeOutlined style={{ color: "blue" }} />}
-            onClick={() => {}}
+            icon={<EyeOutlined style={{color: "blue"}}/>}
+            onClick={() => {
+            }}
           />
         </Tooltip>
 
         <Tooltip title="Invoice">
           <Button
-            icon={<FaFileInvoice style={{ color: "blue" }} />}
-            onClick={() => {}}
+            icon={<FaFileInvoice style={{color: "blue"}}/>}
+            onClick={() => {
+            }}
           />
         </Tooltip>
 
         <Tooltip title="Edit">
           <Button
-            icon={<EditOutlined style={{ color: "blue" }} />}
-            onClick={() => {}}
+            icon={<EditOutlined style={{color: "blue"}}/>}
+            onClick={() => {
+            }}
           />
         </Tooltip>
 
         <Tooltip title="Add Payment">
           <Button
-            icon={<PlusOutlined style={{ color: "blue" }} />}
+            icon={<PlusOutlined style={{color: "blue"}}/>}
             disabled={record.grandTotal - record.paid === 0}
-            onClick={() => {}}
+            onClick={() => {
+            }}
           />
         </Tooltip>
 
         <Tooltip title="Delete">
           <Button
             danger
-            icon={<DeleteOutlined />}
-            onClick={() => {}}
+            icon={<DeleteOutlined/>}
+            onClick={() => {
+            }}
           />
         </Tooltip>
       </Space>

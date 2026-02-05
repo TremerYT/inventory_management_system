@@ -1,32 +1,33 @@
-import {useMemo, useState} from "react";
+import {useState} from "react";
 import {Card, Input, Modal, Select, Table} from "antd";
-import {categoryColumns} from "../../utils/columns.jsx";
 import AddCategory from "../../components/modal/add_category.jsx";
-import {useCategory} from "../../context/category_provider.jsx";
 import CustomHeader from "../../components/ui/custom_header.jsx";
+import {useCategory} from "../../context/category_provider.jsx";
+import {createCategoryColumns} from "../../utils/columns.jsx";
 
 const Categories = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [isConfirmationOpen, setConfirmationOpen] = useState(false);
-  const [categoryToDelete, setCategoryToDelete] = useState(null);
+  const [searchText, setSearchText] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState(null);
+
   const {
-    form,
-    isModalOpen,
-    setIsEditMode,
     categories,
-    setSearchText,
     isLoading,
-    filteredCategory,
-    setSelectedStatus,
-    categoryFilter,
-    addCategory,
-    handleOnDelete,
-    handleOnOk,
-    handleCancel,
-    setIsModalOpen,
-    editingCategoryId,
-    setEditingCategoryId,
-    fetchCategories
+    isEditMode,
+    setIsEditMode,
+    updateCategory,
+    deleteCategory,
+    isCategoryModalOpen,
+    setIsCategoryModalOpen,
+    handleonCancel,
+    isConfirmationOpen,
+    categoryToDelete,
+    openDeleteConfirmation,
+    closeDeleteConfirmation,
+    setCategoryToEdit,
+    categoryToEdit,
+    form,
+    createCategory
   } = useCategory();
 
   const rowSelection = {
@@ -36,49 +37,42 @@ const Categories = () => {
     },
   };
 
-  const confirmDelete = async () => {
-    if (!categoryToDelete) return;
-    await handleOnDelete(categoryToDelete.id);
-    setConfirmationOpen(false);
-    setCategoryToDelete(null);
-  }
-
-  const handleEdit = (record) => {
+  const onEdit = (record) => {
     setIsEditMode(true);
-    setIsModalOpen(true);
-    setEditingCategoryId(record.id);
+    setCategoryToEdit(record);
     form.setFieldsValue({
-      categoryName: record.categoryName,
-      isActive: record.isActive,
-      categoryImage: [
-        {
-          uid: "-1",
-          name: "image.png",
-          status: "done",
-          url: record.categoryImage,
-        }
-      ]
-    })
-  }
-
-  const handleDelete = (record) => {
-    setCategoryToDelete(record);
-    setConfirmationOpen(true);
-  }
-
-  const cancelDelete = () => {
-    setConfirmationOpen(false);
-    setCategoryToDelete(null);
+      ...record,
+      categoryImage: [{
+        uid: "-1",
+        name: "image.png",
+        status: "done",
+        url: record.categoryImage,
+      }],
+    });
+    setIsCategoryModalOpen(true);
   };
 
-  const columns = useMemo(
-    () =>
-      categoryColumns({
-        onEdit: handleEdit,
-        onDelete: handleDelete,
-      }),
-    [handleEdit, handleDelete]
-  )
+  const columns = createCategoryColumns({
+    onEdit: onEdit,
+    onDelete: openDeleteConfirmation,
+  });
+
+  const filteredCategory = categories.filter((cat) => {
+    const matchesSearch =
+      cat.categoryName.toLowerCase().includes(searchText.toLowerCase()) ||
+      cat.categoryCode.toLowerCase().includes(searchText.toLowerCase());
+    const matchesStatus =
+      selectedStatus === null || cat.isActive === selectedStatus;
+    return matchesSearch && matchesStatus;
+  });
+
+  const handleOnOk = async (values) => {
+    if (isEditMode) {
+      await updateCategory(values, categoryToEdit.id);
+    } else {
+      await createCategory(values);
+    }
+  };
 
   return (
     <>
@@ -86,7 +80,10 @@ const Categories = () => {
         title={"Categories"}
         subTitle={"Manage Your Categories"}
         buttonText={"Add Category"}
-        handleOnClick={() => setIsModalOpen(true)}
+        handleOnClick={() => {
+          setIsEditMode(false);
+          setIsCategoryModalOpen(true);
+        }}
       />
 
       <Card
@@ -112,6 +109,7 @@ const Categories = () => {
         }
       >
         <Table
+          rowKey="id"
           rowSelection={rowSelection}
           columns={columns}
           dataSource={filteredCategory}
@@ -119,19 +117,20 @@ const Categories = () => {
           loading={isLoading}
         />
         <AddCategory
-          isOpen={isModalOpen}
+          isOpen={isCategoryModalOpen}
           handleOk={handleOnOk}
-          handleCancel={() => setIsModalOpen(false)}
+          handleCancel={handleonCancel}
           loading={isLoading}
         />
       </Card>
 
       <Modal
+        title="Confirm Delete"
         open={isConfirmationOpen}
-        onOk={confirmDelete}
-        onCancel={cancelDelete}
+        onOk={() => deleteCategory(categoryToDelete?.id)}
+        onCancel={closeDeleteConfirmation}
         okText="Delete"
-        okButtonProps={{danger: true}}
+        okButtonProps={{danger: true, loading: isLoading}}
       >
         <p>
           Are you sure you want to delete{" "}
