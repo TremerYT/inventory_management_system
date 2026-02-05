@@ -7,13 +7,6 @@ import {purchasesColumns} from "../../utils/columns.jsx";
 const Purchases = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const navigate = useNavigate();
-  const { searchText, filteredData, handleSearch, handleSelect } = useFilter(
-    mockPurchases,
-    {
-      searchFields: ["productName", "skuNumber"],
-      selectFields: ["category", "brand"],
-    }
-  );
 
   const rowSelection = {
     selectedRowKeys,
@@ -32,20 +25,25 @@ const Purchases = () => {
         <div className="flex gap-3">
           <Button
             type="text"
-            icon={<FilePdfFilled style={{ fontSize: 20, color: "red" }} />}
-            onClick={() => {}}
+            icon={<FilePdfFilled style={{fontSize: 20, color: "red"}}/>}
+            onClick={() => {
+            }}
           />
           <Button
             type="text"
-            icon={<FileExcelFilled style={{ fontSize: 20, color: "green" }} />}
-            onClick={() => {}}
+            icon={<FileExcelFilled style={{fontSize: 20, color: "green"}}/>}
+            onClick={() => {
+            }}
           />
           <Button
             type="text"
-            icon={<ReloadOutlined style={{ fontSize: 20 }} />}
-            onClick={() => {}}
+            icon={<ReloadOutlined style={{fontSize: 20}}/>}
+            onClick={() => {
+            }}
           />
-          <Button type="primary" icon={<PlusOutlined />} onClick={() => {navigate('/purchases/add')}}>
+          <Button type="primary" icon={<PlusOutlined/>} onClick={() => {
+            navigate('/purchases/add')
+          }}>
             Add Purchase
           </Button>
         </div>
@@ -54,8 +52,6 @@ const Purchases = () => {
       <Card
         title={
           <Input.Search
-            value={searchText}
-            onChange={handleSearch}
             className="w-1/4!"
           />
         }
@@ -65,13 +61,11 @@ const Purchases = () => {
               defaultValue="Category"
               // options={categories}
               className="w-full!"
-              onSelect={(value) => handleSelect("category", value)}
             />
             <Select
               defaultValue="Brand"
               // options={brands}
               className="w-full!"
-              onSelect={(value) => handleSelect("brand", value)}
             />
           </div>
         }
@@ -79,8 +73,8 @@ const Purchases = () => {
         <Table
           rowSelection={rowSelection}
           columns={purchasesColumns}
-          dataSource={filteredData}
-          pagination={{ pageSize: 10 }}
+         
+          pagination={{pageSize: 10}}
         />
       </Card>
     </>

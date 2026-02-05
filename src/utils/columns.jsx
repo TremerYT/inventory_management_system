@@ -538,4 +538,80 @@ export const outOfStockColumns = [
       </Space>
     ),
   },
-]
+];
+
+export const addPurchaseColumns = (handleQuantityChange, handleDeleteItem) => [
+  {
+    title: "SKU",
+    dataIndex: "skuNumber",
+    key: "skuNumber",
+  },
+  {
+    title: "Product Name",
+    dataIndex: "productName",
+    key: "productName",
+  },
+  {
+    title: "Unit",
+    dataIndex: "unit",
+    key: "unit",
+  },
+  {
+    title: "Price",
+    dataIndex: "price",
+    key: "price",
+  },
+  {
+    title: "Quantity",
+    key: "quantity",
+    render: (_, record) => (
+      <Space>
+        <Button
+          size="small"
+          type="primary"
+          onClick={() => handleQuantityChange(record, -1)}
+          disabled={record.quantity <= 1}
+        >
+          -
+        </Button>
+        <span style={{minWidth: 24, textAlign: "center"}}>
+            {record.quantity}
+          </span>
+        <Button
+          size="small"
+          type="primary"
+          onClick={() => handleQuantityChange(record, 1)}
+        >
+          +
+        </Button>
+      </Space>
+    ),
+  },
+  {
+    title: "Discount Type",
+    dataIndex: "discountType",
+    key: "discountType",
+  },
+  {
+    title: "Discount",
+    dataIndex: "discountValue",
+    key: "discountValue",
+  },
+  {
+    title: "Sub Total",
+    dataIndex: "subTotal",
+    key: "subTotal",
+  },
+  {
+    title: "Action",
+    key: "action",
+    render: (_, record) => (
+      <Space size="middle">
+        <Button
+          icon={<DeleteOutlined style={{color: "red"}}/>}
+          onClick={() => handleDeleteItem(record)}
+        />
+      </Space>
+    ),
+  },
+];
