@@ -1,8 +1,8 @@
 import {Button, Card, Col, Form, Input, Row, Select, Space, Typography,} from "antd";
 import {units} from "../../utils/select_items.js";
 import AddCategory from "../modal/add_category.jsx";
-import {useProductDetails} from "../../context/product_details_context.jsx";
-import {useCategory} from "../../context/category_provider.jsx";
+import {useProductDetails} from "../../context/product/product_details_context.jsx";
+import {useCategory} from "../../context/category/category_provider.jsx";
 
 const {Title} = Typography;
 const {TextArea} = Input;
@@ -88,12 +88,25 @@ const ProductDetails = () => {
 
       <Row gutter={[16, 16]}>
         <Col span={12}>
-          <Form.Item
-            name="brand"
-            label="Brand"
-            rules={[{required: true, message: "Brand is Required"}]}
-          >
-            <Input/>
+          <Form.Item label="Brand" required>
+            <Space.Compact style={{width: "100%"}}>
+              <Form.Item
+                name="brandId"
+                noStyle
+                rules={[{required: true, message: "Brand is Required"}]}
+              >
+                <Select
+                  options={brandOptions}
+                  loading={isLoading}
+                  placeholder="Select brand"
+                />
+              </Form.Item>
+
+              <Button type="primary" onClick={() => {
+              }}>
+                +
+              </Button>
+            </Space.Compact>
           </Form.Item>
         </Col>
 
