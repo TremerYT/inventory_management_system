@@ -1,5 +1,4 @@
 import DashboardCards from "../../components/ui/dashboard_cards.jsx";
-import useAuth from "../../hooks/useAuth.js";
 import {Card, Col, Row, Table, Typography} from "antd";
 import {cardInfo, statsCards} from "../../utils/card_info.jsx";
 import StatsCards from "../../components/ui/stats_cards.jsx";
@@ -11,6 +10,7 @@ import {lowStockColumns} from "../../utils/columns.jsx";
 import Overall from "../../components/charts/overall.jsx";
 import ProfitVsLoss from "../../components/charts/profit_loss.jsx";
 import {useProduct} from "../../context/product/product_context.jsx";
+import {useAuth} from "../../context/auth/auth_provider.jsx";
 
 const {Title, Text} = Typography;
 const Dashboard = () => {
