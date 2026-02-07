@@ -25,7 +25,7 @@ export const useBrandAPI = ({onSuccess, onUpdateSuccess}) => {
       message.success("Brand Created successfully");
       await fetchBrand();
       if (onSuccess) onSuccess();
-      return true;
+      return response;
     } catch (e) {
       setIsLoading(false);
       console.error("Failed to add brand", e);
@@ -41,10 +41,10 @@ export const useBrandAPI = ({onSuccess, onUpdateSuccess}) => {
       const response = await getBrands();
       setBrands(response);
       setBrandOptions(
-        response.map(res => ({label: res.categoryName, value: res.id}))
+        response.map(res => ({label: res.brandName, value: res.id}))
       );
       setBrandFilter(
-        response.map(res => ({label: res.categoryName, value: res.categoryName}))
+        response.map(res => ({label: res.brandName, value: res.brandName}))
       );
     } catch (e) {
       console.error("Failed to fetch brands", e);
@@ -60,7 +60,7 @@ export const useBrandAPI = ({onSuccess, onUpdateSuccess}) => {
 
       if (values.brandImage[0]?.originFileObj) {
         brandImageUrl = await upload(
-          values.categoryImage[0].originFileObj,
+          values.brandImage[0].originFileObj,
           "brand",
           "brandImages"
         );
@@ -68,7 +68,7 @@ export const useBrandAPI = ({onSuccess, onUpdateSuccess}) => {
 
       const data = {
         ...values,
-        categoryImage: brandImageUrl
+        brandImage: brandImageUrl
       }
 
       await updateBrandById(id, data);
@@ -113,7 +113,7 @@ export const useBrandAPI = ({onSuccess, onUpdateSuccess}) => {
     brandFilter,
     deleteBrand,
     fetchBrand,
-    createBrand,
+    addBrand,
     updateBrand
   };
-}
+};

@@ -15,8 +15,8 @@ import {
   FaUsers,
   FaWarehouse
 } from "react-icons/fa";
-import useAuth from "../hooks/useAuth.js";
 import {useNavigate} from "react-router";
+import {useAuth} from "../context/auth/auth_provider.jsx";
 
 const getItems = (key, icon, label, children) => {
   return {

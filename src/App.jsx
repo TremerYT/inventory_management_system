@@ -21,6 +21,7 @@ import AddSale from "./pages/sales/add_sale.jsx";
 import AllSales from "./pages/sales/list_sales.jsx";
 import SaleReturns from "./pages/sales/sale_returns.jsx";
 import AddPurchase from "./pages/purchases/add_purchase.jsx";
+import {BrandProvider} from "./context/brand/brand_provider.jsx";
 
 const ProductsRoute = () => (
   <ProductProvider>
@@ -62,9 +63,11 @@ function App() {
               element={
                 <ProductProvider>
                   <CategoryProvider>
-                    <ProductDetailsProvider>
-                      <Product/>
-                    </ProductDetailsProvider>
+                    <BrandProvider>
+                      <ProductDetailsProvider>
+                        <Product/>
+                      </ProductDetailsProvider>
+                    </BrandProvider>
                   </CategoryProvider>
                 </ProductProvider>
               }

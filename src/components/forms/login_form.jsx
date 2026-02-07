@@ -1,7 +1,7 @@
 import {Button, Checkbox, Form, Input, message} from "antd";
 import api from "../../services/api.js";
-import useAuth from "../../hooks/useAuth.js";
 import {useState} from "react";
+import {useAuth} from "../../context/auth/auth_provider.jsx";
 
 const LoginForm = () => {
   const [loginForm] = Form.useForm();

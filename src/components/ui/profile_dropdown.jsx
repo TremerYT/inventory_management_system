@@ -1,20 +1,20 @@
-import { Avatar, Typography } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import { useProfileDropdown } from "../../utils/menu_items.jsx";
-import useAuth from "../../hooks/useAuth.js";
+import {Avatar, Typography} from "antd";
+import {UserOutlined} from "@ant-design/icons";
+import {useProfileDropdown} from "../../utils/menu_items.jsx";
+import {useAuth} from "../../context/auth/auth_provider.jsx";
 
-const { Text } = Typography;
+const {Text} = Typography;
 
 const ProfileDropDown = () => {
   const profileDropdown = useProfileDropdown();
-  const { user } = useAuth();
+  const {user} = useAuth();
   return (
     <div className="flex flex-col gap-4 p-4 bg-white rounded-lg shadow-lg min-w-[200px]">
       <div className="flex items-center gap-4 pb-2 border-b border-gray-200">
-        <Avatar icon={<UserOutlined />} size={48} />
+        <Avatar icon={<UserOutlined/>} size={48}/>
         <div className="flex flex-col items-start">
           <Text className="font-semibold text-gray-800">
-           {user?.sub}
+            {user?.sub}
           </Text>
           <Text type="secondary" className="text-sm">
             Admin

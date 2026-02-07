@@ -1,12 +1,12 @@
 import {Form, Input, Modal, Switch, Upload} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
-import {useBrand} from "../../context/brand_context.jsx";
+import {useBrand} from "../../context/brand/brand_provider.jsx";
 
-const AddBrand = ({isOpen, handleCancel}) => {
-  const {form, submitting} = useBrand();
+const AddBrand = ({isOpen, handleCancel, handleOk}) => {
+  const {form, isLoading} = useBrand();
 
-  const onFinish = () => {
-
+  const onFinish = (values) => {
+    handleOk(values);
   }
   return (
     <Modal
@@ -15,7 +15,7 @@ const AddBrand = ({isOpen, handleCancel}) => {
       onOk={() => form.submit()}
       okText={"Add Brand"}
       onCancel={handleCancel}
-      okButtonProps={{loading: submitting}}
+      okButtonProps={{loading: isLoading}}
     >
       <Form
         form={form}

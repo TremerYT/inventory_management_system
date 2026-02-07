@@ -1,8 +1,10 @@
 import {Button, Card, Col, Form, Input, Row, Select, Space, Typography,} from "antd";
 import {units} from "../../utils/select_items.js";
 import AddCategory from "../modal/add_category.jsx";
+import AddBrand from "../modal/add_brand.jsx";
 import {useProductDetails} from "../../context/product/product_details_context.jsx";
 import {useCategory} from "../../context/category/category_provider.jsx";
+import {useBrand} from "../../context/brand/brand_provider.jsx";
 
 const {Title} = Typography;
 const {TextArea} = Input;
@@ -10,17 +12,29 @@ const {TextArea} = Input;
 const ProductDetails = () => {
   const {
     categoryOptions,
-    isLoading,
+    isLoading: isCategoryLoading,
     isCategoryModalOpen,
     setIsCategoryModalOpen,
-    handleonCancel,
+    handleonCancel: handleCategoryCancel,
     createCategory,
   } = useCategory();
+  const {
+    brandOptions,
+    isLoading: isBrandLoading,
+    isBrandModalOpen,
+    setIsBrandModalOpen,
+    handleOnCancel: handleBrandCancel,
+    addBrand,
+  } = useBrand();
   const {barcodeValue, barcodeRef, generateBarcode, generateSKU} =
     useProductDetails();
 
-  const handleOnOk = async (values) => {
+  const handleCategoryOk = async (values) => {
     await createCategory(values);
+  };
+
+  const handleBrandOk = async (values) => {
+    await addBrand(values);
   };
 
   return (
@@ -73,7 +87,7 @@ const ProductDetails = () => {
               >
                 <Select
                   options={categoryOptions}
-                  loading={isLoading}
+                  loading={isCategoryLoading}
                   placeholder="Select category"
                 />
               </Form.Item>
@@ -97,13 +111,12 @@ const ProductDetails = () => {
               >
                 <Select
                   options={brandOptions}
-                  loading={isLoading}
+                  loading={isBrandLoading}
                   placeholder="Select brand"
                 />
               </Form.Item>
 
-              <Button type="primary" onClick={() => {
-              }}>
+              <Button type="primary" onClick={() => setIsBrandModalOpen(true)}>
                 +
               </Button>
             </Space.Compact>
@@ -143,9 +156,15 @@ const ProductDetails = () => {
 
       <AddCategory
         isOpen={isCategoryModalOpen}
-        handleCancel={handleonCancel}
-        handleOk={handleOnOk}
-        loading={isLoading}
+        handleCancel={handleCategoryCancel}
+        handleOk={handleCategoryOk}
+        loading={isCategoryLoading}
+      />
+      <AddBrand
+        isOpen={isBrandModalOpen}
+        handleCancel={handleBrandCancel}
+        handleOk={handleBrandOk}
+        loading={isBrandLoading}
       />
     </Card>
   );

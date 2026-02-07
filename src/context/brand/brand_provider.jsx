@@ -1,9 +1,11 @@
 import {createContext, useContext} from "react";
 import {useBrandModal} from "../../hooks/brands/useBrandModal.js";
 import {useBrandAPI} from "../../hooks/brands/useBrandAPI.js";
+import {Form} from "antd";
 
 const BrandContext = createContext(null);
-const BrandProvider = (children) => {
+export const BrandProvider = ({children}) => {
+  const [form] = Form.useForm();
   const {
     isBrandModalOpen,
     isConfirmationOpen,
@@ -25,7 +27,7 @@ const BrandProvider = (children) => {
     brandFilter,
     deleteBrand,
     fetchBrand,
-    createBrand,
+    addBrand,
     updateBrand
   } = useBrandAPI({
       onSuccess: () => {
@@ -40,6 +42,7 @@ const BrandProvider = (children) => {
 
   return (
     <BrandContext.Provider value={{
+      form,
       isBrandModalOpen,
       isConfirmationOpen,
       brandToDelete,
@@ -57,10 +60,10 @@ const BrandProvider = (children) => {
       brandFilter,
       deleteBrand,
       fetchBrand,
-      createBrand,
+      addBrand,
       updateBrand
     }}>
-
+      {children}
     </BrandContext.Provider>
   );
 }
