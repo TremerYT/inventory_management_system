@@ -1,7 +1,7 @@
 import {createContext, useContext} from "react";
 import {Form} from "antd";
-import {useCategoryApi} from "../hooks/category/useCategoryApi.js";
-import {useCategoryModal} from "../hooks/category/useCategoryModal.js";
+import {useCategoryApi} from "../../hooks/category/useCategoryApi.js";
+import {useCategoryModal} from "../../hooks/category/useCategoryModal.js";
 
 const CategoryContext = createContext(null);
 export const CategoryProvider = ({children}) => {

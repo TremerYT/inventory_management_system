@@ -1,8 +1,8 @@
-import { Card, Input, Modal, Select, Table } from "antd";
-import { useState } from "react";
-import { createProductColumns } from "../../utils/columns.jsx";
-import { useProduct } from "../../context/product_context.jsx";
-import { useCategory } from "../../context/category_provider.jsx";
+import {Card, Input, Modal, Select, Table} from "antd";
+import {useState} from "react";
+import {createProductColumns} from "../../utils/columns.jsx";
+import {useProduct} from "../../context/product/product_context.jsx";
+import {useCategory} from "../../context/category/category_provider.jsx";
 import ProductView from "../../components/modal/product_view.jsx";
 import CustomHeader from "../../components/ui/custom_header.jsx";
 import {exportToExcel, exportToPdf} from "../../utils/file_convert.js";
@@ -30,7 +30,7 @@ const AllProducts = () => {
     productToDelete
   } = useProduct();
 
-  const { categoryFilter } = useCategory();
+  const {categoryFilter} = useCategory();
   const navigate = useNavigate();
 
   const columns = createProductColumns({
@@ -83,7 +83,7 @@ const AllProducts = () => {
           rowSelection={rowSelection}
           columns={columns}
           dataSource={filteredData}
-          pagination={{ pageSize: 10 }}
+          pagination={{pageSize: 10}}
           loading={loadingProducts}
           rowKey="skuNumber"
         />
@@ -94,7 +94,7 @@ const AllProducts = () => {
         onOk={confirmDelete}
         onCancel={cancelDelete}
         okText="Delete"
-        okButtonProps={{ danger: true }}
+        okButtonProps={{danger: true}}
       >
         <p>
           Are you sure you want to delete{" "}

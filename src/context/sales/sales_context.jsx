@@ -1,5 +1,5 @@
 import {createContext, useContext} from "react";
-import {useSalesLogic} from "../hooks/useSalesLogic.jsx";
+import {useSalesLogic} from "../../hooks/useSalesLogic.jsx";
 
 const SalesContext = createContext();
 

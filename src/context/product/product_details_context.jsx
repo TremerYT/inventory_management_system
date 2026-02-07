@@ -31,7 +31,7 @@ export const ProductDetailsProvider = ({children}) => {
     const barcode = String(
       Math.floor(100000000000 + Math.random() * 900000000000)
     );
-    form.setFieldsValue({ barcodeNumber: barcode });
+    form.setFieldsValue({barcodeNumber: barcode});
   };
 
   return (

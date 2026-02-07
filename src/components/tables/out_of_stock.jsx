@@ -1,5 +1,5 @@
-import {useProduct} from "../../context/product_context.jsx";
-import {useCategory} from "../../context/category_provider.jsx";
+import {useProduct} from "../../context/product/product_context.jsx";
+import {useCategory} from "../../context/category/category_provider.jsx";
 import {useState} from "react";
 import {Card, Input, Select, Table} from "antd";
 import {outOfStockColumns} from "../../utils/columns.jsx";

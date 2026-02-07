@@ -1,7 +1,7 @@
 import {Button, Card, Descriptions, Space, Table} from "antd";
 import {DeleteOutlined} from "@ant-design/icons";
 import SalesForm from "../../components/forms/sales_form.jsx";
-import {useSale} from "../../context/sales_context.jsx";
+import {useSale} from "../../context/sales/sales_context.jsx";
 
 const AddSale = () => {
   const {

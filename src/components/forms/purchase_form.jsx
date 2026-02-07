@@ -1,6 +1,6 @@
 import {AutoComplete, Col, DatePicker, Form, Input, Row, Select} from "antd";
 import dayjs from "dayjs";
-import {useSale} from "../../context/sales_context.jsx";
+import {useSale} from "../../context/sales/sales_context.jsx";
 
 const {TextArea} = Input;
 const generatePUR = () => {

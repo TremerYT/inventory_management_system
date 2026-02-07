@@ -5,11 +5,11 @@ import PageLayout from "./components/layout/layout.jsx";
 import Dashboard from "./pages/dashboard/dashboard.jsx";
 
 
-import {AuthProvider} from "./context/auth_provider.jsx";
-import {CategoryProvider} from "./context/category_provider.jsx";
-import {ProductProvider} from "./context/product_context.jsx";
-import {ProductDetailsProvider} from "./context/product_details_context.jsx";
-import {SalesProvider} from "./context/sales_context.jsx";
+import {AuthProvider} from "./context/auth/auth_provider.jsx";
+import {CategoryProvider} from "./context/category/category_provider.jsx";
+import {ProductProvider} from "./context/product/product_context.jsx";
+import {ProductDetailsProvider} from "./context/product/product_details_context.jsx";
+import {SalesProvider} from "./context/sales/sales_context.jsx";
 import Login from "./pages/authentication/login.jsx";
 import Register from "./pages/authentication/register.jsx";
 import PrivateRoute from "./pages/authentication/private_route.jsx";

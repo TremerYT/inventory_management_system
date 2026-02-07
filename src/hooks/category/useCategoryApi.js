@@ -112,6 +112,7 @@ export const useCategoryApi = ({onSuccess, onUpdateSuccess} = {}) => {
   return {
     isLoading,
     isEditMode,
+    setIsEditMode,
     categories,
     categoryOptions,
     categoryFilter,

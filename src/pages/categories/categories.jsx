@@ -2,7 +2,7 @@ import {useState} from "react";
 import {Card, Input, Modal, Select, Table} from "antd";
 import AddCategory from "../../components/modal/add_category.jsx";
 import CustomHeader from "../../components/ui/custom_header.jsx";
-import {useCategory} from "../../context/category_provider.jsx";
+import {useCategory} from "../../context/category/category_provider.jsx";
 import {createCategoryColumns} from "../../utils/columns.jsx";
 
 const Categories = () => {

@@ -1,7 +1,7 @@
 import {Form, Input, Modal, Switch, Upload} from "antd";
 import {useEffect} from "react";
 import {PlusOutlined} from "@ant-design/icons";
-import {useCategory} from "../../context/category_provider.jsx";
+import {useCategory} from "../../context/category/category_provider.jsx";
 
 const AddCategory = ({isOpen, handleCancel, handleOk, loading}) => {
   const {form, isEditMode} = useCategory();

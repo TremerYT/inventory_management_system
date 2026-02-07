@@ -1,5 +1,5 @@
 import {Carousel, Col, Descriptions, Image, Modal, Row} from "antd";
-import {useProduct} from "../../context/product_context.jsx";
+import {useProduct} from "../../context/product/product_context.jsx";
 
 const ProductView = () => {
   const {isModalOpen, selectedProduct, handleOnOk, handleModalCancel} = useProduct()

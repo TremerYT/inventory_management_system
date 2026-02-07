@@ -1,7 +1,7 @@
 import {createContext, useContext} from "react";
-import {useProductData} from "../hooks/useProductData.js";
-import {useProductActions} from "../hooks/useProductActions.js";
-import {useProductModals} from "../hooks/useProductModals.js";
+import {useProductData} from "../../hooks/useProductData.js";
+import {useProductActions} from "../../hooks/useProductActions.js";
+import {useProductModals} from "../../hooks/useProductModals.js";
 
 const ProductContext = createContext();
 export const ProductProvider = ({children}) => {

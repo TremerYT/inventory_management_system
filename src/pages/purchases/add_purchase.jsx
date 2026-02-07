@@ -1,7 +1,7 @@
 import {Button, Card, Descriptions, Table} from "antd";
 import CustomHeader from "../../components/ui/custom_header.jsx";
 import PurchaseForm from "../../components/forms/purchase_form.jsx";
-import {useSale} from "../../context/sales_context.jsx";
+import {useSale} from "../../context/sales/sales_context.jsx";
 import {addPurchaseColumns} from "../../utils/columns.jsx";
 
 const AddPurchase = () => {
