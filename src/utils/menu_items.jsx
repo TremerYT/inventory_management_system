@@ -9,6 +9,7 @@ import {
   FaStore,
   FaTachometerAlt,
   FaTags,
+  FaTrademark,
   FaTruck,
   FaUndoAlt,
   FaUser,
@@ -37,6 +38,9 @@ export const items = [
   ]),
   getItems("/categories", <FaTags/>, "Categories", [
     getItems("/categories/list", null, "List Categories"),
+  ]),
+  getItems("/brands", <FaTrademark/>, "Brands", [
+    getItems("/brands/list", null, "List Brands"),
   ]),
   getItems("/sales", <FaShoppingCart/>, "Sales", [
     getItems("/sales/add", null, "Create Sale"),

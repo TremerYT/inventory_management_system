@@ -99,6 +99,49 @@ export const createCategoryColumns = ({onEdit, onDelete}) => [
   },
 ];
 
+export const createBrandColumns = ({onEdit, onDelete}) => [
+  {
+    title: "Brand Code",
+    dataIndex: "brandCode",
+    key: "brandCode",
+  },
+  {
+    title: "Brand Name",
+    dataIndex: "brandName",
+    key: "brandName",
+  },
+  {
+    title: "Created on",
+    dataIndex: "createdAt",
+    key: "createdAt",
+    render: (value) => new Date(value).toLocaleDateString(),
+  },
+  {
+    title: "Status",
+    dataIndex: "isActive",
+    key: "isActive",
+    render: (isActive) => (
+      <Tag color={isActive ? "green" : "red"}>{isActive ? "Active" : "Inactive"}</Tag>
+    ),
+  },
+  {
+    title: "Action",
+    key: "action",
+    render: (_, record) => (
+      <Space size="middle">
+        <Button
+          icon={<EditOutlined style={{color: "blue"}}/>}
+          onClick={() => onEdit(record)}
+        />
+        <Button
+          icon={<DeleteOutlined style={{color: "red"}}/>}
+          onClick={() => onDelete(record)}
+        />
+      </Space>
+    ),
+  },
+];
+
 export const createSalesColumns = () => [
   {
     title: "Date",
