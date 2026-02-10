@@ -1,6 +1,6 @@
 import {createContext, useContext} from "react";
 import {useBrandModal} from "../../hooks/brands/useBrandModal.js";
-import {useBrandAPI} from "../../hooks/brands/useBrandAPI.js";
+import {useBrandApi} from "../../hooks/brands/useBrandApi.js";
 import {Form} from "antd";
 
 const BrandContext = createContext(null);
@@ -29,7 +29,7 @@ export const BrandProvider = ({children}) => {
     fetchBrand,
     addBrand,
     updateBrand
-  } = useBrandAPI({
+  } = useBrandApi({
       onSuccess: () => {
         handleOnCancel();
         closeDeleteConfirmation();

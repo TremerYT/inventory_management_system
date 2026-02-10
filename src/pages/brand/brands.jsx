@@ -75,8 +75,8 @@ const Brands = () => {
           setIsEditMode(false);
           setIsBrandModalOpen(true);
         }}
-        handlePdfExport={() => exportToPdf(filteredBrands, columns)}
-        handleExcelExport={() => exportToExcel(filteredBrands, columns)}
+        handlePdfExport={() => exportToPdf(filteredBrands, columns, "brands")}
+        handleExcelExport={() => exportToExcel(filteredBrands, columns, "brands")}
       />
       <Card
         title={
