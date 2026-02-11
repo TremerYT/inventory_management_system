@@ -52,8 +52,8 @@ const AllProducts = () => {
         title={"Products"}
         subTitle={"Manage Your products"}
         buttonText={"Add product"}
-        handlePdfExport={() => exportToPdf(filteredData, columns)}
-        handleExcelExport={() => exportToExcel(filteredData, columns)}
+        handlePdfExport={() => exportToPdf(filteredData, columns, "products")}
+        handleExcelExport={() => exportToExcel(filteredData, columns, "products")}
         handleOnClick={() => navigate("/products/add")}
         handleReload={() => fetchProducts()}
       />

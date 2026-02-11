@@ -23,6 +23,7 @@ import SaleReturns from "./pages/sales/sale_returns.jsx";
 import AddPurchase from "./pages/purchases/add_purchase.jsx";
 import {BrandProvider} from "./context/brand/brand_provider.jsx";
 import Brands from "./pages/brand/brands.jsx";
+import Purchases from "./pages/purchases/purchases.jsx";
 
 const ProductsRoute = () => (
   <ProductProvider>
@@ -138,7 +139,7 @@ function App() {
                 <AddPurchase/>
               </SalesProvider>
             }/>
-            {/*<Route path="/purchases/add" element={<Add_purchase/>}/>*/}
+            <Route path="/purchases/list" element={<Purchases/>}/>
             {/*<Route path="/returns/add" element={<AddReturn/>}/>*/}
             {/*<Route path="/returns/list" element={<Returns/>}/>*/}
             {/*<Route path="/customers" element={<Customers/>}/>*/}
