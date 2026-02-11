@@ -1,7 +1,6 @@
-import {createContext, useContext} from "react";
-import {useProductData} from "../../hooks/useProductData.js";
-import {useProductActions} from "../../hooks/useProductActions.js";
-import {useProductModals} from "../../hooks/useProductModals.js";
+import {createContext, useContext, useMemo, useState} from "react";
+import {useProductApi} from "../../hooks/products/useProductApi.js";
+import {useProductModals} from "../../hooks/products/useProductModals.js";
 
 const ProductContext = createContext();
 export const ProductProvider = ({children}) => {
@@ -12,17 +11,6 @@ export const ProductProvider = ({children}) => {
     loadingProducts,
     loadingLowStock,
     loadingOutOfStock,
-    searchText,
-    setSearchText,
-    selectedCategory,
-    setSelectedCategory,
-    filteredData,
-    fetchProducts,
-    fetchLowStockProducts,
-    fetchOutOfStockProducts,
-  } = useProductData();
-
-  const {
     form,
     submitting,
     isEditMode,
@@ -33,7 +21,29 @@ export const ProductProvider = ({children}) => {
     handleOnDelete,
     handleOnCancel,
     handleEdit,
-  } = useProductActions(fetchProducts);
+    fetchProducts,
+    fetchLowStockProducts,
+    fetchOutOfStockProducts,
+  } = useProductApi();
+
+  const [searchText, setSearchText] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(undefined);
+
+  const filteredData = useMemo(() => {
+    let data = Array.isArray(products) ? products : [];
+    const text = (searchText || "").toLowerCase();
+    if (text) {
+      data = data.filter((item) =>
+        item?.productName?.toLowerCase()?.includes(text) ||
+        item?.skuNumber?.toLowerCase()?.includes(text) ||
+        item?.barcodeNumber?.toLowerCase()?.includes(text)
+      );
+    }
+    if (selectedCategory) {
+      data = data.filter((item) => item?.categoryName === selectedCategory);
+    }
+    return data;
+  }, [products, searchText, selectedCategory]);
 
   const {
     isModalOpen,

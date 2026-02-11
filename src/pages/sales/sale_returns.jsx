@@ -19,7 +19,7 @@ const SaleReturns = () => {
       <CustomHeader
         title={"Sale Returns"}
         subTitle={"Manage Your Sale Returns"}
-        buttonText={"Add Sale"}
+        buttonText={"Add Return"}
         handleOnClick={() => setIsModalOpen(true)}
       />
       <Card
@@ -48,7 +48,7 @@ const SaleReturns = () => {
         }
       >
         <Table
-          pagination={{ pageSize: 10 }}
+          pagination={{pageSize: 10}}
           rowSelection={rowSelection}
           rowKey="referenceNumber"
           columns={saleReturnsColumns}

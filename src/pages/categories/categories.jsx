@@ -4,6 +4,7 @@ import AddCategory from "../../components/modal/add_category.jsx";
 import CustomHeader from "../../components/ui/custom_header.jsx";
 import {useCategory} from "../../context/category/category_provider.jsx";
 import {createCategoryColumns} from "../../utils/columns.jsx";
+import {exportToExcel, exportToPdf} from "../../utils/file_convert.js";
 
 const Categories = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -26,6 +27,7 @@ const Categories = () => {
     closeDeleteConfirmation,
     setCategoryToEdit,
     categoryToEdit,
+    fetchCategories,
     form,
     createCategory
   } = useCategory();
@@ -84,6 +86,9 @@ const Categories = () => {
           setIsEditMode(false);
           setIsCategoryModalOpen(true);
         }}
+        handlePdfExport={() => exportToPdf(filteredCategory, columns, "categories")}
+        handleExcelExport={() => exportToExcel(filteredCategory, columns, "categories")}
+        handleReload={() => fetchCategories()}
       />
 
       <Card

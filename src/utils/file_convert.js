@@ -2,11 +2,11 @@ import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-export const exportToExcel = (filteredData, columns) => {
+export const exportToExcel = (filteredData, columns, fileName) => {
   const data = filteredData.map(
     (item) => {
       const obj = {};
-      columns.forEach (
+      columns.forEach(
         (col) => {
           obj[col.title] = item[col.dataIndex];
         }
@@ -19,10 +19,10 @@ export const exportToExcel = (filteredData, columns) => {
   const workBook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workBook, workSheet, "Products");
 
-  XLSX.writeFile(workBook, "products.xlsx");
+  XLSX.writeFile(workBook, `${fileName}.xlsx`);
 }
 
-export const exportToPdf = (filteredData, columns) => {
+export const exportToPdf = (filteredData, columns, fileName) => {
   const doc = new jsPDF();
   autoTable(
     doc,
@@ -32,5 +32,5 @@ export const exportToPdf = (filteredData, columns) => {
     }
   );
 
-  doc.save("Products.pdf");
+  doc.save(`${fileName}.pdf`);
 }

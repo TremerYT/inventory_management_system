@@ -1,42 +1,64 @@
-import {useState} from "react";
 import {Form, message} from "antd";
-import {upload} from "../services/supabase_storage.js";
-import {createProduct, deleteProduct, getProductById, updateProduct} from "../services/product.service.js";
+import {upload} from "../../services/supabase_storage.js";
+import {
+  createProduct,
+  deleteProduct,
+  getLowStockProducts,
+  getOutOfStockProducts,
+  getProductById,
+  getProducts,
+  updateProduct
+} from "../../services/product.service.js";
+import {useState} from "react";
 import {useNavigate} from "react-router";
 
-export const useProductActions = (fetchProducts) => {
+export const useProductApi = () => {
   const [form] = Form.useForm();
   const [submitting, setSubmitting] = useState(false);
+  const [products, setProducts] = useState([])
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingProductId, setEditingProductId] = useState(null);
+  const [loadingProducts, setLoadingProducts] = useState(false);
+  const [lowStockProducts, setLowStockProducts] = useState([]);
+  const [outOfStockProducts, setOutOfStockProducts] = useState([]);
+  const [loadingLowStock, setLoadingLowStock] = useState(false);
+  const [loadingOutOfStock, setLoadingOutOfStock] = useState(false);
+
   const navigate = useNavigate();
 
-  const handleOnFinish = async (values) => {
+  const fetchProducts = async () => {
     try {
-      setSubmitting(true);
-      const mainImage = values.mainImage[0]?.originFileObj;
-      const mainImageUrl = await upload(mainImage, "main", "productImages");
-
-      const galleryImagesUrl = await Promise.all(
-        values.galleryImages.map((image) =>
-          upload(image.originFileObj, "gallery", "productImages"),
-        ),
-      );
-
-      const data = {
-        ...values,
-        mainImage: mainImageUrl,
-        galleryImages: galleryImagesUrl,
-      };
-      await createProduct(data);
-      message.success("Added Product successfully");
-      form.resetFields();
-      if (fetchProducts) fetchProducts();
+      setLoadingProducts(true);
+      const data = await getProducts();
+      setProducts(data);
     } catch (e) {
-      console.error("Error Uploading the product:", e);
-      message.error("Something went wrong uploading the Product");
+      console.error("Error fetching Products:", e);
     } finally {
-      setSubmitting(false);
+      setLoadingProducts(false);
+    }
+  };
+
+  const fetchLowStockProducts = async () => {
+    try {
+      setLoadingLowStock(true);
+      const data = await getLowStockProducts();
+      setLowStockProducts(data);
+    } catch (e) {
+      console.error("Error fetching low stock Products:", e);
+    } finally {
+      setLoadingLowStock(false);
+    }
+  };
+
+  const fetchOutOfStockProducts = async () => {
+    try {
+      setLoadingOutOfStock(true);
+      const data = await getOutOfStockProducts();
+      setOutOfStockProducts(data);
+    } catch (e) {
+      console.error("Error fetching out of stock Products:", e);
+    } finally {
+      setLoadingOutOfStock(false);
     }
   };
 
@@ -66,6 +88,34 @@ export const useProductActions = (fetchProducts) => {
       setEditingProductId(id);
     } catch (e) {
       message.error("failed to load product");
+    }
+  };
+
+  const handleOnFinish = async (values) => {
+    try {
+      setSubmitting(true);
+      const mainImage = values.mainImage[0]?.originFileObj;
+      const mainImageUrl = await upload(mainImage, "main", "productImages");
+
+      const galleryImagesUrl = await Promise.all(
+        values.galleryImages.map((image) =>
+          upload(image.originFileObj, "gallery", "productImages"),
+        ),
+      );
+
+      const data = {
+        ...values,
+        mainImage: mainImageUrl,
+        galleryImages: galleryImagesUrl,
+      };
+      await createProduct(data);
+      message.success("Added Product successfully");
+      form.resetFields();
+    } catch (e) {
+      console.error("Error Uploading the product:", e);
+      message.error("Something went wrong uploading the Product");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -100,7 +150,6 @@ export const useProductActions = (fetchProducts) => {
       message.success("Updated Product sucessfully");
       setIsEditMode(false);
       setEditingProductId(null);
-      if (fetchProducts) fetchProducts();
     } catch (e) {
       message.error("Failed to update product");
     } finally {
@@ -128,6 +177,12 @@ export const useProductActions = (fetchProducts) => {
   };
 
   return {
+    products,
+    lowStockProducts,
+    outOfStockProducts,
+    loadingProducts,
+    loadingLowStock,
+    loadingOutOfStock,
     form,
     submitting,
     isEditMode,
@@ -138,5 +193,8 @@ export const useProductActions = (fetchProducts) => {
     handleOnDelete,
     handleOnCancel,
     handleEdit,
+    fetchProducts,
+    fetchLowStockProducts,
+    fetchOutOfStockProducts,
   };
-};
+}

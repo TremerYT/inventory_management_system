@@ -1,5 +1,4 @@
-import {Button, Table, Tabs} from "antd";
-import {FileExcelFilled, FilePdfFilled, ReloadOutlined} from "@ant-design/icons";
+import {Tabs} from "antd";
 import LowStockTable from "../../components/tables/low_stock.jsx";
 import OutOfStockTable from "../../components/tables/out_of_stock.jsx";
 import CustomHeader from "../../components/ui/custom_header.jsx";
@@ -23,7 +22,8 @@ const LowStocks = () => {
         title={"Low Stocks"}
         subTitle={"Manage Your Low and Out of stocks Products"}
         buttonText={"Send Email"}
-        handleOnClick={() => {}}
+        handleOnClick={() => {
+        }}
       />
       <div>
         <Tabs defaultActiveKey="1" items={tables}/>

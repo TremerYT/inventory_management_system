@@ -68,7 +68,7 @@ const Brands = () => {
   return (
     <>
       <CustomHeader
-        title="All Brands"
+        title="Brands"
         subTitle="Manage Your Brands"
         buttonText="Add Brand"
         handleOnClick={() => {

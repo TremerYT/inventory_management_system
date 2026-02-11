@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {upload} from "../../services/supabase_storage.js";
 import {message} from "antd";
 
-export const useBrandAPI = ({onSuccess, onUpdateSuccess}) => {
+export const useBrandApi = ({onSuccess, onUpdateSuccess}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [brands, setBrands] = useState([]);
