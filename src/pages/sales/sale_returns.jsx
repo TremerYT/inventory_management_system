@@ -4,10 +4,13 @@ import {saleReturnsColumns} from "../../utils/columns.jsx";
 import {saleReturnsMockData} from "../../mock/mock_data.jsx";
 import CustomHeader from "../../components/ui/custom_header.jsx";
 import {useState} from "react";
+import SaleReturnsModal from "../../components/modal/sale_returns_modal.jsx";
+import {useSale} from "../../context/sales/sales_provider.jsx";
 
 const SaleReturns = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const {isSalesReturnModalOpen, setIsSalesReturnModalOpen} = useSale()
   const rowSelection = {
     selectedRowKeys,
     onChange: (newSelectedKeys) => {
@@ -20,7 +23,7 @@ const SaleReturns = () => {
         title={"Sale Returns"}
         subTitle={"Manage Your Sale Returns"}
         buttonText={"Add Return"}
-        handleOnClick={() => setIsModalOpen(true)}
+        handleOnClick={() => setIsSalesReturnModalOpen(true)}
       />
       <Card
         title={
@@ -50,11 +53,14 @@ const SaleReturns = () => {
         <Table
           pagination={{pageSize: 10}}
           rowSelection={rowSelection}
-          rowKey="referenceNumber"
+          rowKey="key"
           columns={saleReturnsColumns}
           dataSource={saleReturnsMockData}
         />
-      </Card>    </>
+      </Card>
+      <SaleReturnsModal isModalOpen={isSalesReturnModalOpen}/>
+    </>
+
   );
 }
 

@@ -1,13 +1,78 @@
-import {useMemo, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {Form, message} from "antd";
-import {getProductsByQuery} from "../services/product.service.js";
+import {createSale as createSaleApi, deleteSaleById, getSales, updateSaleById} from "../../services/sales.service.js";
+import {getProductsByQuery} from "../../services/product.service.js";
 
-export const useSalesLogic = () => {
+export const useSalesApi = ({onSuccess, onUpdateSuccess} = {}) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [sales, setSales] = useState([]);
   const [saleItems, setSaleItems] = useState([]);
   const [productOptions, setProductOptions] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [form] = Form.useForm();
   const debounce = useRef(null);
+
+  const fetchSales = async () => {
+    try {
+      setIsLoading(true);
+      const res = await getSales();
+      setSales(res);
+    } catch (e) {
+      console.error("Failed to fetch sales", e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const createSale = async (values) => {
+    try {
+      setIsLoading(true);
+      const response = await createSaleApi(values);
+      message.success("Sale created successfully");
+      await fetchSales();
+      if (onSuccess) onSuccess();
+      return true;
+    } catch (e) {
+      message.error("Failed to create sale");
+      console.error("Failed to create sale: ", e);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const updateSale = async (values, id) => {
+    try {
+      setIsLoading(true);
+      await updateSaleById(id, values);
+      message.success("Sale updated successfully");
+      await fetchSales();
+      if (onUpdateSuccess) onUpdateSuccess();
+      return true;
+    } catch (e) {
+      message.error("Failed to update sale");
+      console.error(e);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const deleteSale = async (id) => {
+    try {
+      setIsLoading(true);
+      await deleteSaleById(id);
+      await fetchSales();
+      message.success("Deleted sale successfully");
+      if (onSuccess) onSuccess();
+    } catch (e) {
+      message.error("Failed to delete sale");
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const calculateSubTotal = (quantity, price, discountType, discountValue) => {
     if (!discountValue) return quantity * price;
@@ -30,7 +95,7 @@ export const useSalesLogic = () => {
     },
     {
       label: "Shipping",
-      value: form.getFieldValue("shipping") || 0,
+      value: form?.getInternalHooks?.("RC_FORM_INTERNAL_HOOKS") ? form.getFieldValue("shipping") || 0 : 0,
     },
     {
       label: "Total Discount",
@@ -140,13 +205,25 @@ export const useSalesLogic = () => {
     }, 100);
   };
 
+  useEffect(() => {
+    fetchSales();
+  }, []);
+
   return {
-    form,
+    isLoading,
+    isEditMode,
+    setIsEditMode,
+    sales,
     saleItems,
     setSaleItems,
     productOptions,
     loadingProducts,
     summaryItems,
+    form,
+    fetchSales,
+    createSale,
+    updateSale,
+    deleteSale,
     calculateSubTotal,
     handleOnSelect,
     handleQuantityChange,

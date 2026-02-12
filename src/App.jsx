@@ -9,7 +9,7 @@ import {AuthProvider} from "./context/auth/auth_provider.jsx";
 import {CategoryProvider} from "./context/category/category_provider.jsx";
 import {ProductProvider} from "./context/product/product_context.jsx";
 import {ProductDetailsProvider} from "./context/product/product_details_context.jsx";
-import {SalesProvider} from "./context/sales/sales_context.jsx";
+import {SalesProvider} from "./context/sales/sales_provider.jsx";
 import Login from "./pages/authentication/login.jsx";
 import Register from "./pages/authentication/register.jsx";
 import PrivateRoute from "./pages/authentication/private_route.jsx";
@@ -23,7 +23,9 @@ import SaleReturns from "./pages/sales/sale_returns.jsx";
 import AddPurchase from "./pages/purchases/add_purchase.jsx";
 import {BrandProvider} from "./context/brand/brand_provider.jsx";
 import Brands from "./pages/brand/brands.jsx";
+import {PurchaseProvider} from "./context/purchases/purchases_provider.jsx";
 import Purchases from "./pages/purchases/purchases.jsx";
+import PurchaseReturns from "./pages/purchases/purchase_returns.jsx";
 
 const ProductsRoute = () => (
   <ProductProvider>
@@ -135,11 +137,20 @@ function App() {
             />
 
             <Route path="/purchases/add" element={
-              <SalesProvider>
+              <PurchaseProvider>
                 <AddPurchase/>
-              </SalesProvider>
+              </PurchaseProvider>
             }/>
-            <Route path="/purchases/list" element={<Purchases/>}/>
+            <Route path="/purchases/list" element={
+              <PurchaseProvider>
+                <Purchases/>
+              </PurchaseProvider>
+            }/>
+            <Route path="/purchases/returns" element={
+              <PurchaseProvider>
+                <PurchaseReturns/>
+              </PurchaseProvider>
+            }/>
             {/*<Route path="/returns/add" element={<AddReturn/>}/>*/}
             {/*<Route path="/returns/list" element={<Returns/>}/>*/}
             {/*<Route path="/customers" element={<Customers/>}/>*/}

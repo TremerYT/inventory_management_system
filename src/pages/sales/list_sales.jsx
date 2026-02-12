@@ -5,7 +5,7 @@ import {paymentStatus, saleStatus} from "../../utils/select_items.js";
 import {salesMockData} from "../../mock/mock_data.jsx";
 import {useState} from "react";
 import CustomHeader from "../../components/ui/custom_header.jsx";
-import {useSale} from "../../context/sales/sales_context.jsx";
+import {useSale} from "../../context/sales/sales_provider.jsx";
 
 const AllSales = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -56,7 +56,7 @@ const AllSales = () => {
         <Table
           pagination={{pageSize: 10}}
           rowSelection={rowSelection}
-          rowKey="referenceNumber"
+          rowKey="key"
           columns={columns}
           dataSource={salesMockData}
         />

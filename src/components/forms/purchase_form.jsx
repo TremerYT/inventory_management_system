@@ -1,6 +1,6 @@
 import {AutoComplete, Col, DatePicker, Form, Input, Row, Select} from "antd";
 import dayjs from "dayjs";
-import {useSale} from "../../context/sales/sales_context.jsx";
+import {usePurchase} from "../../context/purchases/purchases_provider.jsx";
 
 const {TextArea} = Input;
 const generatePUR = () => {
@@ -11,7 +11,7 @@ const generatePUR = () => {
 
 const PurchaseForm = () => {
   const [purchaseForm] = Form.useForm();
-  const {productOptions, handleOnSearch, handleOnSelect, form} = useSale();
+  const {productOptions, handleOnSearch, handleOnSelect, form} = usePurchase();
   return (
     <Form layout="vertical" form={form} onFinish={(values) => {
     }}>

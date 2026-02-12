@@ -4,9 +4,12 @@ import {Button, Card, Input, Select, Table} from "antd";
 import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined} from "@ant-design/icons";
 import {purchasesColumns} from "../../utils/columns.jsx";
 
+import {usePurchase} from "../../context/purchases/purchases_provider.jsx";
+
 const Purchases = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const navigate = useNavigate();
+  const {fetchPurchases} = usePurchase();
 
   const rowSelection = {
     selectedRowKeys,
@@ -39,6 +42,7 @@ const Purchases = () => {
             type="text"
             icon={<ReloadOutlined style={{fontSize: 20}}/>}
             onClick={() => {
+              fetchPurchases();
             }}
           />
           <Button type="primary" icon={<PlusOutlined/>} onClick={() => {
@@ -73,7 +77,7 @@ const Purchases = () => {
         <Table
           rowSelection={rowSelection}
           columns={purchasesColumns}
-         
+
           pagination={{pageSize: 10}}
         />
       </Card>

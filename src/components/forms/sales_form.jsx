@@ -1,7 +1,7 @@
 import {AutoComplete, Col, DatePicker, Form, Input, Row, Select} from "antd";
 import dayjs from "dayjs";
 import {useEffect} from "react";
-import {useSale} from "../../context/sales/sales_context.jsx";
+import {useSale} from "../../context/sales/sales_provider.jsx";
 import {paymentStatus, saleStatus} from "../../utils/select_items.js";
 
 const generateRef = () => {

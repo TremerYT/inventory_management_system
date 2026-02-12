@@ -9,7 +9,7 @@ import {
   getProducts,
   updateProduct
 } from "../../services/product.service.js";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useNavigate} from "react-router";
 
 export const useProductApi = () => {
@@ -175,6 +175,10 @@ export const useProductApi = () => {
   const handleEdit = (record) => {
     navigate(`/products/edit/${record.id}`);
   };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return {
     products,

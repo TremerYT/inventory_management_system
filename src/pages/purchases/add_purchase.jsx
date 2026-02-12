@@ -1,18 +1,17 @@
 import {Button, Card, Descriptions, Table} from "antd";
-import CustomHeader from "../../components/ui/custom_header.jsx";
 import PurchaseForm from "../../components/forms/purchase_form.jsx";
-import {useSale} from "../../context/sales/sales_context.jsx";
+import {usePurchase} from "../../context/purchases/purchases_provider.jsx";
 import {addPurchaseColumns} from "../../utils/columns.jsx";
 
 const AddPurchase = () => {
   const {
-    saleItems,
-    setSaleItems,
-    submitting,
+    purchaseItems: saleItems,
+    setPurchaseItems: setSaleItems,
+    isLoading: submitting,
     handleQuantityChange,
     form,
     summaryItems
-  } = useSale();
+  } = usePurchase();
 
   const handleDeleteItem = (record) => {
     setSaleItems((prev) =>
@@ -28,7 +27,12 @@ const AddPurchase = () => {
 
   return (
     <>
-      <CustomHeader title="Add Purchase" subTitle="Create and manage your Purchases"/>
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex flex-col items-start">
+          <h2 className="text-2xl">Create Purchase</h2>
+          <p>Create and manage your purchases</p>
+        </div>
+      </div>
       <Card>
         <PurchaseForm/>
         <Table
@@ -60,7 +64,7 @@ const AddPurchase = () => {
             size="large"
             loading={submitting}
           >
-            Add Sale
+            Add Purchase
           </Button>
           <Button type="primary" danger onClick={handleOnCancel} size="large">
             Cancel
