@@ -50,7 +50,6 @@ export const items = [
     getItems("/purchases/add", null, "Add Purchases"),
     getItems("/purchases/list", null, "List Purchases"),
     getItems("/purchases/returns", null, "Purchase Returns"),
-    getItems("/purchases/invoices", null, "Supplier Invoices"),
   ]),
   getItems("/Expenses", <FaMoneyBillWave/>, "Expenses", [
     getItems("/returns/list", null, "Add Expense"),
@@ -62,7 +61,6 @@ export const items = [
     getItems("/suppliers/add", null, "Add Suppliers"),
     getItems("/suppliers/list", null, "List Suppliers"),
   ]),
-  getItems("/analytics", <FaChartBar/>, "Analytics"),
   getItems("/settings", <FaCog/>, "Settings"),
 ];
 

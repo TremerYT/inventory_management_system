@@ -274,14 +274,14 @@ export const customersColumns = [
     key: "address",
   },
   {
-    title: "Postal Code",
-    dataIndex: "postalCode",
-    key: "postalCode",
-  },
-  {
     title: "City",
     dataIndex: "city",
     key: "city",
+  },
+  {
+    title: "Customer Type",
+    dataIndex: "customerType",
+    key: "customerType",
   },
   {
     title: "Status",

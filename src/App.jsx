@@ -28,6 +28,10 @@ import Purchases from "./pages/purchases/purchases.jsx";
 import PurchaseReturns from "./pages/purchases/purchase_returns.jsx";
 import {CustomerProvider} from "./context/customer/customer_provider.jsx";
 import AddCustomers from "./pages/people/add_customers.jsx";
+import Customers from "./pages/people/customers.jsx";
+import AddSuppliers from "./pages/people/add_suppliers.jsx";
+import {SupplierProvider} from "./context/supplier/supplier_provider.jsx";
+import Suppliers from "./pages/people/suppliers.jsx";
 
 const ProductsRoute = () => (
   <ProductProvider>
@@ -158,10 +162,27 @@ function App() {
                 <AddCustomers/>
               </CustomerProvider>
             }/>
+            <Route path="/customers/list" element={
+              <CustomerProvider>
+                <Customers/>
+              </CustomerProvider>
+            }/>
+            <Route path="/suppliers/add" element={
+              <SupplierProvider>
+                <AddSuppliers/>
+              </SupplierProvider>
+            }/>
+
+            <Route path="/suppliers/list" element={
+              <SupplierProvider>
+                <Suppliers/>
+              </SupplierProvider>}
+            />
+
             {/*<Route path="/returns/add" element={<AddReturn/>}/>*/}
             {/*<Route path="/returns/list" element={<Returns/>}/>*/}
 
-            {/*<Route path="/suppliers" element={<Suppliers/>}/>*/}
+
           </Route>
         </Routes>
       </AuthProvider>
