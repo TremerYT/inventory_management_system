@@ -4,7 +4,7 @@ import {Form} from "antd";
 const CustomerContext = createContext(null);
 
 export const CustomerProvider = ({children}) => {
-  const {form} = Form.useForm()
+  const [form] = Form.useForm();
   return (
     <CustomerContext.Provider value={{
       form
