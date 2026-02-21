@@ -6,7 +6,7 @@ export const createCategory = async (data) => {
     const response = await api.post("/category/create", data);
     return response.data;
   } catch (e) {
-    console.error("Failed to create Category");
+    console.error("Failed to create category");
     throw e;
   }
 }
@@ -16,7 +16,7 @@ export const getCategory = async () => {
     const response = await api.get("/category");
     return response.data;
   } catch (e) {
-    console.error("Failed to fetch products");
+    console.error("Failed to fetch categories");
     throw e;
   }
 }
