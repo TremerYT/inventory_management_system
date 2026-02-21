@@ -5,12 +5,12 @@ import {useCustomer} from "../../context/customer/customer_provider.jsx";
 
 const CustomerForm = () => {
   const [active, setActive] = useState(true);
-  const {form} = useCustomer();
+  const {form, handleOnFinish} = useCustomer();
   const handleOnCancel = () => {
     form.resetFields();
   }
   return (
-    <Form form={form} layout="vertical">
+    <Form form={form} layout="vertical" onFinish={handleOnFinish}>
       <Row gutter={[16, 16]}>
         <Col span={12}>
           <Form.Item
