@@ -64,11 +64,11 @@ const SupplierForm = () => {
         </Col>
         <Col span={12}>
           <Form.Item
-            name="taxNumber"
-            label="Tax Number"
+            name="city"
+            label="City"
             rules={[{
               required: true,
-              message: "Tax number is required",
+              message: "City is required",
             }]}
           >
             <Input/>
@@ -78,18 +78,18 @@ const SupplierForm = () => {
       <Row gutter={[16, 16]}>
         <Col span={12}>
           <Form.Item
-            name="address"
-            label="Address"
-            rules={[{required: true, message: "Address is required"}]}
+            name="zipCode"
+            label="Zip Code"
+            rules={[{required: true, message: "Zip Code is required"}]}
           >
             <Input/>
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
-            name="city"
-            label="City"
-            rules={[{required: true, message: "city is required"}]}
+            name="address"
+            label="Address"
+            rules={[{required: true, message: "Address is required"}]}
           >
             <Input/>
           </Form.Item>
@@ -107,7 +107,7 @@ const SupplierForm = () => {
       </div>
       <div className="flex gap-4 justify-end mt-10">
         <Button type="primary" htmlType="submit" size="large">
-          Save Customer
+          Save Supplier
         </Button>
         <Button type="primary" danger size="large">
           Cancel

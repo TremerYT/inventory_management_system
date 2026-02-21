@@ -1,4 +1,4 @@
-import {Button, Col, Form, Input, Row, Select, Switch} from "antd";
+import {Button, Col, Form, Input, InputNumber, Row, Select, Switch} from "antd";
 import 'react-phone-number-input/style.css'
 import {useState} from "react";
 import {useCustomer} from "../../context/customer/customer_provider.jsx";
@@ -6,6 +6,9 @@ import {useCustomer} from "../../context/customer/customer_provider.jsx";
 const CustomerForm = () => {
   const [active, setActive] = useState(true);
   const {form} = useCustomer();
+  const handleOnCancel = () => {
+    form.resetFields();
+  }
   return (
     <Form form={form} layout="vertical">
       <Row gutter={[16, 16]}>
@@ -31,18 +34,24 @@ const CustomerForm = () => {
       <Row gutter={[16, 16]}>
         <Col span={12}>
           <Form.Item
-            name="userName"
-            label="Username"
-            rules={[{required: true, message: "Username is required"}]}
+            name="customerCategory"
+            label="Customer Category"
+            rules={[{required: true, message: "Customer category is required"}]}
           >
-            <Input/>
+            <Select
+              options={[
+                {value: 'shopReseller', label: 'Shop Reseller'},
+                {value: 'walkInCustomer', label: 'Walk-In-Customer'},
+                {value: 'wholeSeller', label: 'Wholeseller'},
+              ]}
+            />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
             name="email"
             label="Email"
-            rules={[{required: true, message: "email is required", type: "email"}]}
+            rules={[{required: true, message: "Email is required"}]}
           >
             <Input/>
           </Form.Item>
@@ -64,35 +73,49 @@ const CustomerForm = () => {
         </Col>
         <Col span={12}>
           <Form.Item
-            name="customerType"
-            label="Customer Type"
-            rules={[{required: true}]}
+            name="country"
+            label="Country"
+            rules={[{required: true, message: "Country is required"}]}
           >
-            <Select
-              options={[
-                {label: "Retail", value: "retail"},
-                {label: "Wholesale", value: "wholesale"},
-                {label: "Distributor", value: "distributor"},
-              ]}
-            />
+            <Input/>
           </Form.Item>
         </Col>
       </Row>
       <Row gutter={[16, 16]}>
         <Col span={12}>
           <Form.Item
-            name="address"
-            label="Address"
-            rules={[{required: true, message: "Address is required"}]}
+            name="city"
+            label="City"
+            rules={[{required: true, message: "city is required"}]}
           >
             <Input/>
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
-            name="city"
-            label="City"
-            rules={[{required: true, message: "city is required"}]}
+            name="zipCode"
+            label="Zip Code"
+            rules={[{required: true, message: "Zip Code is required"}]}
+          >
+            <Input/>
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row gutter={[16, 16]}>
+        <Col span={12}>
+          <Form.Item
+            name="rewardPoint"
+            label="Reward Points"
+            initialValue={0}
+          >
+            <InputNumber min={0} max={100000} className="w-full!"/>
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            name="address"
+            label="Address"
+            rules={[{required: true, message: "Address is required"}]}
           >
             <Input/>
           </Form.Item>
@@ -112,7 +135,7 @@ const CustomerForm = () => {
         <Button type="primary" htmlType="submit" size="large">
           Save Customer
         </Button>
-        <Button type="primary" danger size="large">
+        <Button type="primary" size="large" danger onClick={() => form.resetFields()}>
           Cancel
         </Button>
       </div>

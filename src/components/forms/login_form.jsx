@@ -23,9 +23,9 @@ const LoginForm = () => {
   return (
     <Form form={loginForm} layout="vertical" onFinish={handleSubmit}>
       <Form.Item
-        label="Username"
-        name="userName"
-        rules={[{required: true, message: "Please input your username!"}]}
+        label="Email"
+        name="email"
+        rules={[{required: true, message: "Email is required"}]}
       >
         <Input size="large" placeholder="Enter your email"/>
       </Form.Item>

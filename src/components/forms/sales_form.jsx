@@ -1,29 +1,27 @@
-import {AutoComplete, Col, DatePicker, Form, Input, Row, Select} from "antd";
-import dayjs from "dayjs";
-import {useEffect} from "react";
-import {useSale} from "../../context/sales/sales_provider.jsx";
-import {paymentStatus, saleStatus} from "../../utils/select_items.js";
+import { AutoComplete, Col, DatePicker, Form, Input, Row, Select } from 'antd';
+import dayjs from 'dayjs';
+import { useEffect } from 'react';
+import { useSale } from '../../context/sales/sales_provider.jsx';
+import { paymentStatus, saleStatus } from '../../utils/select_items.js';
 
 const generateRef = () => {
   return `SALE-${Date.now().toString().slice(-6)}`;
 };
 
 const SalesForm = () => {
-
-  const {productOptions, handleOnSearch, handleOnSelect, form} = useSale();
+  const { productOptions, handleOnSearch, handleOnSelect, form } = useSale();
 
   useEffect(() => {
     const number = generateRef();
-    form.setFieldsValue({referenceNumber: number});
+    form.setFieldsValue({ referenceNumber: number });
   }, [form]);
 
   return (
-    <Form layout="vertical" form={form} onFinish={(values) => {
-    }}>
+    <Form layout="vertical" form={form}>
       <Row gutter={[16, 16]}>
         <Col span={8}>
           <Form.Item label="Reference No" name="referenceNumber">
-            <Input disabled/>
+            <Input disabled />
           </Form.Item>
         </Col>
 
@@ -31,13 +29,11 @@ const SalesForm = () => {
           <Form.Item
             label="Date"
             name="date"
-            rules={[{required: true, message: "Date is required"}]}
+            rules={[{ required: true, message: 'Date is required' }]}
           >
             <DatePicker
               className="w-full"
-              disabledDate={(current) =>
-                current && current < dayjs().startOf("day")
-              }
+              disabledDate={(current) => current && current < dayjs().startOf('day')}
             />
           </Form.Item>
         </Col>
@@ -46,26 +42,22 @@ const SalesForm = () => {
           <Form.Item
             label="Customer name"
             name="customerName"
-            rules={[{required: true, message: "Customer Name is required"}]}
+            rules={[{ required: true, message: 'Customer Name is required' }]}
           >
-            <Select options={[]}/>
+            <Select options={[]} />
           </Form.Item>
         </Col>
       </Row>
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <Form.Item
-            label="Choose product"
-            name="productName"
-            rules={[{required: true, message: "Product Name is required"}]}
-          >
+          <Form.Item label="Choose product" name="productName">
             <AutoComplete
               options={productOptions}
               onSelect={handleOnSelect}
               onSearch={handleOnSearch}
               filterOption={false}
             >
-              <Input.Search size="large" className="w-full"/>
+              <Input.Search size="large" className="w-full" />
             </AutoComplete>
           </Form.Item>
         </Col>
@@ -75,39 +67,38 @@ const SalesForm = () => {
           <Form.Item
             label="Shipping"
             name="shipping"
-            rules={[{required: true, message: "Shipping Amount is required"}]}
+            rules={[{ required: true, message: 'Shipping Amount is required' }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
             label="Paid"
             name="paid"
-            rules={[{required: true, message: "Paid Amount is required"}]}
+            rules={[{ required: true, message: 'Paid Amount is required' }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
         </Col>
-
       </Row>
       <Row gutter={[16]}>
         <Col span={12}>
           <Form.Item
             label="Sale Status"
             name="saleStatus"
-            rules={[{required: true, message: "Sale status is required"}]}
+            rules={[{ required: true, message: 'Sale status is required' }]}
           >
-            <Select options={saleStatus}/>
+            <Select options={saleStatus} />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
             label="Payment Status"
             name="paymentStatus"
-            rules={[{required: true, message: "Payment status is required"}]}
+            rules={[{ required: true, message: 'Payment status is required' }]}
           >
-            <Select options={paymentStatus}/>
+            <Select options={paymentStatus} />
           </Form.Item>
         </Col>
       </Row>
@@ -116,9 +107,9 @@ const SalesForm = () => {
           <Form.Item
             label="Remarks"
             name="remarks"
-            rules={[{required: true, message: "Remarks are required"}]}
+            rules={[{ required: true, message: 'Remarks are required' }]}
           >
-            <Input.TextArea rows={4}/>
+            <Input.TextArea rows={4} />
           </Form.Item>
         </Col>
       </Row>

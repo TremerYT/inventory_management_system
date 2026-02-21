@@ -1,40 +1,37 @@
-import DashboardCards from "../../components/ui/dashboard_cards.jsx";
-import {Card, Col, Row, Table, Typography} from "antd";
-import {cardInfo, statsCards} from "../../utils/card_info.jsx";
-import StatsCards from "../../components/ui/stats_cards.jsx";
-import SalesVsPurchases from "../../components/charts/sales_purchase.jsx";
-import RevenueVsCost from "../../components/charts/revenue_cost.jsx";
-import ExpensesChart from "../../components/charts/expenses_chart.jsx";
-import IncomeChart from "../../components/charts/income_chart.jsx";
-import {lowStockColumns} from "../../utils/columns.jsx";
-import Overall from "../../components/charts/overall.jsx";
-import ProfitVsLoss from "../../components/charts/profit_loss.jsx";
-import {useProduct} from "../../context/product/product_context.jsx";
-import {useAuth} from "../../context/auth/auth_provider.jsx";
+import { Card, Col, Row, Table, Typography } from 'antd';
+import ExpensesChart from '../../components/charts/expenses_chart.jsx';
+import IncomeChart from '../../components/charts/income_chart.jsx';
+import Overall from '../../components/charts/overall.jsx';
+import ProfitVsLoss from '../../components/charts/profit_loss.jsx';
+import RevenueVsCost from '../../components/charts/revenue_cost.jsx';
+import SalesVsPurchases from '../../components/charts/sales_purchase.jsx';
+import DashboardCards from '../../components/ui/dashboard_cards.jsx';
+import StatsCards from '../../components/ui/stats_cards.jsx';
+import { useAuth } from '../../context/auth/auth_provider.jsx';
+import { useProduct } from '../../context/product/product_context.jsx';
+import { cardInfo, statsCards } from '../../utils/card_info.jsx';
+import { lowStockColumns } from '../../utils/columns.jsx';
 
-const {Title, Text} = Typography;
+const { Title, Text } = Typography;
 const Dashboard = () => {
-  const {user} = useAuth();
-  const {lowStockProducts, loadingLowStock} = useProduct()
+  const { user } = useAuth();
+  const { lowStockProducts, loadingLowStock } = useProduct();
   return (
     <div>
       <div className="mb-4">
         <Row gutter={[16, 16]} className="w-full flex items-center">
           <Col xs={24} lg={8}>
             <h1 className="mb-2">
-              Hi {user?.sub},{" "}
+              Hi {user?.username},{' '}
               {`Good ${
                 new Date().getHours() < 12
-                  ? "Morning"
+                  ? 'Morning'
                   : new Date().getHours() < 18
-                    ? "Afternoon"
-                    : "Evening"
+                    ? 'Afternoon'
+                    : 'Evening'
               }`}
             </h1>
-            <p>
-              Your dashboard gives you views of key performance or business
-              processes.
-            </p>
+            <p>Your dashboard gives you views of key performance or business processes.</p>
           </Col>
 
           <Col xs={24} lg={16}>
@@ -55,17 +52,17 @@ const Dashboard = () => {
           </Col>
         </Row>
       </div>
-      <Row gutter={[16, 16]} style={{marginBottom: '16px'}}>
+      <Row gutter={[16, 16]} style={{ marginBottom: '16px' }}>
         <Col xs={24} lg={9}>
-          <Overall/>
+          <Overall />
         </Col>
         <Col xs={24} lg={15}>
-          <ProfitVsLoss/>
+          <ProfitVsLoss />
         </Col>
       </Row>
-      <Row gutter={[16, 16]} style={{marginBottom: '16px'}}>
+      <Row gutter={[16, 16]} style={{ marginBottom: '16px' }}>
         <Col span={12}>
-          <SalesVsPurchases/>
+          <SalesVsPurchases />
         </Col>
         <Col span={12}>
           <Card title="Low Stock" className="h-full">
@@ -79,19 +76,19 @@ const Dashboard = () => {
       </Row>
       <Row gutter={[16, 16]}>
         <Col span={6}>
-          <Row style={{marginBottom: '16px'}}>
+          <Row style={{ marginBottom: '16px' }}>
             <Col span={24}>
-              <ExpensesChart/>
+              <ExpensesChart />
             </Col>
           </Row>
           <Row>
             <Col span={24}>
-              <IncomeChart/>
+              <IncomeChart />
             </Col>
           </Row>
         </Col>
         <Col span={18}>
-          <RevenueVsCost/>
+          <RevenueVsCost />
         </Col>
       </Row>
     </div>
