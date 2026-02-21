@@ -255,8 +255,8 @@ export const customersColumns = [
   },
   {
     title: "Customer",
-    dataIndex: "customerName",
-    key: "customerName",
+    dataIndex: "firstName",
+    key: "firstName",
   },
   {
     title: "Email",
@@ -269,19 +269,19 @@ export const customersColumns = [
     key: "phone",
   },
   {
-    title: "Address",
-    dataIndex: "address",
-    key: "address",
-  },
-  {
-    title: "City",
-    dataIndex: "city",
-    key: "city",
-  },
-  {
     title: "Customer Type",
     dataIndex: "customerType",
     key: "customerType",
+  },
+  {
+    title: "Reward Points",
+    dataIndex: "rewardPoints",
+    key: "rewardPoints",
+  },
+  {
+    title: "Address",
+    dataIndex: "address",
+    key: "address",
   },
   {
     title: "Status",
@@ -319,8 +319,8 @@ export const suppliersColumn = [
   },
   {
     title: "Supplier",
-    dataIndex: "supplierName",
-    key: "supplierName",
+    dataIndex: "firstName",
+    key: "firstName",
   },
   {
     title: "Company",
@@ -341,16 +341,6 @@ export const suppliersColumn = [
     title: "Address",
     dataIndex: "address",
     key: "address",
-  },
-  {
-    title: "Postal Code",
-    dataIndex: "postalCode",
-    key: "postalCode",
-  },
-  {
-    title: "City",
-    dataIndex: "city",
-    key: "city",
   },
   {
     title: "Action",
