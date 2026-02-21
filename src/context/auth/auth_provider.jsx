@@ -22,6 +22,13 @@ export const AuthProvider = ({children}) => {
     setLoading(false);
   }, []);
 
+  const register = (token) => {
+    localStorage.setItem("accessToken", token);
+    const decoded = jwtDecode(token);
+    setUser(decoded);
+    navigate("/dashboard");
+  }
+
   const login = (token) => {
     localStorage.setItem("accessToken", token);
     const decoded = jwtDecode(token);
@@ -35,7 +42,7 @@ export const AuthProvider = ({children}) => {
   }
 
   return (
-    <AuthContext.Provider value={{user, loading, login, logout}}>
+    <AuthContext.Provider value={{user, loading, login, logout, register}}>
       {!loading && children}
     </AuthContext.Provider>
   );
