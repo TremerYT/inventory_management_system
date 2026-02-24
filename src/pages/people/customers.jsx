@@ -1,12 +1,14 @@
-import {Button, Card, Input, Select, Table} from "antd";
-import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined,} from "@ant-design/icons";
-import {status} from "../../utils/select_items.js";
-import {useState} from "react";
-import {customersColumns} from "../../utils/columns.jsx";
-import {useNavigate} from "react-router";
+import { Button, Card, Input, Select, Table } from 'antd';
+import { FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
+import { status } from '../../utils/select_items.js';
+import { useState } from 'react';
+import { customersColumns } from '../../utils/columns.jsx';
+import { useNavigate } from 'react-router';
+import { useCustomer } from '../../context/customer/customer_provider.jsx';
 
 const Customers = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const { customers, isLoading } = useCustomer();
   const navigate = useNavigate();
   const rowSelection = {
     selectedRowKeys,
@@ -24,49 +26,39 @@ const Customers = () => {
         <div className="flex gap-3">
           <Button
             type="text"
-            icon={<FilePdfFilled style={{fontSize: 20, color: "red"}}/>}
-            onClick={() => {
-            }}
+            icon={<FilePdfFilled style={{ fontSize: 20, color: 'red' }} />}
+            onClick={() => {}}
           />
           <Button
             type="text"
-            icon={<FileExcelFilled style={{fontSize: 20, color: "green"}}/>}
-            onClick={() => {
-            }}
+            icon={<FileExcelFilled style={{ fontSize: 20, color: 'green' }} />}
+            onClick={() => {}}
           />
           <Button
             type="text"
-            icon={<ReloadOutlined style={{fontSize: 20}}/>}
-            onClick={() => {
-            }}
+            icon={<ReloadOutlined style={{ fontSize: 20 }} />}
+            onClick={() => {}}
           />
-          <Button type="primary" icon={<PlusOutlined/>} onClick={() => navigate("/customers/add")}>
+          <Button type="primary" icon={<PlusOutlined />} onClick={() => navigate('/customers/add')}>
             Add Customer
           </Button>
         </div>
       </div>
 
       <Card
-        title={
-          <Input.Search
-            className="w-1/4!"
-          />
-        }
+        title={<Input.Search className="w-1/4!" />}
         extra={
           <div className="w-30">
-            <Select
-              placeholder="status"
-              className="w-full!"
-              options={status}
-              allowClear
-            />
+            <Select placeholder="status" className="w-full!" options={status} allowClear />
           </div>
         }
       >
         <Table
+          loading={isLoading}
           rowSelection={rowSelection}
           columns={customersColumns}
-          pagination={{pageSize: 10}}
+          dataSource={customers}
+          pagination={{ pageSize: 10 }}
         />
       </Card>
     </>
