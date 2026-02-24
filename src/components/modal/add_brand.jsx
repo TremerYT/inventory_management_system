@@ -1,33 +1,29 @@
-import {Form, Input, Modal, Switch, Upload} from "antd";
-import {PlusOutlined} from "@ant-design/icons";
-import {useBrand} from "../../context/brand/brand_provider.jsx";
+import { Form, Input, Modal, Switch, Upload } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { useBrand } from '../../context/brand/brand_provider.jsx';
 
-const AddBrand = ({isOpen, handleCancel, handleOk}) => {
-  const {form, isLoading} = useBrand();
+const AddBrand = ({ isOpen, handleCancel, handleOk }) => {
+  const { form, isLoading } = useBrand();
 
   const onFinish = (values) => {
     handleOk(values);
-  }
+  };
   return (
     <Modal
       title="Add Brand"
       open={isOpen}
       onOk={() => form.submit()}
-      okText={"Add Brand"}
+      okText={'Add Brand'}
       onCancel={handleCancel}
-      okButtonProps={{loading: isLoading}}
+      okButtonProps={{ loading: isLoading }}
     >
-      <Form
-        form={form}
-        layout="vertical"
-        onFinish={onFinish}
-      >
+      <Form form={form} layout="vertical" onFinish={onFinish}>
         <Form.Item
           name="brandName"
           label="Brand Name"
-          rules={[{required: true, message: "Brand is Required"}]}
+          rules={[{ required: true, message: 'Brand is Required' }]}
         >
-          <Input/>
+          <Input />
         </Form.Item>
 
         <Form.Item
@@ -35,28 +31,21 @@ const AddBrand = ({isOpen, handleCancel, handleOk}) => {
           label="Brand Image"
           valuePropName="fileList"
           getValueFromEvent={(e) => e.fileList}
-          rules={[
-            {required: true, message: "Please upload at least one image"},
-          ]}
+          rules={[{ required: true, message: 'Please upload at least one image' }]}
         >
-          <Upload
-            listType="picture-card"
-            beforeUpload={() => false}
-            maxCount={1}
-          >
+          <Upload listType="picture-card" beforeUpload={() => false} maxCount={1}>
             <div>
-              <PlusOutlined/>
-              <div style={{marginTop: 8}}>Upload</div>
+              <PlusOutlined />
+              <div style={{ marginTop: 8 }}>Upload</div>
             </div>
-
           </Upload>
         </Form.Item>
         <Form.Item name="isActive" valuePropName="checked">
-          <Switch/>
+          <Switch />
         </Form.Item>
       </Form>
     </Modal>
-  )
-}
+  );
+};
 
 export default AddBrand;
