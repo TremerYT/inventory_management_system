@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Avatar, Badge, Button, Dropdown, Layout, Menu } from "antd";
-import { useNavigate, useLocation, Outlet } from "react-router-dom"; // Standardized import
+import React, { useState } from 'react';
+import { Avatar, Badge, Button, Dropdown, Layout, Menu } from 'antd';
+import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import {
   BellOutlined,
   MenuFoldOutlined,
@@ -8,10 +8,10 @@ import {
   PlusCircleOutlined,
   SettingOutlined,
   UserOutlined,
-} from "@ant-design/icons";
-import { items } from "../../utils/menu_items.jsx";
-import ItemDropdown from "../ui/item_dropdown.jsx";
-import ProfileDropDown from "../ui/profile_dropdown.jsx";
+} from '@ant-design/icons';
+import { items } from '../../utils/menu_items.jsx';
+import ItemDropdown from '../ui/item_dropdown.jsx';
+import ProfileDropDown from '../ui/profile_dropdown.jsx';
 
 const { Sider, Header, Content } = Layout;
 
@@ -59,14 +59,10 @@ const PageLayout = () => {
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
-            style={{ fontSize: "16px", width: 48, height: 48 }}
+            style={{ fontSize: '16px', width: 48, height: 48 }}
           />
           <div className="flex items-center gap-6!">
-            <Dropdown
-              trigger="click"
-              placement="bottomLeft"
-              popupRender={() => <ItemDropdown />}
-            >
+            <Dropdown trigger="click" placement="bottomLeft" popupRender={() => <ItemDropdown />}>
               <Button type="primary" icon={<PlusCircleOutlined />}>
                 Add New
               </Button>
@@ -74,10 +70,7 @@ const PageLayout = () => {
             <Badge count={2} size="small">
               <BellOutlined style={{ fontSize: 17 }} />
             </Badge>
-            <SettingOutlined
-              style={{ fontSize: 17 }}
-              onClick={() => navigate("/settings")}
-            />
+            <SettingOutlined style={{ fontSize: 17 }} onClick={() => navigate('/settings')} />
             <Dropdown
               trigger="click"
               placement="bottomLeft"

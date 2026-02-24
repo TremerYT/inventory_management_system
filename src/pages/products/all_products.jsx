@@ -1,12 +1,12 @@
-import {Card, Input, Modal, Select, Table} from "antd";
-import {useState} from "react";
-import {createProductColumns} from "../../utils/columns.jsx";
-import {useProduct} from "../../context/product/product_context.jsx";
-import {useCategory} from "../../context/category/category_provider.jsx";
-import ProductView from "../../components/modal/product_view.jsx";
-import CustomHeader from "../../components/ui/custom_header.jsx";
-import {exportToExcel, exportToPdf} from "../../utils/file_convert.js";
-import {useNavigate} from "react-router";
+import { Card, Input, Modal, Select, Table } from 'antd';
+import { useState } from 'react';
+import { createProductColumns } from '../../utils/columns.jsx';
+import { useProduct } from '../../context/product/product_context.jsx';
+import { useCategory } from '../../context/category/category_provider.jsx';
+import ProductView from '../../components/modal/product_view.jsx';
+import CustomHeader from '../../components/ui/custom_header.jsx';
+import { exportToExcel, exportToPdf } from '../../utils/file_convert.js';
+import { useNavigate } from 'react-router';
 
 const AllProducts = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -14,23 +14,18 @@ const AllProducts = () => {
     loadingProducts,
     setSelectedCategory,
     setSearchText,
-    products,
-    handleOnDelete,
     filteredData,
     fetchProducts,
     handleView,
-    handleOnOk,
     handleEdit,
     handleDelete,
     confirmDelete,
     cancelDelete,
-    selectedProduct,
     isConfirmationOpen,
-    isModalOpen,
-    productToDelete
+    productToDelete,
   } = useProduct();
 
-  const {categoryFilter} = useCategory();
+  const { categoryFilter } = useCategory();
   const navigate = useNavigate();
 
   const columns = createProductColumns({
@@ -49,12 +44,12 @@ const AllProducts = () => {
   return (
     <>
       <CustomHeader
-        title={"Products"}
-        subTitle={"Manage Your products"}
-        buttonText={"Add product"}
-        handlePdfExport={() => exportToPdf(filteredData, columns, "products")}
-        handleExcelExport={() => exportToExcel(filteredData, columns, "products")}
-        handleOnClick={() => navigate("/products/add")}
+        title={'Products'}
+        subTitle={'Manage Your products'}
+        buttonText={'Add product'}
+        handlePdfExport={() => exportToPdf(filteredData, columns, 'products')}
+        handleExcelExport={() => exportToExcel(filteredData, columns, 'products')}
+        handleOnClick={() => navigate('/products/add')}
         handleReload={() => fetchProducts()}
       />
 
@@ -83,22 +78,21 @@ const AllProducts = () => {
           rowSelection={rowSelection}
           columns={columns}
           dataSource={filteredData}
-          pagination={{pageSize: 10}}
+          pagination={{ pageSize: 10 }}
           loading={loadingProducts}
           rowKey="skuNumber"
         />
       </Card>
-      <ProductView/>
+      <ProductView />
       <Modal
         open={isConfirmationOpen}
         onOk={confirmDelete}
         onCancel={cancelDelete}
         okText="Delete"
-        okButtonProps={{danger: true}}
+        okButtonProps={{ danger: true }}
       >
         <p>
-          Are you sure you want to delete{" "}
-          <strong>{productToDelete?.productName}</strong>?
+          Are you sure you want to delete <strong>{productToDelete?.productName}</strong>?
         </p>
       </Modal>
     </>

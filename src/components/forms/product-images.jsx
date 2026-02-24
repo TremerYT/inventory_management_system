@@ -1,6 +1,6 @@
-import {Card, Typography, Form, Upload, Row, Col} from "antd";
-import { useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
+import { Card, Typography, Form, Upload, Row, Col } from 'antd';
+import { useState } from 'react';
+import { PlusOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
 const ProductImages = () => {
@@ -10,9 +10,9 @@ const ProductImages = () => {
     setMainImage(fileList);
   };
 
-  const handleGalleryImageChange = ({fileList}) => {
-    setGalleryImages(fileList)
-  }
+  const handleGalleryImageChange = ({ fileList }) => {
+    setGalleryImages(fileList);
+  };
   return (
     <Row gutter={[16]}>
       <Col span={6}>
@@ -21,9 +21,7 @@ const ProductImages = () => {
             name="mainImage"
             valuePropName="fileList"
             getValueFromEvent={(e) => e.fileList}
-            rules={[
-              { required: true, message: "Please upload at least one image" },
-            ]}
+            rules={[{ required: true, message: 'Please upload at least one image' }]}
           >
             <Upload
               listType="picture-card"
@@ -40,7 +38,6 @@ const ProductImages = () => {
               )}
             </Upload>
           </Form.Item>
-
         </Card>
       </Col>
       <Col span={18}>

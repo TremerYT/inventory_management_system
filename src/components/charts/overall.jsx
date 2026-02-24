@@ -1,13 +1,13 @@
-import {Card} from "antd";
-import Chart from "react-apexcharts";
+import { Card } from 'antd';
+import Chart from 'react-apexcharts';
 
 const Overall = () => {
   const options = {
     chart: {
-      type: "pie",
+      type: 'pie',
     },
-    labels: ["Purchases", "Sales", "Expenses", "Profits"],
-    dataLabels: {enabled: true, formatter: (val) => `${val.toFixed(1)}%`},
+    labels: ['Purchases', 'Sales', 'Expenses', 'Profits'],
+    dataLabels: { enabled: true, formatter: (val) => `${val.toFixed(1)}%` },
     responsive: [
       {
         breakpoint: 480,
@@ -16,7 +16,7 @@ const Overall = () => {
             width: 300,
           },
           legend: {
-            position: "right",
+            position: 'right',
           },
         },
       },
@@ -25,7 +25,7 @@ const Overall = () => {
   const series = [400, 600, 300, 200];
   return (
     <Card title="Overall Report">
-      <Chart options={options} series={series} type="pie"/>
+      <Chart options={options} series={series} type="pie" />
     </Card>
   );
 };

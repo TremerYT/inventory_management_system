@@ -1,16 +1,16 @@
-import {Button, Divider} from "antd";
-import {FcGoogle} from "react-icons/fc";
-import {FaFacebook} from "react-icons/fa";
-import {useNavigate} from "react-router";
+import { Button, Divider } from 'antd';
+import { FcGoogle } from 'react-icons/fc';
+import { FaFacebook } from 'react-icons/fa';
+import { useNavigate } from 'react-router';
 
 const AuthLayout = ({
-                      title,
-                      subtitle,
-                      footerText,
-                      footerActionText,
-                      footerActionPath,
-                      children,
-                    }) => {
+  title,
+  subtitle,
+  footerText,
+  footerActionText,
+  footerActionPath,
+  children,
+}) => {
   const navigate = useNavigate();
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-300">
@@ -22,15 +22,11 @@ const AuthLayout = ({
             <p className="text-gray-500">{subtitle}</p>
           </div>
           <div className="flex gap-4 w-full mb-6">
-            <Button icon={<FcGoogle/>} block size="large">
+            <Button icon={<FcGoogle />} block size="large">
               Continue with Google
             </Button>
 
-            <Button
-              icon={<FaFacebook style={{color: "#1877F2"}}/>}
-              block
-              size="large"
-            >
+            <Button icon={<FaFacebook style={{ color: '#1877F2' }} />} block size="large">
               Continue with Facebook
             </Button>
           </div>
@@ -38,17 +34,13 @@ const AuthLayout = ({
           {children}
           <div className="flex items-center justify-center">
             <p>{footerText}</p>
-            <Button
-              type="link"
-              size="large"
-              onClick={() => navigate(footerActionPath)}
-            >
+            <Button type="link" size="large" onClick={() => navigate(footerActionPath)}>
               {footerActionText}
             </Button>
           </div>
         </div>
         <div className="w-1/2 bg-gray-500 flex items-center justify-center rounded-r-2xl">
-          <img src="/login.png" alt="login illustration"/>
+          <img src="/login.png" alt="login illustration" />
         </div>
       </div>
     </div>

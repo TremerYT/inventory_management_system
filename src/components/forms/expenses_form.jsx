@@ -5,3 +5,5 @@ const ExpensesForm = () => {
     </Form>
   );
 }
+
+export default ExpensesForm;

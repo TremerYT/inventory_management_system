@@ -1,11 +1,11 @@
-import {useState} from "react";
-import Chart from "react-apexcharts";
-import {Card, Select} from "antd";
+import { useState } from 'react';
+import Chart from 'react-apexcharts';
+import { Card, Select } from 'antd';
 
-const {Option} = Select;
+const { Option } = Select;
 
 const ExpensesChart = () => {
-  const [period, setPeriod] = useState("month");
+  const [period, setPeriod] = useState('month');
 
   const dataMap = {
     week: [120, 180, 150, 220, 200, 170, 210],
@@ -15,17 +15,17 @@ const ExpensesChart = () => {
 
   const series = [
     {
-      name: "Expenses",
+      name: 'Expenses',
       data: dataMap[period],
     },
   ];
 
   const options = {
     chart: {
-      type: "line",
+      type: 'line',
       height: 200,
-      toolbar: {show: false},
-      zoom: {enabled: false},
+      toolbar: { show: false },
+      zoom: { enabled: false },
       dropShadow: {
         enabled: true,
         top: 8,
@@ -35,19 +35,19 @@ const ExpensesChart = () => {
       },
     },
     stroke: {
-      curve: "smooth",
+      curve: 'smooth',
       width: 3,
     },
-    colors: ["#f97316"],
-    grid: {show: false},
+    colors: ['#f97316'],
+    grid: { show: false },
     xaxis: {
-      labels: {show: false},
-      axisBorder: {show: false},
-      axisTicks: {show: false},
+      labels: { show: false },
+      axisBorder: { show: false },
+      axisTicks: { show: false },
     },
-    yaxis: {show: false},
-    legend: {show: false},
-    markers: {size: 0},
+    yaxis: { show: false },
+    legend: { show: false },
+    markers: { size: 0 },
   };
 
   const totalExpenses = series[0].data.reduce((a, b) => a + b, 0);
@@ -62,19 +62,14 @@ const ExpensesChart = () => {
           </p>
         </div>
 
-        <Select
-          size="small"
-          value={period}
-          onChange={setPeriod}
-          className="min-w-[90px]"
-        >
+        <Select size="small" value={period} onChange={setPeriod} className="min-w-[90px]">
           <Option value="week">Week</Option>
           <Option value="month">Month</Option>
           <Option value="year">Year</Option>
         </Select>
       </div>
 
-      <Chart options={options} series={series} type="line" height={200}/>
+      <Chart options={options} series={series} type="line" height={200} />
     </Card>
   );
 };

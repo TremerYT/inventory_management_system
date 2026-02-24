@@ -1,20 +1,20 @@
-import {Carousel, Col, Descriptions, Image, Modal, Row} from "antd";
-import {useProduct} from "../../context/product/product_context.jsx";
+import { Carousel, Col, Descriptions, Image, Modal, Row } from 'antd';
+import { useProduct } from '../../context/product/product_context.jsx';
 
 const ProductView = () => {
-  const {isModalOpen, selectedProduct, handleOnOk, handleModalCancel} = useProduct()
+  const { isModalOpen, selectedProduct, handleOnOk, handleModalCancel } = useProduct();
   const productDescription = [
-    {label: "Barcode Number", value: selectedProduct?.barcodeNumber},
-    {label: "SKU Number", value: selectedProduct?.skuNumber},
-    {label: "Product Name", value: selectedProduct?.productName},
-    {label: "Category", value: selectedProduct?.categoryName},
-    {label: "Brand", value: selectedProduct?.brand},
-    {label: "Description", value: selectedProduct?.description},
-    {label: "Quantity", value: selectedProduct?.quantity},
-    {label: "Cost Price", value: selectedProduct?.costPrice},
-    {label: "Unit Price", value: selectedProduct?.unitPrice},
-    {label: "Discount Value", value: selectedProduct?.discountValue},
-    {label: "Stock Alert", value: selectedProduct?.minStock}
+    { label: 'Barcode Number', value: selectedProduct?.barcodeNumber },
+    { label: 'SKU Number', value: selectedProduct?.skuNumber },
+    { label: 'Product Name', value: selectedProduct?.productName },
+    { label: 'Category', value: selectedProduct?.categoryName },
+    { label: 'Brand', value: selectedProduct?.brandName },
+    { label: 'Description', value: selectedProduct?.description },
+    { label: 'Quantity', value: selectedProduct?.quantity },
+    { label: 'Cost Price', value: selectedProduct?.costPrice },
+    { label: 'Unit Price', value: selectedProduct?.unitPrice },
+    { label: 'Discount Value', value: selectedProduct?.discountValue },
+    { label: 'Stock Alert', value: selectedProduct?.minStock },
   ];
 
   return (
@@ -33,14 +33,12 @@ const ProductView = () => {
         <Col span={10}>
           <Carousel arrows={true} infinite={false} dotPlacement="bottom">
             {selectedProduct?.galleryImages?.map((image, index) => (
-              <div
-                key={index}
-              >
+              <div key={index}>
                 <Image
                   width="100%"
                   height={200}
                   src={image}
-                  style={{objectFit: "contain"}}
+                  style={{ objectFit: 'contain' }}
                   alt="product"
                 />
               </div>
@@ -48,7 +46,6 @@ const ProductView = () => {
           </Carousel>
         </Col>
       </Row>
-
     </Modal>
   );
 };
