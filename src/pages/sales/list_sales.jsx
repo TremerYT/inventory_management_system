@@ -1,15 +1,14 @@
-import { useNavigate } from 'react-router';
 import { Card, Input, Select, Table } from 'antd';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import CustomHeader from '../../components/ui/custom_header.jsx';
+import { useSale } from '../../context/sales/sales_provider.jsx';
 import { createSalesColumns } from '../../utils/columns.jsx';
 import { paymentStatus, saleStatus } from '../../utils/select_items.js';
-import { salesMockData } from '../../mock/mock_data.jsx';
-import { useState } from 'react';
-import CustomHeader from '../../components/ui/custom_header.jsx';
-// import {useSale} from "../../context/sales/sales_provider.jsx";
 
 const AllSales = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  // const {} = useSale()
+  const { sales, isLoading } = useSale();
   const rowSelection = {
     selectedRowKeys,
     onChange: (newSelectedKeys) => {
@@ -46,8 +45,9 @@ const AllSales = () => {
           pagination={{ pageSize: 10 }}
           rowSelection={rowSelection}
           rowKey="key"
+          loading={isLoading}
           columns={columns}
-          dataSource={salesMockData}
+          dataSource={sales}
         />
       </Card>
     </>

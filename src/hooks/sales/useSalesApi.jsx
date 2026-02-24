@@ -1,12 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
 import { Form, message } from 'antd';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { getProductsByQuery } from '../../services/product.service.js';
 import {
   createSale as createSaleApi,
   deleteSaleById,
   getSales,
   updateSaleById,
 } from '../../services/sales.service.js';
-import { getProductsByQuery } from '../../services/product.service.js';
 
 const { useWatch } = Form;
 
@@ -35,9 +35,30 @@ export const useSalesApi = ({ onSuccess, onUpdateSuccess } = {}) => {
 
   const createSale = async (values) => {
     try {
+      if (saleItems.length === 0) {
+        message.error('Please add at least one item to the sale');
+        return false;
+      }
       setIsLoading(true);
-      await createSaleApi(values);
+      const saleData = {
+        ...values,
+        date: values.date.format('YYYY-MM-DD'),
+        shipping: Number(values.shipping),
+        paid: Number(values.paid),
+        items: saleItems.map((item) => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          unitPrice: item.price,
+          discount:
+            item.discountType === 'PERCENTAGE'
+              ? (item.discountValue * item.price * item.quantity) / 100
+              : item.discountValue,
+        })),
+      };
+      await createSaleApi(saleData);
       message.success('Sale created successfully');
+      form.resetFields();
+      setSaleItems([]);
       await fetchSales();
       if (onSuccess) onSuccess();
       return true;
@@ -249,5 +270,6 @@ export const useSalesApi = ({ onSuccess, onUpdateSuccess } = {}) => {
     handleOnSelect,
     handleQuantityChange,
     handleOnSearch,
+    formatPrice: (price) => Number(price),
   };
 };

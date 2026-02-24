@@ -1,62 +1,57 @@
-import {Button, Card, Descriptions, Space, Table} from "antd";
-import {DeleteOutlined} from "@ant-design/icons";
-import SalesForm from "../../components/forms/sales_form.jsx";
-import {useSale} from "../../context/sales/sales_provider.jsx";
+import { DeleteOutlined } from '@ant-design/icons';
+import { Button, Card, Descriptions, Space, Table } from 'antd';
+import SalesForm from '../../components/forms/sales_form.jsx';
+import { useSale } from '../../context/sales/sales_provider.jsx';
 
 const AddSale = () => {
   const {
     saleItems,
     setSaleItems,
-    submitting,
     handleQuantityChange,
+    summaryItems,
     form,
-    summaryItems
+    isLoading,
+    createSale,
   } = useSale();
 
   const handleDeleteItem = (record) => {
-    setSaleItems((prev) =>
-      prev.filter((item) => item.skuNumber !== record.skuNumber),
-    );
+    setSaleItems((prev) => prev.filter((item) => item.skuNumber !== record.skuNumber));
   };
-
-  const handleOnCancel = () => {
-    form.resetFields();
-  }
 
   const customColumns = [
     {
-      title: "SKU",
-      dataIndex: "skuNumber",
-      key: "skuNumber",
+      title: 'SKU',
+      dataIndex: 'skuNumber',
+      key: 'skuNumber',
     },
     {
-      title: "Product Name",
-      dataIndex: "productName",
-      key: "productName",
+      title: 'Product Name',
+      dataIndex: 'productName',
+      key: 'productName',
     },
     {
-      title: "Category",
-      dataIndex: "categoryName",
-      key: "categoryName",
+      title: 'Category',
+      dataIndex: 'categoryName',
+      key: 'categoryName',
     },
     {
-      title: "Brand",
-      dataIndex: "brand",
-      key: "brand",
+      title: 'Brand',
+      dataIndex: 'brand',
+      key: 'brand',
     },
     {
-      title: "Unit",
-      dataIndex: "unit",
-      key: "unit",
+      title: 'Unit',
+      dataIndex: 'unit',
+      key: 'unit',
     },
     {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
     },
     {
-      title: "Quantity",
-      key: "quantity",
+      title: 'Quantity',
+      key: 'quantity',
       render: (_, record) => (
         <Space>
           <Button
@@ -67,41 +62,35 @@ const AddSale = () => {
           >
             -
           </Button>
-          <span style={{minWidth: 24, textAlign: "center"}}>
-            {record.quantity}
-          </span>
-          <Button
-            size="small"
-            type="primary"
-            onClick={() => handleQuantityChange(record, 1)}
-          >
+          <span style={{ minWidth: 24, textAlign: 'center' }}>{record.quantity}</span>
+          <Button size="small" type="primary" onClick={() => handleQuantityChange(record, 1)}>
             +
           </Button>
         </Space>
       ),
     },
     {
-      title: "Discount Type",
-      dataIndex: "discountType",
-      key: "discountType",
+      title: 'Discount Type',
+      dataIndex: 'discountType',
+      key: 'discountType',
     },
     {
-      title: "Discount",
-      dataIndex: "discountValue",
-      key: "discountValue",
+      title: 'Discount',
+      dataIndex: 'discountValue',
+      key: 'discountValue',
     },
     {
-      title: "Sub Total",
-      dataIndex: "subTotal",
-      key: "subTotal",
+      title: 'Sub Total',
+      dataIndex: 'subTotal',
+      key: 'subTotal',
     },
     {
-      title: "Action",
-      key: "action",
+      title: 'Action',
+      key: 'action',
       render: (_, record) => (
         <Space size="middle">
           <Button
-            icon={<DeleteOutlined style={{color: "red"}}/>}
+            icon={<DeleteOutlined style={{ color: 'red' }} />}
             onClick={() => handleDeleteItem(record)}
           />
         </Space>
@@ -118,21 +107,11 @@ const AddSale = () => {
         </div>
       </div>
       <Card>
-        <SalesForm/>
-        <Table
-          columns={customColumns}
-          dataSource={saleItems}
-          rowKey="skuNumber"
-        />
+        <SalesForm />
+        <Table columns={customColumns} dataSource={saleItems} rowKey="skuNumber" />
         {saleItems.length > 0 && (
           <div className="flex justify-end">
-            <Descriptions
-              bordered
-              size="small"
-              layout="horizontal"
-              column={1}
-              className="w-1/2"
-            >
+            <Descriptions bordered size="small" layout="horizontal" column={1} className="w-1/2">
               {summaryItems.map((item) => (
                 <Descriptions.Item key={item.label} label={item.label}>
                   {item.value}
@@ -146,11 +125,12 @@ const AddSale = () => {
             type="primary"
             htmlType="submit"
             size="large"
-            loading={submitting}
+            loading={isLoading}
+            onClick={() => form.submit()}
           >
             Add Sale
           </Button>
-          <Button type="primary" danger onClick={handleOnCancel} size="large">
+          <Button type="primary" danger onClick={() => form.resetFields()} size="large">
             Cancel
           </Button>
         </div>
