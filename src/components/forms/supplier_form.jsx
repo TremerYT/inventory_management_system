@@ -1,30 +1,45 @@
-import {Button, Col, Form, Input, Row, Switch} from "antd";
-import 'react-phone-number-input/style.css'
-import {useState} from "react";
-import {useSupplier} from "../../context/supplier/supplier_provider.jsx";
+import { Button, Col, Form, Input, Row, Switch } from 'antd';
+import 'react-phone-number-input/style.css';
+import { useSupplier } from '../../context/supplier/supplier_provider.jsx';
 
 const SupplierForm = () => {
-  const [active, setActive] = useState(true);
-  const {form} = useSupplier();
+  const { form, createSuppliers, updateSuppliers, isEditMode, setIsEditMode } = useSupplier();
+
+  const onFinish = async (values) => {
+    if (isEditMode) {
+      const success = await updateSuppliers(form.getFieldValue('id'), values);
+      if (success) {
+        setIsEditMode(false);
+      }
+    } else {
+      await createSuppliers(values);
+    }
+  };
+
+  const handleCancel = () => {
+    form.resetFields();
+    setIsEditMode(false);
+  };
+
   return (
-    <Form form={form} layout="vertical">
+    <Form form={form} layout="vertical" onFinish={onFinish}>
       <Row gutter={[16, 16]}>
         <Col span={12}>
           <Form.Item
             name="firstName"
             label="First Name"
-            rules={[{required: true, message: "First name is required"}]}
+            rules={[{ required: true, message: 'First name is required' }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
             name="lastName"
             label="Last name"
-            rules={[{required: true, message: "Last name is required"}]}
+            rules={[{ required: true, message: 'Last name is required' }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
         </Col>
       </Row>
@@ -33,18 +48,18 @@ const SupplierForm = () => {
           <Form.Item
             name="companyName"
             label="Company Name"
-            rules={[{required: true, message: "Username is required"}]}
+            rules={[{ required: true, message: 'Username is required' }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
             name="email"
             label="Email"
-            rules={[{required: true, message: "email is required", type: "email"}]}
+            rules={[{ required: true, message: 'email is required', type: 'email' }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
         </Col>
       </Row>
@@ -53,25 +68,29 @@ const SupplierForm = () => {
           <Form.Item
             name="phoneNumber"
             label="Phone number"
-            rules={[{
-              required: true,
-              message: "Phone number is required",
-              pattern: /^(?:\+254|254|0)?(7\d{8}|1\d{8})$/
-            }]}
+            rules={[
+              {
+                required: true,
+                message: 'Phone number is required',
+                pattern: /^(?:\+254|254|0)?(7\d{8}|1\d{8})$/,
+              },
+            ]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
             name="city"
             label="City"
-            rules={[{
-              required: true,
-              message: "City is required",
-            }]}
+            rules={[
+              {
+                required: true,
+                message: 'City is required',
+              },
+            ]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
         </Col>
       </Row>
@@ -80,41 +99,36 @@ const SupplierForm = () => {
           <Form.Item
             name="zipCode"
             label="Zip Code"
-            rules={[{required: true, message: "Zip Code is required"}]}
+            rules={[{ required: true, message: 'Zip Code is required' }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
             name="address"
             label="Address"
-            rules={[{required: true, message: "Address is required"}]}
+            rules={[{ required: true, message: 'Address is required' }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
         </Col>
       </Row>
       <div className="flex justify-end">
-        <Form.Item
-          name="status"
-          label="Status"
-          valuePropName="checked"
-          initialValue={true}
-        >
-          <Switch size="default"/>
+        <Form.Item name="status" label="Status" valuePropName="checked" initialValue={true}>
+          <Switch size="default" />
         </Form.Item>
       </div>
       <div className="flex gap-4 justify-end mt-10">
         <Button type="primary" htmlType="submit" size="large">
-          Save Supplier
+          {isEditMode ? 'Update Supplier' : 'Save Supplier'}
         </Button>
-        <Button type="primary" danger size="large">
+        <Button type="primary" danger size="large" onClick={handleCancel}>
           Cancel
         </Button>
       </div>
     </Form>
   );
-}
+};
 
 export default SupplierForm;

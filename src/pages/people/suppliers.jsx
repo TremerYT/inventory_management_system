@@ -1,11 +1,16 @@
-import {Button, Card, Input, Select, Table} from "antd";
-import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined,} from "@ant-design/icons";
-import {status} from "../../utils/select_items.js";
-import {useState} from "react";
-import {suppliersColumn} from "../../utils/columns.jsx";
+import { FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
+import { Button, Card, Input, Modal, Select, Table } from 'antd';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import { useSupplier } from '../../context/supplier/supplier_provider.jsx';
+import { createSuppliersColumns } from '../../utils/columns.jsx';
+import { status } from '../../utils/select_items.js';
 
 const Suppliers = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const { suppliers, isLoading, deleteSuppliers, fetchSuppliers, form, setIsEditMode } =
+    useSupplier();
+  const navigate = useNavigate();
 
   const rowSelection = {
     selectedRowKeys,
@@ -13,6 +18,25 @@ const Suppliers = () => {
       setSelectedRowKeys(newSelectedKeys);
     },
   };
+
+  const handleEdit = (record) => {
+    form.setFieldsValue(record);
+    setIsEditMode(true);
+    navigate('/suppliers/add');
+  };
+
+  const handleDelete = (id) => {
+    Modal.confirm({
+      title: 'Are you sure you want to delete this supplier?',
+      content: 'This action cannot be undone',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk: () => deleteSuppliers(id),
+    });
+  };
+
+  const suppliersColumns = createSuppliersColumns({ onEdit: handleEdit, onDelete: handleDelete });
 
   return (
     <>
@@ -24,50 +48,40 @@ const Suppliers = () => {
         <div className="flex gap-3">
           <Button
             type="text"
-            icon={<FilePdfFilled style={{fontSize: 20, color: "red"}}/>}
-            onClick={() => {
-            }}
+            icon={<FilePdfFilled style={{ fontSize: 20, color: 'red' }} />}
+            onClick={() => {}}
           />
           <Button
             type="text"
-            icon={<FileExcelFilled style={{fontSize: 20, color: "green"}}/>}
-            onClick={() => {
-            }}
+            icon={<FileExcelFilled style={{ fontSize: 20, color: 'green' }} />}
+            onClick={() => {}}
           />
           <Button
             type="text"
-            icon={<ReloadOutlined style={{fontSize: 20}}/>}
-            onClick={() => {
-            }}
+            icon={<ReloadOutlined style={{ fontSize: 20 }} />}
+            onClick={() => fetchSuppliers()}
           />
-          <Button type="primary" icon={<PlusOutlined/>} onClick={() => {
-          }}>
-            Add Supplers
+          <Button type="primary" icon={<PlusOutlined />} onClick={() => navigate('/suppliers/add')}>
+            Add Suppliers
           </Button>
         </div>
       </div>
 
       <Card
-        title={
-          <Input.Search
-            className="w-1/4!"
-          />
-        }
+        title={<Input.Search className="w-1/4!" />}
         extra={
           <div className="w-30">
-            <Select
-              placeholder="status"
-              className="w-full!"
-              options={status}
-              allowClear
-            />
+            <Select placeholder="status" className="w-full!" options={status} allowClear />
           </div>
         }
       >
         <Table
+          loading={isLoading}
           rowSelection={rowSelection}
-          columns={suppliersColumn}
-          pagination={{pageSize: 10}}
+          columns={suppliersColumns}
+          dataSource={suppliers}
+          rowKey="id"
+          pagination={{ pageSize: 10 }}
         />
       </Card>
     </>
