@@ -1,5 +1,6 @@
-import {Form, message} from "antd";
-import {upload} from "../../services/supabase_storage.js";
+import { Form, message } from 'antd';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import {
   createProduct,
   deleteProduct,
@@ -7,15 +8,14 @@ import {
   getOutOfStockProducts,
   getProductById,
   getProducts,
-  updateProduct
-} from "../../services/product.service.js";
-import {useEffect, useState} from "react";
-import {useNavigate} from "react-router";
+  updateProduct,
+} from '../../services/product.service.js';
+import { upload } from '../../services/supabase_storage.js';
 
 export const useProductApi = () => {
   const [form] = Form.useForm();
   const [submitting, setSubmitting] = useState(false);
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingProductId, setEditingProductId] = useState(null);
   const [loadingProducts, setLoadingProducts] = useState(false);
@@ -32,7 +32,7 @@ export const useProductApi = () => {
       const data = await getProducts();
       setProducts(data);
     } catch (e) {
-      console.error("Error fetching Products:", e);
+      console.error('Error fetching Products:', e);
     } finally {
       setLoadingProducts(false);
     }
@@ -44,7 +44,7 @@ export const useProductApi = () => {
       const data = await getLowStockProducts();
       setLowStockProducts(data);
     } catch (e) {
-      console.error("Error fetching low stock Products:", e);
+      console.error('Error fetching low stock Products:', e);
     } finally {
       setLoadingLowStock(false);
     }
@@ -56,7 +56,7 @@ export const useProductApi = () => {
       const data = await getOutOfStockProducts();
       setOutOfStockProducts(data);
     } catch (e) {
-      console.error("Error fetching out of stock Products:", e);
+      console.error('Error fetching out of stock Products:', e);
     } finally {
       setLoadingOutOfStock(false);
     }
@@ -69,38 +69,40 @@ export const useProductApi = () => {
       form.setFieldsValue({
         ...data,
         mainImage: data.mainImage
-          ? [{
-            uid: "-1",
-            name: "main-image",
-            status: "done",
-            url: data.mainImage,
-          }]
+          ? [
+              {
+                uid: '-1',
+                name: 'main-image',
+                status: 'done',
+                url: data.mainImage,
+              },
+            ]
           : [],
-        galleryImages: data.galleryImages?.map((url, index) => ({
-          uid: `-${index + 2}`,
-          name: `gallery-${index + 1}`,
-          status: "done",
-          url,
-        })) || [],
+        galleryImages:
+          data.galleryImages?.map((url, index) => ({
+            uid: `-${index + 2}`,
+            name: `gallery-${index + 1}`,
+            status: 'done',
+            url,
+          })) || [],
       });
 
       setIsEditMode(true);
       setEditingProductId(id);
     } catch (e) {
-      message.error("failed to load product");
+      message.error('failed to load product');
     }
   };
 
   const handleOnFinish = async (values) => {
     try {
+      console.log('called');
       setSubmitting(true);
       const mainImage = values.mainImage[0]?.originFileObj;
-      const mainImageUrl = await upload(mainImage, "main", "productImages");
+      const mainImageUrl = await upload(mainImage, 'main', 'productImages');
 
       const galleryImagesUrl = await Promise.all(
-        values.galleryImages.map((image) =>
-          upload(image.originFileObj, "gallery", "productImages"),
-        ),
+        values.galleryImages.map((image) => upload(image.originFileObj, 'gallery', 'productImages'))
       );
 
       const data = {
@@ -109,11 +111,11 @@ export const useProductApi = () => {
         galleryImages: galleryImagesUrl,
       };
       await createProduct(data);
-      message.success("Added Product successfully");
+      message.success('Added Product successfully');
       form.resetFields();
     } catch (e) {
-      console.error("Error Uploading the product:", e);
-      message.error("Something went wrong uploading the Product");
+      console.error('Error Uploading the product:', e);
+      message.error('Something went wrong uploading the Product');
     } finally {
       setSubmitting(false);
     }
@@ -126,7 +128,7 @@ export const useProductApi = () => {
 
       if (values.mainImage?.[0]?.originFileObj) {
         const mainImage = values.mainImage[0].originFileObj;
-        mainImageUrl = await upload(mainImage, "main", "productImages");
+        mainImageUrl = await upload(mainImage, 'main', 'productImages');
       } else if (values.mainImage?.[0]?.url) {
         mainImageUrl = values.mainImage[0].url;
       }
@@ -134,7 +136,7 @@ export const useProductApi = () => {
       const galleryImagesUrl = await Promise.all(
         values.galleryImages.map((image) => {
           if (image.originFileObj) {
-            return upload(image.originFileObj, "gallery", "productImages");
+            return upload(image.originFileObj, 'gallery', 'productImages');
           }
           return image.url;
         })
@@ -147,11 +149,11 @@ export const useProductApi = () => {
       };
 
       await updateProduct(editingProductId, data);
-      message.success("Updated Product sucessfully");
+      message.success('Updated Product sucessfully');
       setIsEditMode(false);
       setEditingProductId(null);
     } catch (e) {
-      message.error("Failed to update product");
+      message.error('Failed to update product');
     } finally {
       setSubmitting(false);
     }
@@ -161,10 +163,10 @@ export const useProductApi = () => {
     try {
       await deleteProduct(id);
       if (fetchProducts) await fetchProducts();
-      message.success("Deleted Product successfully");
+      message.success('Deleted Product successfully');
     } catch (e) {
-      console.error("Error deleting Product");
-      message.error("Something went wrong deleting the Product");
+      console.error('Error deleting Product');
+      message.error('Something went wrong deleting the Product');
     }
   };
 
@@ -178,6 +180,13 @@ export const useProductApi = () => {
 
   useEffect(() => {
     fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    fetchLowStockProducts();
+  }, []);
+  useEffect(() => {
+    fetchOutOfStockProducts();
   }, []);
 
   return {
@@ -201,4 +210,4 @@ export const useProductApi = () => {
     fetchLowStockProducts,
     fetchOutOfStockProducts,
   };
-}
+};
