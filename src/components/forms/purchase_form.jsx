@@ -1,24 +1,22 @@
-import {AutoComplete, Col, DatePicker, Form, Input, Row, Select} from "antd";
-import dayjs from "dayjs";
-import {usePurchase} from "../../context/purchases/purchases_provider.jsx";
+import { AutoComplete, Col, DatePicker, Form, Input, Row, Select } from 'antd';
+import dayjs from 'dayjs';
+import { usePurchase } from '../../context/purchases/purchases_provider.jsx';
 
-const {TextArea} = Input;
-const generatePUR = () => {
-  const code = "PUR";
-  const randomNumber = Math.floor(1000 + Math.random() * 9000);
-  return `${code}-${randomNumber}`;
-};
+const { TextArea } = Input;
+// const generatePUR = () => {
+//   const code = 'PUR';
+//   const randomNumber = Math.floor(1000 + Math.random() * 9000);
+//   return `${code}-${randomNumber}`;
+// };
 
 const PurchaseForm = () => {
-  const [purchaseForm] = Form.useForm();
-  const {productOptions, handleOnSearch, handleOnSelect, form} = usePurchase();
+  const { productOptions, handleOnSearch, handleOnSelect, form } = usePurchase();
   return (
-    <Form layout="vertical" form={form} onFinish={(values) => {
-    }}>
+    <Form layout="vertical" form={form}>
       <Row gutter={[16, 16]}>
         <Col span={8}>
           <Form.Item label="Reference No" name="referenceNumber">
-            <Input disabled/>
+            <Input disabled />
           </Form.Item>
         </Col>
 
@@ -26,13 +24,11 @@ const PurchaseForm = () => {
           <Form.Item
             label="Date"
             name="date"
-            rules={[{required: true, message: "Date is required"}]}
+            rules={[{ required: true, message: 'Date is required' }]}
           >
             <DatePicker
               className="w-full"
-              disabledDate={(current) =>
-                current && current < dayjs().startOf("day")
-              }
+              disabledDate={(current) => current && current < dayjs().startOf('day')}
             />
           </Form.Item>
         </Col>
@@ -41,9 +37,9 @@ const PurchaseForm = () => {
           <Form.Item
             label="Supplier name"
             name="supplierName"
-            rules={[{required: true, message: "Customer Name is required"}]}
+            rules={[{ required: true, message: 'Customer Name is required' }]}
           >
-            <Select options={[]}/>
+            <Select options={[]} />
           </Form.Item>
         </Col>
       </Row>
@@ -52,7 +48,7 @@ const PurchaseForm = () => {
           <Form.Item
             label="Choose product"
             name="productName"
-            rules={[{required: true, message: "Product Name is required"}]}
+            rules={[{ required: true, message: 'Product Name is required' }]}
           >
             <AutoComplete
               options={productOptions}
@@ -60,7 +56,7 @@ const PurchaseForm = () => {
               onSearch={handleOnSearch}
               filterOption={false}
             >
-              <Input.Search size="large" className="w-full"/>
+              <Input.Search size="large" className="w-full" />
             </AutoComplete>
           </Form.Item>
         </Col>
@@ -70,18 +66,18 @@ const PurchaseForm = () => {
           <Form.Item
             label="Shipping"
             name="shipping"
-            rules={[{required: true, message: "Shipping Amount is required"}]}
+            rules={[{ required: true, message: 'Shipping Amount is required' }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
             label="Purchase Status"
             name="paid"
-            rules={[{required: true, message: "Purchase status is required"}]}
+            rules={[{ required: true, message: 'Purchase status is required' }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
         </Col>
       </Row>
@@ -90,9 +86,9 @@ const PurchaseForm = () => {
           <Form.Item
             label="Remarks"
             name="remarks"
-            rules={[{required: true, message: "Remarks are required"}]}
+            rules={[{ required: true, message: 'Remarks are required' }]}
           >
-            <Input.TextArea rows={4}/>
+            <Input.TextArea rows={4} />
           </Form.Item>
         </Col>
       </Row>

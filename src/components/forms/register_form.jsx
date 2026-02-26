@@ -1,7 +1,7 @@
-import {Button, Form, Input, message} from 'antd';
-import {useState} from 'react';
+import { Button, Form, Input, message } from 'antd';
+import { useState } from 'react';
 import api from '../../services/api.js';
-import {useNavigate} from "react-router";
+import { useNavigate } from 'react-router';
 
 const RegisterForm = () => {
   const [registerForm] = Form.useForm();
@@ -11,9 +11,9 @@ const RegisterForm = () => {
     const data = registerForm.getFieldsValue();
     try {
       setloading(true);
-      await api.post('/auth/register', data, {skipAuth: true});
-      message.success("Account created successfully")
-      navigate("/login");
+      await api.post('/auth/register', data, { skipAuth: true });
+      message.success('Account created successfully');
+      navigate('/login');
       setloading(false);
     } catch (e) {
       message.error('Something went wrong');
@@ -28,32 +28,32 @@ const RegisterForm = () => {
       <Form.Item
         label="Full Name"
         name="fullName"
-        rules={[{required: true, message: 'Full name is required'}]}
+        rules={[{ required: true, message: 'Full name is required' }]}
       >
-        <Input size="large" placeholder="Enter your full name"/>
+        <Input size="large" placeholder="Enter your full name" />
       </Form.Item>
 
       <Form.Item
         label="Username"
         name="userName"
-        rules={[{required: true, message: 'User name is required'}]}
+        rules={[{ required: true, message: 'User name is required' }]}
       >
-        <Input size="large" placeholder="Enter your user name"/>
+        <Input size="large" placeholder="Enter your user name" />
       </Form.Item>
 
       <Form.Item
         name="businessName"
         label="Business Name"
-        rules={[{required: true, message: 'Business name is required'}]}
+        rules={[{ required: true, message: 'Business name is required' }]}
       >
-        <Input size="large" placeholder="Enter your business name"/>
+        <Input size="large" placeholder="Enter your business name" />
       </Form.Item>
-      <Form.Item label="Email" name="email" rules={[{required: true, type: 'email'}]}>
-        <Input size="large" placeholder="Enter your email"/>
+      <Form.Item label="Email" name="email" rules={[{ required: true, type: 'email' }]}>
+        <Input size="large" placeholder="Enter your email" />
       </Form.Item>
 
-      <Form.Item label="Password" name="password" rules={[{required: true}]}>
-        <Input.Password size="large" placeholder="Enter your password"/>
+      <Form.Item label="Password" name="password" rules={[{ required: true }]}>
+        <Input.Password size="large" placeholder="Enter your password" />
       </Form.Item>
 
       <Button

@@ -1,6 +1,7 @@
 import { AutoComplete, Col, DatePicker, Form, Input, Row, Select } from 'antd';
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
+import { useCustomer } from '../../context/customer/customer_provider.jsx';
 import { useSale } from '../../context/sales/sales_provider.jsx';
 import { paymentStatus, saleStatus } from '../../utils/select_items.js';
 
@@ -9,7 +10,8 @@ const generateRef = () => {
 };
 
 const SalesForm = () => {
-  const { productOptions, handleOnSearch, handleOnSelect, form } = useSale();
+  const { productOptions, handleOnSearch, handleOnSelect, form, createSale } = useSale();
+  const { customerOptions } = useCustomer();
 
   useEffect(() => {
     const number = generateRef();
@@ -17,7 +19,7 @@ const SalesForm = () => {
   }, [form]);
 
   return (
-    <Form layout="vertical" form={form}>
+    <Form layout="vertical" form={form} onFinish={createSale}>
       <Row gutter={[16, 16]}>
         <Col span={8}>
           <Form.Item label="Reference No" name="referenceNumber">
@@ -41,10 +43,10 @@ const SalesForm = () => {
         <Col span={8}>
           <Form.Item
             label="Customer name"
-            name="customerName"
+            name="customerId"
             rules={[{ required: true, message: 'Customer Name is required' }]}
           >
-            <Select options={[]} />
+            <Select options={customerOptions} />
           </Form.Item>
         </Col>
       </Row>
@@ -69,7 +71,7 @@ const SalesForm = () => {
             name="shipping"
             rules={[{ required: true, message: 'Shipping Amount is required' }]}
           >
-            <Input />
+            <Input type="number" />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -78,7 +80,7 @@ const SalesForm = () => {
             name="paid"
             rules={[{ required: true, message: 'Paid Amount is required' }]}
           >
-            <Input />
+            <Input type="number" />
           </Form.Item>
         </Col>
       </Row>
