@@ -1,14 +1,24 @@
 import {useState} from "react";
 
-export const useProductModals = (handleOnDelete) => {
+export const useProductModals = (handleOnDelete, fetchProductById) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isConfirmationOpen, setConfirmationOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
+  const [loadingView, setLoadingView] = useState(false);
 
-  const handleView = (record) => {
-    setSelectedProduct(record);
-    setModalOpen(true);
+  const handleView = async (id) => {
+    try {
+      setModalOpen(true);
+      setLoadingView(true);
+      const productData = await fetchProductById(id);
+      setSelectedProduct(productData);
+    } catch (error) {
+      console.error('Error fetching product for view:', error);
+      setModalOpen(false);
+    } finally {
+      setLoadingView(false);
+    }
   };
 
   const handleDelete = (record) => {
@@ -36,6 +46,7 @@ export const useProductModals = (handleOnDelete) => {
     selectedProduct,
     isConfirmationOpen,
     productToDelete,
+    loadingView,
     handleView,
     handleOnOk,
     handleModalCancel,

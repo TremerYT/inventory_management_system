@@ -16,8 +16,10 @@ export const useProductApi = () => {
   const [form] = Form.useForm();
   const [submitting, setSubmitting] = useState(false);
   const [products, setProducts] = useState([]);
+  const [product, setProduct] = useState({});
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingProductId, setEditingProductId] = useState(null);
+  const [loadingProduct, setLoadingProduct] = useState(false);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [lowStockProducts, setLowStockProducts] = useState([]);
   const [outOfStockProducts, setOutOfStockProducts] = useState([]);
@@ -35,6 +37,20 @@ export const useProductApi = () => {
       console.error('Error fetching Products:', e);
     } finally {
       setLoadingProducts(false);
+    }
+  };
+
+  const fetchProductById = async (id) => {
+    try {
+      setLoadingProduct(true);
+      const data = await getProductById(id);
+      setProduct(data);
+      return data;
+    } catch (error) {
+      console.error('Error fetching Products:', error);
+      throw error;
+    } finally {
+      setLoadingProduct(false);
     }
   };
 
@@ -90,7 +106,7 @@ export const useProductApi = () => {
       setIsEditMode(true);
       setEditingProductId(id);
     } catch (e) {
-      message.error('failed to load product');
+      message.error('failed to load product', e);
     }
   };
 
@@ -154,6 +170,7 @@ export const useProductApi = () => {
       setEditingProductId(null);
     } catch (e) {
       message.error('Failed to update product');
+      console.log('Error updating product', e);
     } finally {
       setSubmitting(false);
     }
@@ -165,7 +182,7 @@ export const useProductApi = () => {
       if (fetchProducts) await fetchProducts();
       message.success('Deleted Product successfully');
     } catch (e) {
-      console.error('Error deleting Product');
+      console.error('Error deleting Product', e);
       message.error('Something went wrong deleting the Product');
     }
   };
@@ -196,10 +213,13 @@ export const useProductApi = () => {
     loadingProducts,
     loadingLowStock,
     loadingOutOfStock,
+    loadingProduct,
+    product,
     form,
     submitting,
     isEditMode,
     editingProductId,
+    fetchProductById,
     handleOnFinish,
     fetchProductsById,
     handleOnUpdate,
