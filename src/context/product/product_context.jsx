@@ -1,20 +1,23 @@
-import {createContext, useContext, useMemo, useState} from "react";
-import {useProductApi} from "../../hooks/products/useProductApi.js";
-import {useProductModals} from "../../hooks/products/useProductModals.js";
+import { createContext, useContext, useMemo, useState } from 'react';
+import { useProductApi } from '../../hooks/products/useProductApi.js';
+import { useProductModals } from '../../hooks/products/useProductModals.js';
 
 const ProductContext = createContext();
-export const ProductProvider = ({children}) => {
+export const ProductProvider = ({ children }) => {
   const {
     products,
+    product,
     lowStockProducts,
     outOfStockProducts,
     loadingProducts,
     loadingLowStock,
     loadingOutOfStock,
+    loadingProduct,
     form,
     submitting,
     isEditMode,
     editingProductId,
+    fetchProductById,
     handleOnFinish,
     fetchProductsById,
     handleOnUpdate,
@@ -26,17 +29,18 @@ export const ProductProvider = ({children}) => {
     fetchOutOfStockProducts,
   } = useProductApi();
 
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(undefined);
 
   const filteredData = useMemo(() => {
     let data = Array.isArray(products) ? products : [];
-    const text = (searchText || "").toLowerCase();
+    const text = (searchText || '').toLowerCase();
     if (text) {
-      data = data.filter((item) =>
-        item?.productName?.toLowerCase()?.includes(text) ||
-        item?.skuNumber?.toLowerCase()?.includes(text) ||
-        item?.barcodeNumber?.toLowerCase()?.includes(text)
+      data = data.filter(
+        (item) =>
+          item?.productName?.toLowerCase()?.includes(text) ||
+          item?.skuNumber?.toLowerCase()?.includes(text) ||
+          item?.barcodeNumber?.toLowerCase()?.includes(text)
       );
     }
     if (selectedCategory) {
@@ -50,13 +54,14 @@ export const ProductProvider = ({children}) => {
     selectedProduct,
     isConfirmationOpen,
     productToDelete,
+    loadingView,
     handleView,
     handleOnOk,
     handleModalCancel,
     handleDelete,
     confirmDelete,
     cancelDelete,
-  } = useProductModals(handleOnDelete);
+  } = useProductModals(handleOnDelete, fetchProductById);
 
   return (
     <ProductContext.Provider
@@ -76,6 +81,10 @@ export const ProductProvider = ({children}) => {
         isModalOpen,
         selectedProduct,
         productToDelete,
+        product,
+        loadingProduct,
+        loadingView,
+        fetchProductById,
         handleModalCancel,
         handleView,
         handleOnOk,
@@ -103,7 +112,7 @@ export const ProductProvider = ({children}) => {
 export const useProduct = () => {
   const context = useContext(ProductContext);
   if (!context) {
-    throw new Error("useProduct must be used within a Product context");
+    throw new Error('useProduct must be used within a Product context');
   }
   return context;
 };

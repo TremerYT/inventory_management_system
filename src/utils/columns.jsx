@@ -48,7 +48,7 @@ export const createProductColumns = ({ onView, onEdit, onDelete }) => [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EyeOutlined />} onClick={() => onView(record)} />
+        <Button icon={<EyeOutlined />} onClick={() => onView(record.id)} />
         <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => onEdit(record)} />
         <Button
           icon={<DeleteOutlined style={{ color: 'red' }} />}
