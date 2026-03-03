@@ -1,18 +1,8 @@
 import { Card, Typography, Form, Upload, Row, Col } from 'antd';
-import { useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
 const ProductImages = () => {
-  const [mainImage, setMainImage] = useState([]);
-  const [galleryImage, setGalleryImages] = useState([]);
-  const handleMainImageChange = ({ fileList }) => {
-    setMainImage(fileList);
-  };
-
-  const handleGalleryImageChange = ({ fileList }) => {
-    setGalleryImages(fileList);
-  };
   return (
     <Row gutter={[16]}>
       <Col span={6}>
@@ -25,17 +15,13 @@ const ProductImages = () => {
           >
             <Upload
               listType="picture-card"
-              fileList={mainImage}
-              onChange={handleMainImageChange}
               beforeUpload={() => false}
               maxCount={1}
             >
-              {mainImage.length >= 1 ? null : (
-                <div>
-                  <PlusOutlined />
-                  <div style={{ marginTop: 8 }}>Upload</div>
-                </div>
-              )}
+              <div>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Upload</div>
+              </div>
             </Upload>
           </Form.Item>
         </Card>
@@ -49,17 +35,13 @@ const ProductImages = () => {
           >
             <Upload
               listType="picture-card"
-              fileList={galleryImage}
-              onChange={handleGalleryImageChange}
               beforeUpload={() => false}
               multiple
             >
-              {galleryImage.length >= 5 ? null : (
-                <div>
-                  <PlusOutlined />
-                  <div style={{ marginTop: 8 }}>Upload</div>
-                </div>
-              )}
+              <div>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Upload</div>
+              </div>
             </Upload>
           </Form.Item>
         </Card>
