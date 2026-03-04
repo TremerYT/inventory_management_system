@@ -1,8 +1,8 @@
-import { DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Space, Tag, Tooltip } from 'antd';
-import { FaFileInvoice } from 'react-icons/fa';
+import {DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined} from '@ant-design/icons';
+import {Button, Space, Tag, Tooltip} from 'antd';
+import {FaFileInvoice} from 'react-icons/fa';
 
-export const createProductColumns = ({ onView, onEdit, onDelete }) => [
+export const createProductColumns = ({onView, onEdit, onDelete}) => [
   {
     title: 'SKU',
     dataIndex: 'skuNumber',
@@ -48,10 +48,10 @@ export const createProductColumns = ({ onView, onEdit, onDelete }) => [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EyeOutlined />} onClick={() => onView(record.id)} />
-        <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => onEdit(record)} />
+        <Button icon={<EyeOutlined/>} onClick={() => onView(record.id)}/>
+        <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => onEdit(record)}/>
         <Button
-          icon={<DeleteOutlined style={{ color: 'red' }} />}
+          icon={<DeleteOutlined style={{color: 'red'}}/>}
           onClick={() => onDelete(record)}
         />
       </Space>
@@ -59,7 +59,7 @@ export const createProductColumns = ({ onView, onEdit, onDelete }) => [
   },
 ];
 
-export const createCategoryColumns = ({ onEdit, onDelete }) => [
+export const createCategoryColumns = ({onEdit, onDelete}) => [
   {
     title: 'Category Code',
     dataIndex: 'categoryCode',
@@ -89,9 +89,9 @@ export const createCategoryColumns = ({ onEdit, onDelete }) => [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => onEdit(record)} />
+        <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => onEdit(record)}/>
         <Button
-          icon={<DeleteOutlined style={{ color: 'red' }} />}
+          icon={<DeleteOutlined style={{color: 'red'}}/>}
           onClick={() => onDelete(record)}
         />
       </Space>
@@ -99,7 +99,7 @@ export const createCategoryColumns = ({ onEdit, onDelete }) => [
   },
 ];
 
-export const createBrandColumns = ({ onEdit, onDelete }) => [
+export const createBrandColumns = ({onEdit, onDelete}) => [
   {
     title: 'Brand Code',
     dataIndex: 'brandCode',
@@ -129,9 +129,9 @@ export const createBrandColumns = ({ onEdit, onDelete }) => [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => onEdit(record)} />
+        <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => onEdit(record)}/>
         <Button
-          icon={<DeleteOutlined style={{ color: 'red' }} />}
+          icon={<DeleteOutlined style={{color: 'red'}}/>}
           onClick={() => onDelete(record)}
         />
       </Space>
@@ -206,27 +206,32 @@ export const createSalesColumns = () => [
     render: (_, record) => (
       <Space size="middle">
         <Tooltip title="View">
-          <Button icon={<EyeOutlined style={{ color: 'blue' }} />} onClick={() => {}} />
+          <Button icon={<EyeOutlined style={{color: 'blue'}}/>} onClick={() => {
+          }}/>
         </Tooltip>
 
         <Tooltip title="Invoice">
-          <Button icon={<FaFileInvoice style={{ color: 'blue' }} />} onClick={() => {}} />
+          <Button icon={<FaFileInvoice style={{color: 'blue'}}/>} onClick={() => {
+          }}/>
         </Tooltip>
 
         <Tooltip title="Edit">
-          <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => {}} />
+          <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => {
+          }}/>
         </Tooltip>
 
         <Tooltip title="Add Payment">
           <Button
-            icon={<PlusOutlined style={{ color: 'blue' }} />}
+            icon={<PlusOutlined style={{color: 'blue'}}/>}
             disabled={record.grandTotal - record.paid === 0}
-            onClick={() => {}}
+            onClick={() => {
+            }}
           />
         </Tooltip>
 
         <Tooltip title="Delete">
-          <Button danger icon={<DeleteOutlined />} onClick={() => {}} />
+          <Button danger icon={<DeleteOutlined/>} onClick={() => {
+          }}/>
         </Tooltip>
       </Space>
     ),
@@ -282,17 +287,19 @@ export const customersColumns = [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => {}} />
-        <Button icon={<DeleteOutlined style={{ color: 'red' }} />} onClick={() => {}} />
+        <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => {
+        }}/>
+        <Button icon={<DeleteOutlined style={{color: 'red'}}/>} onClick={() => {
+        }}/>
       </Space>
     ),
   },
 ];
 
-export const createSuppliersColumns = ({ onEdit, onDelete }) => [
+export const createSuppliersColumns = ({onEdit, onDelete}) => [
   {
     title: 'Supplier Id',
-    dataIndex: 'supplierId',
+    dataIndex: 'supplierCode',
     key: 'supplierId',
   },
   {
@@ -330,9 +337,9 @@ export const createSuppliersColumns = ({ onEdit, onDelete }) => [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => onEdit(record)} />
+        <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => onEdit(record)}/>
         <Button
-          icon={<DeleteOutlined style={{ color: 'red' }} />}
+          icon={<DeleteOutlined style={{color: 'red'}}/>}
           onClick={() => onDelete(record.id)}
         />
       </Space>
@@ -340,7 +347,11 @@ export const createSuppliersColumns = ({ onEdit, onDelete }) => [
   },
 ];
 
-export const suppliersColumn = createSuppliersColumns({ onEdit: () => {}, onDelete: () => {} });
+export const suppliersColumn = createSuppliersColumns({
+  onEdit: () => {
+  }, onDelete: () => {
+  }
+});
 
 export const purchasesColumns = [
   {
@@ -379,8 +390,10 @@ export const purchasesColumns = [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => {}} />
-        <Button icon={<DeleteOutlined style={{ color: 'red' }} />} onClick={() => {}} />
+        <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => {
+        }}/>
+        <Button icon={<DeleteOutlined style={{color: 'red'}}/>} onClick={() => {
+        }}/>
       </Space>
     ),
   },
@@ -425,10 +438,10 @@ export const saleReturnsColumns = [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EyeOutlined />} onClick={() => console.log('View return:', record)} />
+        <Button icon={<EyeOutlined/>} onClick={() => console.log('View return:', record)}/>
         <Button
           danger
-          icon={<DeleteOutlined />}
+          icon={<DeleteOutlined/>}
           onClick={() => console.log('Delete return:', record)}
         />
       </Space>
@@ -475,10 +488,10 @@ export const purchaseReturnsColumns = [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EyeOutlined />} onClick={() => console.log('View return:', record)} />
+        <Button icon={<EyeOutlined/>} onClick={() => console.log('View return:', record)}/>
         <Button
           danger
-          icon={<DeleteOutlined />}
+          icon={<DeleteOutlined/>}
           onClick={() => console.log('Delete return:', record)}
         />
       </Space>
@@ -522,8 +535,10 @@ export const lowStockColumns = [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => {}} />
-        <Button icon={<DeleteOutlined style={{ color: 'red' }} />} onClick={() => {}} />
+        <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => {
+        }}/>
+        <Button icon={<DeleteOutlined style={{color: 'red'}}/>} onClick={() => {
+        }}/>
       </Space>
     ),
   },
@@ -565,8 +580,10 @@ export const outOfStockColumns = [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => {}} />
-        <Button icon={<DeleteOutlined style={{ color: 'red' }} />} onClick={() => {}} />
+        <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => {
+        }}/>
+        <Button icon={<DeleteOutlined style={{color: 'red'}}/>} onClick={() => {
+        }}/>
       </Space>
     ),
   },
@@ -606,7 +623,7 @@ export const addPurchaseColumns = (handleQuantityChange, handleDeleteItem) => [
         >
           -
         </Button>
-        <span style={{ minWidth: 24, textAlign: 'center' }}>{record.quantity}</span>
+        <span style={{minWidth: 24, textAlign: 'center'}}>{record.quantity}</span>
         <Button size="small" type="primary" onClick={() => handleQuantityChange(record, 1)}>
           +
         </Button>
@@ -634,7 +651,7 @@ export const addPurchaseColumns = (handleQuantityChange, handleDeleteItem) => [
     render: (_, record) => (
       <Space size="middle">
         <Button
-          icon={<DeleteOutlined style={{ color: 'red' }} />}
+          icon={<DeleteOutlined style={{color: 'red'}}/>}
           onClick={() => handleDeleteItem(record)}
         />
       </Space>
