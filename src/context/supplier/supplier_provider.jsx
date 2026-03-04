@@ -1,5 +1,5 @@
 import { Form } from 'antd';
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useEffect } from 'react';
 import { useSupplierApi } from '../../hooks/suppliers/useSupplierApi.js';
 
 const SupplierContext = createContext(null);
@@ -14,12 +14,23 @@ export const SupplierProvider = ({ children }) => {
     supplierOptions,
     deleteSuppliers,
     fetchSuppliers,
+    fetchSupplierById,
     createSuppliers,
     updateSuppliers,
   } = useSupplierApi({
     onSuccess: () => form.resetFields(),
     onUpdateSuccess: () => form.resetFields(),
   });
+
+  const fetchSuppliersById = async (id) => {
+    try {
+      const data = await fetchSupplierById(id);
+      form.setFieldsValue(data);
+      setIsEditMode(true);
+    } catch (e) {
+      console.error('Failed to load supplier', e);
+    }
+  };
 
   return (
     <SupplierContext.Provider
@@ -32,6 +43,8 @@ export const SupplierProvider = ({ children }) => {
         supplierOptions,
         deleteSuppliers,
         fetchSuppliers,
+        fetchSupplierById,
+        fetchSuppliersById,
         createSuppliers,
         updateSuppliers,
       }}

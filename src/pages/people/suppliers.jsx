@@ -8,7 +8,7 @@ import { status } from '../../utils/select_items.js';
 
 const Suppliers = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const { suppliers, isLoading, deleteSuppliers, fetchSuppliers, form, setIsEditMode } =
+  const { suppliers, isLoading, deleteSuppliers, fetchSuppliers, fetchSuppliersById } =
     useSupplier();
   const navigate = useNavigate();
 
@@ -20,9 +20,7 @@ const Suppliers = () => {
   };
 
   const handleEdit = (record) => {
-    form.setFieldsValue(record);
-    setIsEditMode(true);
-    navigate('/suppliers/add');
+    navigate(`/suppliers/edit/${record.id}`);
   };
 
   const handleDelete = (id) => {
