@@ -1,17 +1,18 @@
-import { message } from 'antd';
-import { useCallback, useEffect, useState } from 'react';
+import {message} from 'antd';
+import {useCallback, useEffect, useState} from 'react';
 import {
   createSupplier,
   deleteSupplier,
-  getSuppliers,
   getSupplierById,
+  getSuppliers,
   updateSupplier,
 } from '../../services/supplier.service.js';
 
-export const useSupplierApi = ({ onSuccess, onUpdateSuccess }) => {
+export const useSupplierApi = ({onSuccess, onUpdateSuccess}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [suppliers, setSuppliers] = useState([]);
+  const [loadingEdit, setLoadingEdit] = useState(false);
   const [supplierOptions, setSupplierOptions] = useState([]);
 
   const fetchSuppliers = useCallback(async () => {
@@ -36,11 +37,13 @@ export const useSupplierApi = ({ onSuccess, onUpdateSuccess }) => {
 
   const fetchSupplierById = async (id) => {
     try {
-      const data = await getSupplierById(id);
-      return data;
+      setLoadingEdit(true)
+      return await getSupplierById(id);
     } catch (error) {
       console.error('Error fetching supplier:', error);
       throw error;
+    } finally {
+      setLoadingEdit(false);
     }
   };
 
@@ -99,6 +102,7 @@ export const useSupplierApi = ({ onSuccess, onUpdateSuccess }) => {
   }, []);
 
   return {
+    loadingEdit,
     isLoading,
     isEditMode,
     setIsEditMode,

@@ -1,12 +1,13 @@
-import { Form } from 'antd';
-import { createContext, useContext, useEffect } from 'react';
-import { useSupplierApi } from '../../hooks/suppliers/useSupplierApi.js';
+import {Form} from 'antd';
+import {createContext, useContext} from 'react';
+import {useSupplierApi} from '../../hooks/suppliers/useSupplierApi.js';
 
 const SupplierContext = createContext(null);
 
-export const SupplierProvider = ({ children }) => {
+export const SupplierProvider = ({children}) => {
   const [form] = Form.useForm();
   const {
+    loadingEdit,
     isLoading,
     isEditMode,
     setIsEditMode,
@@ -35,6 +36,7 @@ export const SupplierProvider = ({ children }) => {
   return (
     <SupplierContext.Provider
       value={{
+        loadingEdit,
         form,
         isLoading,
         isEditMode,

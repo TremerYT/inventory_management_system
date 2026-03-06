@@ -204,6 +204,14 @@ function App() {
                 </SupplierProvider>
               }
             />
+            <Route
+              path="/suppliers/edit/:id"
+              element={
+                <SupplierProvider>
+                  <AddSuppliers />
+                </SupplierProvider>
+              }
+            />
 
             {/*<Route path="/returns/add" element={<AddReturn/>}/>*/}
             {/*<Route path="/returns/list" element={<Returns/>}/>*/}
