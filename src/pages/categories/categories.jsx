@@ -61,8 +61,10 @@ const Categories = () => {
 
   const filteredCategory = categories.filter((cat) => {
     const matchesSearch =
-      cat.categoryName.toLowerCase().includes(searchText.toLowerCase()) ||
-      cat.categoryCode.toLowerCase().includes(searchText.toLowerCase());
+      !searchText || (
+        (cat.categoryName?.toLowerCase().includes(searchText.toLowerCase()) || '') ||
+        (cat.categoryCode?.toLowerCase().includes(searchText.toLowerCase()) || '')
+      );
     const matchesStatus =
       selectedStatus === null || cat.isActive === selectedStatus;
     return matchesSearch && matchesStatus;

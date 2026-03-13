@@ -1,29 +1,106 @@
-import {Button, Card, Descriptions, Table} from "antd";
+import {DeleteOutlined} from '@ant-design/icons';
+import {Button, Card, Descriptions, Space, Table} from "antd";
 import PurchaseForm from "../../components/forms/purchase_form.jsx";
 import {usePurchase} from "../../context/purchases/purchases_provider.jsx";
-import {addPurchaseColumns} from "../../utils/columns.jsx";
 
 const AddPurchase = () => {
   const {
-    purchaseItems: saleItems,
-    setPurchaseItems: setSaleItems,
+    purchaseItems,
+    setPurchaseItems,
     isLoading: submitting,
     handleQuantityChange,
     form,
-    summaryItems
+    summaryItems,
+    createPurchase,
   } = usePurchase();
 
   const handleDeleteItem = (record) => {
-    setSaleItems((prev) =>
-      prev.filter((item) => item.skuNumber !== record.skuNumber),
-    );
+    setPurchaseItems((prev) => prev.filter((item) => item.skuNumber !== record.skuNumber));
   };
 
   const handleOnCancel = () => {
     form.resetFields();
   }
 
-  const customColumns = addPurchaseColumns(handleQuantityChange, handleDeleteItem);
+  const customColumns = [
+    {
+      title: 'SKU',
+      dataIndex: 'skuNumber',
+      key: 'skuNumber',
+    },
+    {
+      title: 'Product Name',
+      dataIndex: 'productName',
+      key: 'productName',
+    },
+    {
+      title: 'Category',
+      dataIndex: 'categoryName',
+      key: 'categoryName',
+    },
+    {
+      title: 'Brand',
+      dataIndex: 'brandName',
+      key: 'brandName',
+    },
+    {
+      title: 'Unit',
+      dataIndex: 'unit',
+      key: 'unit',
+    },
+    {
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
+    },
+    {
+      title: 'Quantity',
+      key: 'quantity',
+      render: (_, record) => (
+        <Space>
+          <Button
+            size="small"
+            type="primary"
+            onClick={() => handleQuantityChange(record, -1)}
+            disabled={record.quantity <= 1}
+          >
+            -
+          </Button>
+          <span style={{minWidth: 24, textAlign: 'center'}}>{record.quantity}</span>
+          <Button size="small" type="primary" onClick={() => handleQuantityChange(record, 1)}>
+            +
+          </Button>
+        </Space>
+      ),
+    },
+    {
+      title: 'Discount Type',
+      dataIndex: 'discountType',
+      key: 'discountType',
+    },
+    {
+      title: 'Discount',
+      dataIndex: 'discountValue',
+      key: 'discountValue',
+    },
+    {
+      title: 'Sub Total',
+      dataIndex: 'subTotal',
+      key: 'subTotal',
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <Space size="middle">
+          <Button
+            icon={<DeleteOutlined style={{color: 'red'}}/>}
+            onClick={() => handleDeleteItem(record)}
+          />
+        </Space>
+      ),
+    },
+  ];
 
   return (
     <>
@@ -35,12 +112,8 @@ const AddPurchase = () => {
       </div>
       <Card>
         <PurchaseForm/>
-        <Table
-          columns={customColumns}
-          dataSource={saleItems}
-          rowKey="skuNumber"
-        />
-        {saleItems.length > 0 && (
+        <Table columns={customColumns} dataSource={purchaseItems} rowKey="skuNumber"/>
+        {purchaseItems.length > 0 && (
           <div className="flex justify-end">
             <Descriptions
               bordered
@@ -63,6 +136,7 @@ const AddPurchase = () => {
             htmlType="submit"
             size="large"
             loading={submitting}
+            onClick={() => form.submit()}
           >
             Add Purchase
           </Button>

@@ -1,8 +1,8 @@
-import {DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined} from '@ant-design/icons';
-import {Button, Space, Tag, Tooltip} from 'antd';
-import {FaFileInvoice} from 'react-icons/fa';
+import { DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Space, Tag, Tooltip } from 'antd';
+import { FaFileInvoice } from 'react-icons/fa';
 
-export const createProductColumns = ({onView, onEdit, onDelete}) => [
+export const createProductColumns = ({ onView, onEdit, onDelete }) => [
   {
     title: 'SKU',
     dataIndex: 'skuNumber',
@@ -48,10 +48,10 @@ export const createProductColumns = ({onView, onEdit, onDelete}) => [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EyeOutlined/>} onClick={() => onView(record.id)}/>
-        <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => onEdit(record)}/>
+        <Button icon={<EyeOutlined />} onClick={() => onView(record.id)} />
+        <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => onEdit(record)} />
         <Button
-          icon={<DeleteOutlined style={{color: 'red'}}/>}
+          icon={<DeleteOutlined style={{ color: 'red' }} />}
           onClick={() => onDelete(record)}
         />
       </Space>
@@ -59,7 +59,7 @@ export const createProductColumns = ({onView, onEdit, onDelete}) => [
   },
 ];
 
-export const createCategoryColumns = ({onEdit, onDelete}) => [
+export const createCategoryColumns = ({ onEdit, onDelete }) => [
   {
     title: 'Category Code',
     dataIndex: 'categoryCode',
@@ -89,9 +89,9 @@ export const createCategoryColumns = ({onEdit, onDelete}) => [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => onEdit(record)}/>
+        <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => onEdit(record)} />
         <Button
-          icon={<DeleteOutlined style={{color: 'red'}}/>}
+          icon={<DeleteOutlined style={{ color: 'red' }} />}
           onClick={() => onDelete(record)}
         />
       </Space>
@@ -99,7 +99,7 @@ export const createCategoryColumns = ({onEdit, onDelete}) => [
   },
 ];
 
-export const createBrandColumns = ({onEdit, onDelete}) => [
+export const createBrandColumns = ({ onEdit, onDelete }) => [
   {
     title: 'Brand Code',
     dataIndex: 'brandCode',
@@ -129,9 +129,9 @@ export const createBrandColumns = ({onEdit, onDelete}) => [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => onEdit(record)}/>
+        <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => onEdit(record)} />
         <Button
-          icon={<DeleteOutlined style={{color: 'red'}}/>}
+          icon={<DeleteOutlined style={{ color: 'red' }} />}
           onClick={() => onDelete(record)}
         />
       </Space>
@@ -139,7 +139,7 @@ export const createBrandColumns = ({onEdit, onDelete}) => [
   },
 ];
 
-export const createSalesColumns = () => [
+export const createSalesColumns = (openViewModal) => [
   {
     title: 'Date',
     dataIndex: 'date',
@@ -191,14 +191,11 @@ export const createSalesColumns = () => [
     dataIndex: 'due',
     key: 'due',
     render: (_, record) => {
-      const due = (record.grandTotal || 0) - (record.paid || 0);
-      return `ksh${(due || 0).toFixed(2)}`;
+      const grandTotal = Number(record.grandTotal) || 0;
+      const paid = Number(record.paid) || 0;
+      const due = grandTotal - paid;
+      return `ksh${Math.max(0, due).toFixed(2)}`;
     },
-  },
-  {
-    title: 'Remarks',
-    dataIndex: 'remarks',
-    key: 'remarks',
   },
   {
     title: 'Action',
@@ -206,32 +203,32 @@ export const createSalesColumns = () => [
     render: (_, record) => (
       <Space size="middle">
         <Tooltip title="View">
-          <Button icon={<EyeOutlined style={{color: 'blue'}}/>} onClick={() => {
-          }}/>
+          <Button
+            icon={<EyeOutlined style={{ color: 'blue' }} />}
+            onClick={() => openViewModal(record)}
+          />
         </Tooltip>
 
         <Tooltip title="Invoice">
-          <Button icon={<FaFileInvoice style={{color: 'blue'}}/>} onClick={() => {
-          }}/>
+          <Button icon={<FaFileInvoice style={{ color: 'blue' }} />} onClick={() => {}} />
         </Tooltip>
 
         <Tooltip title="Edit">
-          <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => {
-          }}/>
+          <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => {}} />
         </Tooltip>
 
         <Tooltip title="Add Payment">
           <Button
-            icon={<PlusOutlined style={{color: 'blue'}}/>}
-            disabled={record.grandTotal - record.paid === 0}
-            onClick={() => {
-            }}
+            icon={<PlusOutlined style={{ color: 'blue' }} />}
+            disabled={
+              Math.max(0, (Number(record.grandTotal) || 0) - (Number(record.paid) || 0)) === 0
+            }
+            onClick={() => {}}
           />
         </Tooltip>
 
         <Tooltip title="Delete">
-          <Button danger icon={<DeleteOutlined/>} onClick={() => {
-          }}/>
+          <Button danger icon={<DeleteOutlined />} onClick={() => {}} />
         </Tooltip>
       </Space>
     ),
@@ -287,16 +284,14 @@ export const customersColumns = [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => {
-        }}/>
-        <Button icon={<DeleteOutlined style={{color: 'red'}}/>} onClick={() => {
-        }}/>
+        <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => {}} />
+        <Button icon={<DeleteOutlined style={{ color: 'red' }} />} onClick={() => {}} />
       </Space>
     ),
   },
 ];
 
-export const createSuppliersColumns = ({onEdit, onDelete}) => [
+export const createSuppliersColumns = ({ onEdit, onDelete }) => [
   {
     title: 'Supplier Id',
     dataIndex: 'supplierCode',
@@ -337,9 +332,9 @@ export const createSuppliersColumns = ({onEdit, onDelete}) => [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => onEdit(record)}/>
+        <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => onEdit(record)} />
         <Button
-          icon={<DeleteOutlined style={{color: 'red'}}/>}
+          icon={<DeleteOutlined style={{ color: 'red' }} />}
           onClick={() => onDelete(record.id)}
         />
       </Space>
@@ -348,12 +343,11 @@ export const createSuppliersColumns = ({onEdit, onDelete}) => [
 ];
 
 export const suppliersColumn = createSuppliersColumns({
-  onEdit: () => {
-  }, onDelete: () => {
-  }
+  onEdit: () => {},
+  onDelete: () => {},
 });
 
-export const purchasesColumns = [
+export const purchasesColumns = (openViewModal) => [
   {
     title: 'Date',
     dataIndex: 'date',
@@ -361,39 +355,72 @@ export const purchasesColumns = [
     render: (value) => new Date(value).toLocaleDateString(),
   },
   {
-    title: 'Purchase Number',
-    dataIndex: 'purchaseNumber',
-    key: 'purchaseNumber',
+    title: 'Reference Number',
+    dataIndex: 'referenceNumber',
+    key: 'referenceNumber',
   },
   {
     title: 'Supplier',
-    dataIndex: 'supplier',
-    key: 'supplier',
+    dataIndex: 'supplierName',
+    key: 'supplierName',
+  },
+  {
+    title: 'Purchase Status',
+    dataIndex: 'purchaseStatus',
+    key: 'purchaseStatus',
+    render: (status) => <Tag color={status === 'COMPLETED' ? 'green' : 'volcano'}>{status}</Tag>,
+  },
+  {
+    title: 'Shipping',
+    dataIndex: 'shipping',
+    key: 'shipping',
+    render: (value) => `ksh${(value || 0).toFixed(2)}`,
   },
   {
     title: 'Total',
-    dataIndex: 'total',
-    key: 'total',
+    dataIndex: 'grandTotal',
+    key: 'grandTotal',
+    render: (value) => `ksh${(value || 0).toFixed(2)}`,
   },
   {
     title: 'Paid',
     dataIndex: 'paid',
     key: 'paid',
+    render: (value) => `ksh${(value || 0).toFixed(2)}`,
   },
   {
-    title: 'Balance',
-    dataIndex: 'balance',
-    key: 'balance',
+    title: 'Due',
+    dataIndex: 'due',
+    key: 'due',
+    render: (_, record) => {
+      const grandTotal = Number(record.grandTotal) || 0;
+      const paid = Number(record.paid) || 0;
+      const due = grandTotal - paid;
+      return `ksh${Math.max(0, due).toFixed(2)}`;
+    },
   },
   {
     title: 'Action',
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => {
-        }}/>
-        <Button icon={<DeleteOutlined style={{color: 'red'}}/>} onClick={() => {
-        }}/>
+        <Tooltip title="View">
+          <Button
+            icon={<EyeOutlined style={{ color: 'blue' }} />}
+            onClick={() => {
+              console.log('View button clicked, record:', record);
+              openViewModal(record);
+            }}
+          />
+        </Tooltip>
+
+        <Tooltip title="Edit">
+          <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => {}} />
+        </Tooltip>
+
+        <Tooltip title="Delete">
+          <Button danger icon={<DeleteOutlined />} onClick={() => {}} />
+        </Tooltip>
       </Space>
     ),
   },
@@ -438,10 +465,10 @@ export const saleReturnsColumns = [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EyeOutlined/>} onClick={() => console.log('View return:', record)}/>
+        <Button icon={<EyeOutlined />} onClick={() => console.log('View return:', record)} />
         <Button
           danger
-          icon={<DeleteOutlined/>}
+          icon={<DeleteOutlined />}
           onClick={() => console.log('Delete return:', record)}
         />
       </Space>
@@ -488,10 +515,10 @@ export const purchaseReturnsColumns = [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EyeOutlined/>} onClick={() => console.log('View return:', record)}/>
+        <Button icon={<EyeOutlined />} onClick={() => console.log('View return:', record)} />
         <Button
           danger
-          icon={<DeleteOutlined/>}
+          icon={<DeleteOutlined />}
           onClick={() => console.log('Delete return:', record)}
         />
       </Space>
@@ -530,18 +557,6 @@ export const lowStockColumns = [
     dataIndex: 'minStock',
     key: 'minStock',
   },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => {
-        }}/>
-        <Button icon={<DeleteOutlined style={{color: 'red'}}/>} onClick={() => {
-        }}/>
-      </Space>
-    ),
-  },
 ];
 
 export const outOfStockColumns = [
@@ -575,15 +590,51 @@ export const outOfStockColumns = [
     dataIndex: 'minStock',
     key: 'minStock',
   },
+];
+
+export const createExpenseColumns = ({ onView, onEdit, onDelete }) => [
+  {
+    title: 'Expense Name',
+    dataIndex: 'expenseName',
+    key: 'expenseName',
+  },
+  {
+    title: 'Category',
+    dataIndex: 'categoryName',
+    key: 'categoryName',
+  },
+  {
+    title: 'Date',
+    dataIndex: 'date',
+    key: 'date',
+    render: (value) => new Date(value).toLocaleDateString(),
+  },
+  {
+    title: 'Amount',
+    dataIndex: 'expenseAmount',
+    key: 'expenseAmount',
+    render: (value) => `ksh${(value || 0).toFixed(2)}`,
+  },
+  {
+    title: 'Status',
+    dataIndex: 'status',
+    key: 'status',
+    render: (status) => (
+      <Tag color={status === 'PAID' ? 'green' : status === 'PENDING' ? 'orange' : 'red'}>
+        {status}
+      </Tag>
+    ),
+  },
   {
     title: 'Action',
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button icon={<EditOutlined style={{color: 'blue'}}/>} onClick={() => {
-        }}/>
-        <Button icon={<DeleteOutlined style={{color: 'red'}}/>} onClick={() => {
-        }}/>
+        <Button icon={<EditOutlined style={{ color: 'blue' }} />} onClick={() => onEdit(record)} />
+        <Button
+          icon={<DeleteOutlined style={{ color: 'red' }} />}
+          onClick={() => onDelete(record)}
+        />
       </Space>
     ),
   },
@@ -623,7 +674,7 @@ export const addPurchaseColumns = (handleQuantityChange, handleDeleteItem) => [
         >
           -
         </Button>
-        <span style={{minWidth: 24, textAlign: 'center'}}>{record.quantity}</span>
+        <span style={{ minWidth: 24, textAlign: 'center' }}>{record.quantity}</span>
         <Button size="small" type="primary" onClick={() => handleQuantityChange(record, 1)}>
           +
         </Button>
@@ -651,7 +702,7 @@ export const addPurchaseColumns = (handleQuantityChange, handleDeleteItem) => [
     render: (_, record) => (
       <Space size="middle">
         <Button
-          icon={<DeleteOutlined style={{color: 'red'}}/>}
+          icon={<DeleteOutlined style={{ color: 'red' }} />}
           onClick={() => handleDeleteItem(record)}
         />
       </Space>

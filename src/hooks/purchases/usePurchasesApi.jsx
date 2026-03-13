@@ -1,9 +1,10 @@
 import {useEffect, useMemo, useRef, useState} from "react";
-import {Form, message} from "antd";
+import {Form, message, Input} from "antd";
 import {
   createPurchase as createPurchaseApi,
   deletePurchaseById,
   getPurchases,
+  getPurchaseById,
   updatePurchaseById
 } from "../../services/purchases.service.js";
 import {getProductsByQuery} from "../../services/product.service.js";
@@ -30,11 +31,48 @@ export const usePurchasesApi = ({onSuccess, onUpdateSuccess} = {}) => {
     }
   };
 
-  const createPurchase = async (values) => {
+  const fetchPurchaseById = async (id) => {
     try {
       setIsLoading(true);
-      await createPurchaseApi(values);
+      console.log('Fetching purchase with ID:', id);
+      const res = await getPurchaseById(id);
+      console.log('Purchase data received:', res);
+      return res;
+    } catch (e) {
+      console.error('Failed to fetch purchase by ID', e);
+      throw e;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const createPurchase = async (values) => {
+    try {
+      if (purchaseItems.length === 0) {
+        message.error('Please add at least one item to the purchase');
+        return false;
+      }
+      setIsLoading(true);
+      const purchaseData = {
+        ...values,
+        date: values.date.format('YYYY-MM-DD'),
+        shipping: Number(values.shipping),
+        paid: Number(values.paid),
+        items: purchaseItems.map((item) => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          unitPrice: item.price,
+          discount:
+            item.discountType === 'PERCENTAGE'
+              ? (item.discountValue * item.price * item.quantity) / 100
+              : item.discountValue,
+        })),
+      };
+      console.log('Purchase payload being sent:', purchaseData);
+      await createPurchaseApi(purchaseData);
       message.success("Purchase created successfully");
+      form.resetFields();
+      setPurchaseItems([]);
       await fetchPurchases();
       if (onSuccess) onSuccess();
       return true;
@@ -89,10 +127,9 @@ export const usePurchasesApi = ({onSuccess, onUpdateSuccess} = {}) => {
     return quantity * price - discountValue;
   };
 
-  const summaryItems = useMemo(() => {
-    const isFormConnected = form && form.getInternalHooks?.("RC_FORM_INTERNAL_HOOKS");
-    const shipping = isFormConnected ? form.getFieldValue("shipping") || 0 : 0;
+  const shippingValue = Form.useWatch('shipping', form);
 
+  const summaryItems = useMemo(() => {
     return [
       {
         label: "Total Items",
@@ -104,7 +141,7 @@ export const usePurchasesApi = ({onSuccess, onUpdateSuccess} = {}) => {
       },
       {
         label: "Shipping",
-        value: Number(shipping).toFixed(2),
+        value: Number(shippingValue) || 0,
       },
       {
         label: "Total Discount",
@@ -121,46 +158,51 @@ export const usePurchasesApi = ({onSuccess, onUpdateSuccess} = {}) => {
       },
       {
         label: "Grand Total",
-        value: (purchaseItems.reduce((sum, i) => sum + i.subTotal, 0) + Number(shipping)).toFixed(2),
+        value: (purchaseItems.reduce((sum, i) => sum + i.subTotal, 0) + Number(shippingValue)).toFixed(2),
       },
     ];
-  }, [purchaseItems, form]);
+  }, [purchaseItems, shippingValue]);
 
   const handleOnSelect = (_, option) => {
     const product = option.product;
     setPurchaseItems((prev) => {
-      const existingItem = prev.find((i) => i.skuNumber === product.skuNumber);
-      if (existingItem) {
-        return prev.map((i) =>
-          i.skuNumber === product.skuNumber
-            ? {
-              ...i,
-              quantity: i.quantity + 1,
-              subTotal: calculateSubTotal(i.quantity + 1, i.price, i.discountType, i.discountValue)
-            }
-            : i
-        );
-      }
+      const exists = prev.some((i) => i.skuNumber === product.skuNumber);
+      if (exists) return prev;
       return [
         ...prev,
         {
-          ...product,
+          productId: product.id,
+          skuNumber: product.skuNumber,
+          productName: product.productName,
+          categoryName: product.categoryName,
+          brandName: product.brand,
+          unit: product.unit,
+          price: product.unitPrice,
+          discountType: product.discountType,
+          discountValue: product.discountValue,
           quantity: 1,
-          discountType: "PERCENTAGE",
-          discountValue: 0,
-          subTotal: product.price,
+          subTotal: calculateSubTotal(
+            1,
+            product.unitPrice,
+            product.discountType,
+            product.discountValue
+          ),
         },
       ];
     });
   };
 
-  const handleQuantityChange = (skuNumber, quantity) => {
+  const handleQuantityChange = (record, change) => {
     setPurchaseItems((prev) =>
-      prev.map((i) =>
-        i.skuNumber === skuNumber
-          ? {...i, quantity, subTotal: calculateSubTotal(quantity, i.price, i.discountType, i.discountValue)}
-          : i
-      )
+      prev.map((item) => {
+        if (item.skuNumber !== record.skuNumber) return item;
+        const newQuantity = item.quantity + change;
+        return {
+          ...item,
+          quantity: newQuantity,
+          subTotal: calculateSubTotal(newQuantity, item.price, item.discountType, item.discountValue)
+        };
+      })
     );
   };
 
@@ -213,6 +255,7 @@ export const usePurchasesApi = ({onSuccess, onUpdateSuccess} = {}) => {
     summaryItems,
     form,
     fetchPurchases,
+    fetchPurchaseById,
     createPurchase,
     updatePurchase,
     deletePurchase,

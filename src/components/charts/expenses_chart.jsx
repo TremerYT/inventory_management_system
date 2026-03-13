@@ -1,22 +1,20 @@
+import { Card, Select } from 'antd';
 import { useState } from 'react';
 import Chart from 'react-apexcharts';
-import { Card, Select } from 'antd';
 
 const { Option } = Select;
 
 const ExpensesChart = () => {
   const [period, setPeriod] = useState('month');
-
-  const dataMap = {
-    week: [120, 180, 150, 220, 200, 170, 210],
-    month: [320, 420, 380, 460, 510, 490, 530],
-    year: [4200, 3900, 4600, 5100, 4800, 5300, 5700],
-  };
+  const [chartData] = useState({
+    data: [12000, 15000, 13000, 18000, 16000, 14000],
+    totalExpenses: 88000,
+  });
 
   const series = [
     {
       name: 'Expenses',
-      data: dataMap[period],
+      data: chartData.data || [],
     },
   ];
 
@@ -50,19 +48,22 @@ const ExpensesChart = () => {
     markers: { size: 0 },
   };
 
-  const totalExpenses = series[0].data.reduce((a, b) => a + b, 0);
-
   return (
     <Card className="rounded-xl shadow-sm">
       <div className="flex items-start justify-between mb-2">
         <div>
           <p className="text-sm text-gray-500">Expenses</p>
           <p className="text-xl font-semibold text-orange-500">
-            KES {totalExpenses.toLocaleString()}
+            KES {chartData.totalExpenses.toLocaleString()}
           </p>
         </div>
 
-        <Select size="small" value={period} onChange={setPeriod} className="min-w-[90px]">
+        <Select
+          size="small"
+          value={period}
+          onChange={(value) => setPeriod(value)}
+          className="min-w-[90px]"
+        >
           <Option value="week">Week</Option>
           <Option value="month">Month</Option>
           <Option value="year">Year</Option>

@@ -1,10 +1,13 @@
-import {useState} from "react";
+import { useState } from "react";
 
 export const useSalesModal = () => {
   const [isSalesReturnModalOpen, setIsSalesReturnModalOpen] = useState(false);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [saleToDelete, setSaleToDelete] = useState(null);
   const [saleToEdit, setSaleToEdit] = useState(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [selectedSale, setSelectedSale] = useState(null);
+  const [loadingView, setLoadingView] = useState(false);
 
   const handleOnCancel = () => {
     setIsSalesReturnModalOpen(false);
@@ -21,6 +24,16 @@ export const useSalesModal = () => {
     setSaleToDelete(null);
   };
 
+  const openViewModal = async (sale) => {
+    setSelectedSale(sale);
+    setIsViewModalOpen(true);
+  };
+
+  const closeViewModal = () => {
+    setIsViewModalOpen(false);
+    setSelectedSale(null);
+  };
+
   return {
     isSalesReturnModalOpen,
     setIsSalesReturnModalOpen,
@@ -31,5 +44,10 @@ export const useSalesModal = () => {
     closeDeleteConfirmation,
     saleToEdit,
     setSaleToEdit,
+    isViewModalOpen,
+    selectedSale,
+    loadingView,
+    openViewModal,
+    closeViewModal,
   };
 };

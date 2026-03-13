@@ -5,6 +5,7 @@ import {
   createSale as createSaleApi,
   deleteSaleById,
   getSales,
+  getSaleById,
   updateSaleById,
 } from '../../services/sales.service.js';
 
@@ -28,6 +29,19 @@ export const useSalesApi = ({ onSuccess, onUpdateSuccess } = {}) => {
       setSales(res);
     } catch (e) {
       console.error('Failed to fetch sales', e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchSaleById = async (id) => {
+    try {
+      setIsLoading(true);
+      const res = await getSaleById(id);
+      return res;
+    } catch (e) {
+      console.error('Failed to fetch sale by ID', e);
+      throw e;
     } finally {
       setIsLoading(false);
     }
@@ -145,7 +159,13 @@ export const useSalesApi = ({ onSuccess, onUpdateSuccess } = {}) => {
       {
         label: 'Grand Total',
         value: (
-          saleItems.reduce((sum, i) => sum + i.subTotal, 0) + (Number(shippingValue) || 0)
+          saleItems.reduce((sum, i) => {
+            const itemTotal = i.price * i.quantity;
+            const discount = i.discountType === 'PERCENTAGE'
+              ? (i.discountValue * itemTotal) / 100
+              : i.discountValue || 0;
+            return sum + (itemTotal - discount);
+          }, 0) + (Number(shippingValue) || 0)
         ).toFixed(2),
       },
     ],
@@ -263,6 +283,7 @@ export const useSalesApi = ({ onSuccess, onUpdateSuccess } = {}) => {
     summaryItems,
     form,
     fetchSales,
+    fetchSaleById,
     createSale,
     updateSale,
     deleteSale,

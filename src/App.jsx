@@ -13,6 +13,8 @@ import { ProductDetailsProvider } from './context/product/product_details_contex
 import { PurchaseProvider } from './context/purchases/purchases_provider.jsx';
 import { SalesProvider } from './context/sales/sales_provider.jsx';
 import { SupplierProvider } from './context/supplier/supplier_provider.jsx';
+import { ExpenseProvider } from './context/expense/expense_provider.jsx';
+import { ExpenseCategoryProvider } from './context/expense_category/expense_category_provider.jsx';
 import Login from './pages/authentication/login.jsx';
 import PrivateRoute from './pages/authentication/private_route.jsx';
 import Register from './pages/authentication/register.jsx';
@@ -31,6 +33,7 @@ import Purchases from './pages/purchases/purchases.jsx';
 import AddSale from './pages/sales/add_sale.jsx';
 import AllSales from './pages/sales/list_sales.jsx';
 import SaleReturns from './pages/sales/sale_returns.jsx';
+import Expenses from './pages/expenses.jsx';
 
 const ProductsRoute = () => (
   <ProductProvider>
@@ -150,9 +153,11 @@ function App() {
             <Route
               path="/purchases/add"
               element={
-                <PurchaseProvider>
-                  <AddPurchase />
-                </PurchaseProvider>
+                <SupplierProvider>
+                  <PurchaseProvider>
+                    <AddPurchase />
+                  </PurchaseProvider>
+                </SupplierProvider>
               }
             />
             <Route
@@ -210,6 +215,17 @@ function App() {
                 <SupplierProvider>
                   <AddSuppliers />
                 </SupplierProvider>
+              }
+            />
+
+            <Route
+              path="/expenses"
+              element={
+                <ExpenseProvider>
+                  <ExpenseCategoryProvider>
+                    <Expenses />
+                  </ExpenseCategoryProvider>
+                </ExpenseProvider>
               }
             />
 

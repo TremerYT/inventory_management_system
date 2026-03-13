@@ -1,22 +1,20 @@
+import { Card, Select } from 'antd';
 import { useState } from 'react';
 import Chart from 'react-apexcharts';
-import { Card, Select } from 'antd';
 
 const { Option } = Select;
 
 const IncomeChart = () => {
   const [period, setPeriod] = useState('month');
-
-  const dataMap = {
-    week: [180, 240, 210, 260, 300, 280, 320],
-    month: [320, 420, 380, 460, 510, 490, 530],
-    year: [5200, 4800, 5600, 6100, 5900, 6400, 6900],
-  };
+  const [chartData] = useState({
+    data: [25000, 28000, 30000, 32000, 35000, 38000],
+    totalIncome: 188000,
+  });
 
   const series = [
     {
       name: 'Income',
-      data: dataMap[period],
+      data: chartData.data || [],
     },
   ];
 
@@ -50,20 +48,20 @@ const IncomeChart = () => {
     markers: { size: 0 },
   };
 
-  const totalIncome = series[0].data.reduce((a, b) => a + b, 0);
-
   return (
     <Card className="rounded-xl shadow-md border border-gray-200">
       <div className="flex items-start justify-between mb-2">
         <div>
           <p className="text-sm text-gray-500">Income</p>
-          <p className="text-2xl font-bold text-blue-600">KES {totalIncome.toLocaleString()}</p>
+          <p className="text-2xl font-bold text-blue-600">
+            KES {chartData.totalIncome.toLocaleString()}
+          </p>
         </div>
 
         <Select
           size="small"
           value={period}
-          onChange={setPeriod}
+          onChange={(value) => setPeriod(value)}
           className="bg-gray-100 rounded-md min-w-[90px]"
         >
           <Option value="week">Week</Option>

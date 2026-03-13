@@ -1,5 +1,5 @@
 import {createContext, useContext} from "react";
-import {usePurchasesApi} from "../../hooks/purchases/usePurchasesApi.js";
+import {usePurchasesApi} from "../../hooks/purchases/usePurchasesApi.jsx";
 import {usePurchasesModal} from "../../hooks/purchases/usePurchasesModal.js";
 
 const PurchaseContext = createContext(null);
@@ -15,6 +15,11 @@ export const PurchaseProvider = ({children}) => {
     closeDeleteConfirmation,
     purchaseToEdit,
     setPurchaseToEdit,
+    isViewModalOpen,
+    selectedPurchase,
+    loadingView,
+    openViewModal,
+    closeViewModal,
   } = usePurchasesModal();
 
   const {
@@ -29,6 +34,7 @@ export const PurchaseProvider = ({children}) => {
     summaryItems,
     form,
     fetchPurchases,
+    fetchPurchaseById,
     createPurchase,
     updatePurchase,
     deletePurchase,
@@ -64,6 +70,7 @@ export const PurchaseProvider = ({children}) => {
       loadingProducts,
       summaryItems,
       fetchPurchases,
+      fetchPurchaseById,
       createPurchase,
       updatePurchase,
       deletePurchase,
@@ -80,6 +87,11 @@ export const PurchaseProvider = ({children}) => {
       closeDeleteConfirmation,
       purchaseToEdit,
       setPurchaseToEdit,
+      isViewModalOpen,
+      selectedPurchase,
+      loadingView,
+      openViewModal,
+      closeViewModal,
     }}>
       {children}
     </PurchaseContext.Provider>

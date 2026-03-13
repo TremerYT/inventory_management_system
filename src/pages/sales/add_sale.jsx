@@ -1,7 +1,7 @@
-import { DeleteOutlined } from '@ant-design/icons';
-import { Button, Card, Descriptions, Space, Table } from 'antd';
+import {DeleteOutlined} from '@ant-design/icons';
+import {Button, Card, Descriptions, Space, Table} from 'antd';
 import SalesForm from '../../components/forms/sales_form.jsx';
-import { useSale } from '../../context/sales/sales_provider.jsx';
+import {useSale} from '../../context/sales/sales_provider.jsx';
 
 const AddSale = () => {
   const {
@@ -36,8 +36,8 @@ const AddSale = () => {
     },
     {
       title: 'Brand',
-      dataIndex: 'brand',
-      key: 'brand',
+      dataIndex: 'brandName',
+      key: 'brandName',
     },
     {
       title: 'Unit',
@@ -62,7 +62,7 @@ const AddSale = () => {
           >
             -
           </Button>
-          <span style={{ minWidth: 24, textAlign: 'center' }}>{record.quantity}</span>
+          <span style={{minWidth: 24, textAlign: 'center'}}>{record.quantity}</span>
           <Button size="small" type="primary" onClick={() => handleQuantityChange(record, 1)}>
             +
           </Button>
@@ -90,7 +90,7 @@ const AddSale = () => {
       render: (_, record) => (
         <Space size="middle">
           <Button
-            icon={<DeleteOutlined style={{ color: 'red' }} />}
+            icon={<DeleteOutlined style={{color: 'red'}}/>}
             onClick={() => handleDeleteItem(record)}
           />
         </Space>
@@ -107,8 +107,8 @@ const AddSale = () => {
         </div>
       </div>
       <Card>
-        <SalesForm />
-        <Table columns={customColumns} dataSource={saleItems} rowKey="skuNumber" />
+        <SalesForm/>
+        <Table columns={customColumns} dataSource={saleItems} rowKey="skuNumber"/>
         {saleItems.length > 0 && (
           <div className="flex justify-end">
             <Descriptions bordered size="small" layout="horizontal" column={1} className="w-1/2">

@@ -8,8 +8,24 @@ import { useCustomer } from '../../context/customer/customer_provider.jsx';
 
 const Customers = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const { customers, isLoading } = useCustomer();
+  const [searchText, setSearchText] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState(null);
+  const { customers, isLoading, fetchCustomers } = useCustomer();
   const navigate = useNavigate();
+
+  const filteredCustomers = customers.filter((customer) => {
+    const matchesSearch =
+      !searchText || (
+        (customer.firstName?.toLowerCase().includes(searchText.toLowerCase()) || '') ||
+        (customer.lastName?.toLowerCase().includes(searchText.toLowerCase()) || '') ||
+        (customer.email?.toLowerCase().includes(searchText.toLowerCase()) || '') ||
+        (customer.phone?.toLowerCase().includes(searchText.toLowerCase()) || '')
+      );
+    const matchesStatus =
+      selectedStatus === null || customer.isActive === selectedStatus;
+    return matchesSearch && matchesStatus;
+  });
+
   const rowSelection = {
     selectedRowKeys,
     onChange: (newSelectedKeys) => {
@@ -37,7 +53,7 @@ const Customers = () => {
           <Button
             type="text"
             icon={<ReloadOutlined style={{ fontSize: 20 }} />}
-            onClick={() => {}}
+            onClick={() => fetchCustomers()}
           />
           <Button type="primary" icon={<PlusOutlined />} onClick={() => navigate('/customers/add')}>
             Add Customer
@@ -46,10 +62,24 @@ const Customers = () => {
       </div>
 
       <Card
-        title={<Input.Search className="w-1/4!" />}
+        title={
+          <Input.Search
+            placeholder="Search customer name, email, phone..."
+            allowClear
+            className="w-1/4!"
+            onChange={(e) => setSearchText(e.target.value)}
+            onSearch={(value) => setSearchText(value)}
+          />
+        }
         extra={
           <div className="w-30">
-            <Select placeholder="status" className="w-full!" options={status} allowClear />
+            <Select
+              placeholder="Filter by status"
+              allowClear
+              options={status}
+              className="w-full!"
+              onChange={(value) => setSelectedStatus(value)}
+            />
           </div>
         }
       >
@@ -57,7 +87,7 @@ const Customers = () => {
           loading={isLoading}
           rowSelection={rowSelection}
           columns={customersColumns}
-          dataSource={customers}
+          dataSource={filteredCustomers}
           pagination={{ pageSize: 10 }}
         />
       </Card>

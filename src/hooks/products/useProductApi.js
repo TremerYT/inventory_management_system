@@ -80,10 +80,13 @@ export const useProductApi = () => {
 
   const fetchProductsById = async (id) => {
     try {
+      setLoadingProduct(true);
       const data = await getProductById(id);
 
       form.setFieldsValue({
         ...data,
+        categoryId: data.categoryId || data.category?.id,
+        brandId: data.brandId || data.brand?.id,
         mainImage: data.mainImage
           ? [
               {
@@ -107,6 +110,8 @@ export const useProductApi = () => {
       setEditingProductId(id);
     } catch (e) {
       message.error('failed to load product', e);
+    } finally {
+      setLoadingProduct(false);
     }
   };
 

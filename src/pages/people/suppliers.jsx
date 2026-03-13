@@ -8,9 +8,24 @@ import { status } from '../../utils/select_items.js';
 
 const Suppliers = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [searchText, setSearchText] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState(null);
   const { suppliers, isLoading, deleteSuppliers, fetchSuppliers, fetchSuppliersById } =
     useSupplier();
   const navigate = useNavigate();
+
+  const filteredSuppliers = suppliers.filter((supplier) => {
+    const matchesSearch =
+      !searchText || (
+        (supplier.firstName?.toLowerCase().includes(searchText.toLowerCase()) || '') ||
+        (supplier.lastName?.toLowerCase().includes(searchText.toLowerCase()) || '') ||
+        (supplier.email?.toLowerCase().includes(searchText.toLowerCase()) || '') ||
+        (supplier.phone?.toLowerCase().includes(searchText.toLowerCase()) || '')
+      );
+    const matchesStatus =
+      selectedStatus === null || supplier.isActive === selectedStatus;
+    return matchesSearch && matchesStatus;
+  });
 
   const rowSelection = {
     selectedRowKeys,
@@ -66,10 +81,24 @@ const Suppliers = () => {
       </div>
 
       <Card
-        title={<Input.Search className="w-1/4!" />}
+        title={
+          <Input.Search
+            placeholder="Search supplier name, email, phone..."
+            allowClear
+            className="w-1/4!"
+            onChange={(e) => setSearchText(e.target.value)}
+            onSearch={(value) => setSearchText(value)}
+          />
+        }
         extra={
           <div className="w-30">
-            <Select placeholder="status" className="w-full!" options={status} allowClear />
+            <Select
+              placeholder="Filter by status"
+              allowClear
+              options={status}
+              className="w-full!"
+              onChange={(value) => setSelectedStatus(value)}
+            />
           </div>
         }
       >
@@ -77,7 +106,7 @@ const Suppliers = () => {
           loading={isLoading}
           rowSelection={rowSelection}
           columns={suppliersColumns}
-          dataSource={suppliers}
+          dataSource={filteredSuppliers}
           rowKey="id"
           pagination={{ pageSize: 10 }}
         />

@@ -1,4 +1,4 @@
-import {Button, Form} from "antd";
+import {Button, Card, Form, Skeleton} from "antd";
 import ProductDetails from "../../components/forms/product_details.jsx";
 import ProductMetrics from "../../components/forms/product_metrics.jsx";
 import ProductImages from "../../components/forms/product-images.jsx";
@@ -15,7 +15,8 @@ const Product = () => {
     submitting,
     handleOnUpdate,
     isEditMode,
-    fetchProductsById
+    fetchProductsById,
+    loadingProduct
   } = useProduct();
   const {id} = useParams();
 
@@ -26,25 +27,41 @@ const Product = () => {
   }, [id]);
 
   return (
-    <Form
-      layout="vertical"
-      form={form}
-      onFinish={isEditMode ? handleOnUpdate : handleOnFinish}
-    >
-      <div className="flex flex-col gap-6">
-        <ProductDetails/>
-        <ProductMetrics/>
-        <ProductImages/>
-      </div>
-      <div className="flex gap-4 justify-end mt-10">
-        <Button type="primary" htmlType="submit" size="large" loading={submitting}>
-          {isEditMode ? "Update Product" : "Add Product"}
-        </Button>
-        <Button type="primary" danger onClick={handleOnCancel} size="large">
-          Cancel
-        </Button>
-      </div>
-    </Form>
+    <>
+      {loadingProduct && id ? (
+        <div className="flex flex-col gap-6">
+          <Card>
+            <Skeleton active paragraph={{rows: 6}}/>
+          </Card>
+          <Card>
+            <Skeleton active paragraph={{rows: 6}}/>
+          </Card>
+          <Card>
+            <Skeleton active paragraph={{rows: 6}}/>
+          </Card>
+        </div>
+      ) : (
+        <Form
+          layout="vertical"
+          form={form}
+          onFinish={isEditMode ? handleOnUpdate : handleOnFinish}
+        >
+          <div className="flex flex-col gap-6">
+            <ProductDetails/>
+            <ProductMetrics/>
+            <ProductImages/>
+          </div>
+          <div className="flex gap-4 justify-end mt-10">
+            <Button type="primary" htmlType="submit" size="large" loading={submitting}>
+              {isEditMode ? "Update Product" : "Add Product"}
+            </Button>
+            <Button type="primary" danger onClick={handleOnCancel} size="large">
+              Cancel
+            </Button>
+          </div>
+        </Form>
+      )}
+    </>
   );
 }
 

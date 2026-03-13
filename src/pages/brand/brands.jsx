@@ -44,8 +44,10 @@ const Brands = () => {
 
   const filteredBrands = brands.filter((brand) => {
     const matchesSearch =
-      brand.brandName.toLowerCase().includes(searchText.toLowerCase()) ||
-      brand.brandCode.toLowerCase().includes(searchText.toLowerCase());
+      !searchText || (
+        (brand.brandName?.toLowerCase().includes(searchText.toLowerCase()) || '') ||
+        (brand.brandCode?.toLowerCase().includes(searchText.toLowerCase()) || '')
+      );
     const matchesStatus =
       selectedStatus === null || brand.isActive === selectedStatus;
     return matchesSearch && matchesStatus;
@@ -73,6 +75,7 @@ const Brands = () => {
         buttonText="Add Brand"
         handleOnClick={() => {
           setIsEditMode(false);
+          form.resetFields();
           setIsBrandModalOpen(true);
         }}
         handlePdfExport={() => exportToPdf(filteredBrands, columns, "brands")}

@@ -37,7 +37,7 @@ export const useSupplierApi = ({onSuccess, onUpdateSuccess}) => {
 
   const fetchSupplierById = async (id) => {
     try {
-      setLoadingEdit(true)
+      setLoadingEdit(true);
       return await getSupplierById(id);
     } catch (error) {
       console.error('Error fetching supplier:', error);

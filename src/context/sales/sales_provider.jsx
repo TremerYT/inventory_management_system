@@ -15,6 +15,11 @@ export const SalesProvider = ({children}) => {
     closeDeleteConfirmation,
     saleToEdit,
     setSaleToEdit,
+    isViewModalOpen,
+    selectedSale,
+    loadingView,
+    openViewModal,
+    closeViewModal,
   } = useSalesModal();
 
   const {
@@ -29,6 +34,7 @@ export const SalesProvider = ({children}) => {
     summaryItems,
     form,
     fetchSales,
+    fetchSaleById,
     createSale,
     updateSale,
     deleteSale,
@@ -59,6 +65,7 @@ export const SalesProvider = ({children}) => {
       loadingProducts,
       summaryItems,
       fetchSales,
+      fetchSaleById,
       createSale,
       updateSale,
       deleteSale,
@@ -75,6 +82,11 @@ export const SalesProvider = ({children}) => {
       closeDeleteConfirmation,
       saleToEdit,
       setSaleToEdit,
+      isViewModalOpen,
+      selectedSale,
+      loadingView,
+      openViewModal,
+      closeViewModal,
     }}>
       {children}
     </SalesContext.Provider>

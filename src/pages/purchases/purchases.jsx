@@ -1,15 +1,28 @@
 import {useState} from "react";
 import {useNavigate} from "react-router";
-import {Button, Card, Input, Select, Table} from "antd";
+import {Button, Card, Input, Table} from "antd";
 import {FileExcelFilled, FilePdfFilled, PlusOutlined, ReloadOutlined} from "@ant-design/icons";
 import {purchasesColumns} from "../../utils/columns.jsx";
+import PurchaseView from "../../components/modal/purchase_view.jsx";
 
 import {usePurchase} from "../../context/purchases/purchases_provider.jsx";
 
 const Purchases = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [searchText, setSearchText] = useState('');
   const navigate = useNavigate();
-  const {fetchPurchases} = usePurchase();
+  const {purchases, fetchPurchases, isLoading, openViewModal} = usePurchase();
+  
+  console.log('Purchases component - openViewModal:', typeof openViewModal, 'purchases:', purchases.length);
+
+  const filteredPurchases = purchases.filter((purchase) => {
+    const matchesSearch =
+      !searchText || (
+        (purchase.supplierName?.toLowerCase().includes(searchText.toLowerCase()) || '') ||
+        (purchase.referenceNumber?.toLowerCase().includes(searchText.toLowerCase()) || '')
+      );
+    return matchesSearch;
+  });
 
   const rowSelection = {
     selectedRowKeys,
@@ -56,31 +69,27 @@ const Purchases = () => {
       <Card
         title={
           <Input.Search
+            placeholder="Search supplier, reference number..."
+            allowClear
             className="w-1/4!"
+            onChange={(e) => setSearchText(e.target.value)}
+            onSearch={(value) => setSearchText(value)}
           />
-        }
-        extra={
-          <div className="flex gap-2 w-80">
-            <Select
-              defaultValue="Category"
-              // options={categories}
-              className="w-full!"
-            />
-            <Select
-              defaultValue="Brand"
-              // options={brands}
-              className="w-full!"
-            />
-          </div>
         }
       >
         <Table
           rowSelection={rowSelection}
-          columns={purchasesColumns}
-
+          columns={purchasesColumns(openViewModal)}
+          dataSource={filteredPurchases}
+          loading={isLoading}
           pagination={{pageSize: 10}}
+          onRow={(record) => ({
+            onClick: () => console.log('Row clicked:', record),
+          })}
         />
       </Card>
+      
+      <PurchaseView />
     </>
   );
 }
