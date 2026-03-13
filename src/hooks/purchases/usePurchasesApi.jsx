@@ -124,7 +124,7 @@ export const usePurchasesApi = ({onSuccess, onUpdateSuccess} = {}) => {
         value: (purchaseItems.reduce((sum, i) => sum + i.subTotal, 0) + Number(shipping)).toFixed(2),
       },
     ];
-  }, [purchaseItems, form, form.getFieldValue("shipping")]);
+  }, [purchaseItems, form]);
 
   const handleOnSelect = (_, option) => {
     const product = option.product;
@@ -178,7 +178,14 @@ export const usePurchasesApi = ({onSuccess, onUpdateSuccess} = {}) => {
         setProductOptions(
           products.map((p) => ({
             value: p.productName,
-            label: `${p.productName} (${p.skuNumber})`,
+            label: (
+              <div>
+                <strong>{p.productName}</strong>
+                <div style={{ fontSize: 12, color: '#888' }}>
+                  {p.skuNumber} · KES {p.unitPrice} · Quantity: {p.quantity}
+                </div>
+              </div>
+            ),
             product: p,
           }))
         );
